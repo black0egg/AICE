@@ -1,6 +1,6 @@
 ___
 
-## \[0-1.Command]\
+## \[0-1.Command\]
 
 ## Jupyter Notebook 명령어
 Shift + Enter : 셀실행 후, 아래셀 선택  
@@ -14,7 +14,11 @@ ___
 
 ## \[0-2.도구 불러오기\]
 
-## pandas 불러오고, pd로 정의[](https://lovespacewhite.github.io/#pandas-%EB%B6%88%EB%9F%AC%EC%98%A4%EA%B3%A0-pd%EB%A1%9C-%EC%A0%95%EC%9D%98)
+## pandas 불러오고, pd로 정의[]
+
+```python
+import pandas as pd
+```
 
 ## numpy 불러오고, np로 정의[](https://lovespacewhite.github.io/#numpy-%EB%B6%88%EB%9F%AC%EC%98%A4%EA%B3%A0-np%EB%A1%9C-%EC%A0%95%EC%9D%98)
 
