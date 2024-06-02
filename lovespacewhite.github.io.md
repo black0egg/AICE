@@ -1,385 +1,323 @@
 ___
 
-## \[0-1.Command\]
+## \[0-1.기본 명령어\]
 
-## Jupyter Notebook 명령어
-Shift + Enter : 셀실행 후, 아래셀 선택  
-Alt + Enter : 셀실행 후, 아래 빈쉘 생성  
-Ctrl + Enter : 셀실행  
-A : 바깥에서 위쪽 빈쉘 생성  
-B : 바깥에서 아래 빈쉘 생성  
-dd : 바깥에서 해당쉘 삭제
+> ## Jupyter Notebook 명령어
+> Shift + Enter : 셀실행 후, 아래셀 선택  
+> Alt + Enter : 셀실행 후, 아래 빈쉘 생성  
+> Ctrl + Enter : 셀실행  
+> A : 바깥에서 위쪽 빈쉘 생성  
+> B : 바깥에서 아래 빈쉘 생성  
+> dd : 바깥에서 해당쉘 삭제
 
 ___
 
 ## \[0-2.도구 불러오기\]
 
-## pandas 불러오고, pd로 정의[]
-
-```python
-import pandas as pd
-```
-
-## numpy 불러오고, np로 정의[](https://lovespacewhite.github.io/#numpy-%EB%B6%88%EB%9F%AC%EC%98%A4%EA%B3%A0-np%EB%A1%9C-%EC%A0%95%EC%9D%98)
-
-## seaborn 설치 및 불러오고, sns로 정의[](https://lovespacewhite.github.io/#seaborn-%EC%84%A4%EC%B9%98-%EB%B0%8F-%EB%B6%88%EB%9F%AC%EC%98%A4%EA%B3%A0-sns%EB%A1%9C-%EC%A0%95%EC%9D%98)
-
-(!: 리눅스 프롬프트 명령어)
-
-```
-<span>!</span><span>pip</span> <span>install</span> <span>seaborn</span>
-<span>import</span> <span>seaborn</span> <span>as</span> <span>sns</span> 
-```
-
-## matplot 불러오고, plt로 정의[](https://lovespacewhite.github.io/#matplot-%EB%B6%88%EB%9F%AC%EC%98%A4%EA%B3%A0-plt%EB%A1%9C-%EC%A0%95%EC%9D%98)
-
-(%: 주피터랩 명령어)
-
-```
-<span>%</span><span>matplotlib</span> <span>inline</span>
-<span>import</span> <span>matplotlib.pyplot</span> <span>as</span> <span>plt</span>
-```
-
-## 텐서플로 불러오고, tf로 정의[](https://lovespacewhite.github.io/#%ED%85%90%EC%84%9C%ED%94%8C%EB%A1%9C-%EB%B6%88%EB%9F%AC%EC%98%A4%EA%B3%A0-tf%EB%A1%9C-%EC%A0%95%EC%9D%98)
-
-## 텐서플로 케라스모델 및 기능 불러오기[](https://lovespacewhite.github.io/#%ED%85%90%EC%84%9C%ED%94%8C%EB%A1%9C-%EC%BC%80%EB%9D%BC%EC%8A%A4%EB%AA%A8%EB%8D%B8-%EB%B0%8F-%EA%B8%B0%EB%8A%A5-%EB%B6%88%EB%9F%AC%EC%98%A4%EA%B8%B0)
-
-(시퀀스(히든레이어개수)/덴스(노드개수)/액티베이션/과적합방지기능 불러오기)
-
-```
-<span>from</span> <span>tensorflow.keras.models</span> <span>import</span> <span>Sequential</span>
-<span>from</span> <span>tensorflow.keras.layers</span> <span>import</span> <span>Dense</span><span>,</span> <span>Activation</span><span>,</span> <span>Dropout</span>
-```
-
-## \[모델\] sklearn에서, 선형회귀모델(LinearRegression) 불러오기[](https://lovespacewhite.github.io/#%EB%AA%A8%EB%8D%B8-sklearn%EC%97%90%EC%84%9C-%EC%84%A0%ED%98%95%ED%9A%8C%EA%B7%80%EB%AA%A8%EB%8D%B8linearregression-%EB%B6%88%EB%9F%AC%EC%98%A4%EA%B8%B0)
-
-```
-<span>from</span> <span>sklearn.family</span> <span>import</span> <span>model</span>
-<span>from</span> <span>sklearn.linear_model</span> <span>import</span> <span>LinearRegression</span>
-```
-
-## \[모델\] sklearn에서, 분류회귀모델(Logistic Regression) 불러오기[](https://lovespacewhite.github.io/#%EB%AA%A8%EB%8D%B8-sklearn%EC%97%90%EC%84%9C-%EB%B6%84%EB%A5%98%ED%9A%8C%EA%B7%80%EB%AA%A8%EB%8D%B8logistic-regression-%EB%B6%88%EB%9F%AC%EC%98%A4%EA%B8%B0)
-
-(설명: 분류모델 주로 활용)
-
-```
-<span>from</span> <span>sklearn.linear_model</span> <span>import</span> <span>LogisticRegression</span>
-<span>from</span> <span>sklearn.model_selection</span> <span>import</span> <span>train_test_split</span>
-<span>from</span> <span>sklearn.metrics</span> <span>import</span> <span>classification_report</span>  
-```
-
-## \[모델\] sklearn에서, 랜덤포레스트 불러오기[](https://lovespacewhite.github.io/#%EB%AA%A8%EB%8D%B8-sklearn%EC%97%90%EC%84%9C-%EB%9E%9C%EB%8D%A4%ED%8F%AC%EB%A0%88%EC%8A%A4%ED%8A%B8-%EB%B6%88%EB%9F%AC%EC%98%A4%EA%B8%B0)
-
-(설명: 의사결정나무 2개에서, 여러개를 더해 예측율을 높임)
-
-```
-<span>from</span> <span>sklearn.ensemble</span> <span>import</span> <span>RandomForestRegressor</span>
-```
-
-## \[모델\] sklearn에서, 의사결정나무 불러오기[](https://lovespacewhite.github.io/#%EB%AA%A8%EB%8D%B8-sklearn%EC%97%90%EC%84%9C-%EC%9D%98%EC%82%AC%EA%B2%B0%EC%A0%95%EB%82%98%EB%AC%B4-%EB%B6%88%EB%9F%AC%EC%98%A4%EA%B8%B0)
-
-(설명: 분류/회귀가능한 다재다능, 다소복잡한 데이터셋도 학습가능)
-
-```
-<span>from</span> <span>sklearn.tree</span> <span>import</span> <span>DecisionTreeClassifier</span>
-```
-
-## \[모델\] AdaBoost[](https://lovespacewhite.github.io/#%EB%AA%A8%EB%8D%B8-adaboost)
-
-## \[모델\] GBM (Gradient Boost)[](https://lovespacewhite.github.io/#%EB%AA%A8%EB%8D%B8-gbm-gradient-boost)
-
-## \[모델\] XGBoost[](https://lovespacewhite.github.io/#%EB%AA%A8%EB%8D%B8-xgboost)
-
-(설명: GBM의 느림, 과적합 방지를 위해 Regulation만 추가, 리소스를 적게 먹으며 조기종료 제공)
-
-## \[모델\] SVM (Support Vector Machine)[](https://lovespacewhite.github.io/#%EB%AA%A8%EB%8D%B8-svm-support-vector-machine)
-
-## \[모델\] Auto Encoder[](https://lovespacewhite.github.io/#%EB%AA%A8%EB%8D%B8-auto-encoder)
-
-## \[모델\] CNN[](https://lovespacewhite.github.io/#%EB%AA%A8%EB%8D%B8-cnn)
-
-## \[모델\] RNN[](https://lovespacewhite.github.io/#%EB%AA%A8%EB%8D%B8-rnn)
-
-## \[모델\] LSTM[](https://lovespacewhite.github.io/#%EB%AA%A8%EB%8D%B8-lstm)
-
-## \[모델\] Transformer[](https://lovespacewhite.github.io/#%EB%AA%A8%EB%8D%B8-transformer)
-
-## \[모델\] SES (Simple Exponential Smoothing)[](https://lovespacewhite.github.io/#%EB%AA%A8%EB%8D%B8-ses-simple-exponential-smoothing)
-
-## \[모델\] YOLO[](https://lovespacewhite.github.io/#%EB%AA%A8%EB%8D%B8-yolo)
-
-## \[모델\] VGG[](https://lovespacewhite.github.io/#%EB%AA%A8%EB%8D%B8-vgg)
+> ## pandas 불러오고, pd로 정의
+> ```python
+> import pandas as pd
+> ```
+> ## numpy 불러오고, np로 정의
+> ```python
+> import numpy as np
+> ```
+> ## seaborn 설치 및 불러오고, sns로 정의
+>(!: 리눅스 프롬프트 명령어)
+> ```python
+> !pip install seaborn
+> import seaborn as sns
+> ```
+> ## matplot 불러오고, plt로 정의
+>(%: 주피터랩 명령어)
+> ```python
+> %matplotlib inline
+> import matplotlib.pylot as plt
+> ```
+> ## 텐서플로 불러오고, tf로 정의
+> ```python
+> import tensorflow as tf
+> ```
+> ## 텐서플로 케라스모델 및 기능 불러오기
+> (시퀀스(히든레이어개수)/덴스(노드개수)/액티베이션/과적합방지기능 불러오기)
+> ```python
+> from tensorflow.keras.models import Sequential
+> from tensorflow.keras.layers import Dense, Activation, Dropout
+> ```
+> ## \[모델\] sklearn에서, 선형회귀모델(LinearRegression) 불러오기
+> ```
+> from sklearn.family import model
+> from sklearn.linear_model import LinearRegression
+> ```
+> ## \[모델\] sklearn에서, 분류회귀모델(Logistic Regression) 불러오기
+> (설명: 분류모델 주로 활용)
+> ```
+> from sklearn.linear_model import LogisticRegression
+> from sklearn.model_selection import train_test_split
+> from sklearn.metrics import classification_report 
+> ```
+> ## \[모델\] sklearn에서, 랜덤포레스트 불러오기
+> (설명: 의사결정나무 2개에서, 여러개를 더해 예측율을 높임)
+> ```
+> from sklearn.tree import DecisionTreeClassifier
+> ```
+> ## \[모델\] sklearn에서, 의사결정나무 불러오기
+> (설명: 분류/회귀가능한 다재다능, 다소복잡한 데이터셋도 학습가능)
+> ```
+> from sklearn.tree import DecisionTreeClassifier
+> ```
+> ## \[모델\] AdaBoost
+> ## \[모델\] GBM (Gradient Boost)
+> ## \[모델\] XGBoost
+> (설명: GBM의 느림, 과적합 방지를 위해 Regulation만 추가, 리소스를 적게 먹으며 조기종료 제공)
+> ## \[모델\] SVM (Support Vector Machine)
+> ## \[모델\] Auto Encoder
+> ## \[모델\] CNN
+> ## \[모델\] RNN
+> ## \[모델\] LSTM
+> ## \[모델\] Transformer
+> ## \[모델\] SES (Simple Exponential Smoothing)
+> ## \[모델\] YOLO
+> ## \[모델\] VGG
 
 ___
 
 ## \[1-1.빅데이터 수집\]
-
-## “00000.csv” 데이터 로드[](https://lovespacewhite.github.io/#00000csv-%EB%8D%B0%EC%9D%B4%ED%84%B0-%EB%A1%9C%EB%93%9C)
-
-(cp949는 MS office에서 인코딩할때 쓰임)
-
-```
-<span>df</span> <span>=</span> <span>pd</span><span>.</span><span>read_csv</span> <span>(</span><span>"./00000.csv"</span><span>,</span> <span>encoding</span> <span>=</span> <span>"cp949"</span><span>)</span>
-```
-
-## 커스텀 프레임웍에서 “00000.csv” 데이터 로드 2[](https://lovespacewhite.github.io/#%EC%BB%A4%EC%8A%A4%ED%85%80-%ED%94%84%EB%A0%88%EC%9E%84%EC%9B%8D%EC%97%90%EC%84%9C-00000csv-%EB%8D%B0%EC%9D%B4%ED%84%B0-%EB%A1%9C%EB%93%9C-2)
-
-(custom\_framework.config.data\_dir 폴더에서 불러옴)
-
-```
-<span>df</span> <span>=</span> <span>pd</span><span>.</span><span>read_csv</span> <span>(</span><span>custom_framework</span><span>.</span><span>config</span><span>.</span><span>data_dir</span> <span>+</span> <span>"/00000.csv"</span><span>)</span>
-```
-
-## 파일위치 환경변수[](https://lovespacewhite.github.io/#%ED%8C%8C%EC%9D%BC%EC%9C%84%EC%B9%98-%ED%99%98%EA%B2%BD%EB%B3%80%EC%88%98)
-
-data 경로: custom\_framework.config.data\_dir  
-workspace 경로: custom\_framework.config.workspace\_dir  
-model 경로: custom\_framework.config.model\_dir  
-log 경로: custom\_framework.config.workspace\_logs
-
-## “00000\_final.csv” 데이터 저장 1[](https://lovespacewhite.github.io/#00000_finalcsv-%EB%8D%B0%EC%9D%B4%ED%84%B0-%EC%A0%80%EC%9E%A5-1)
-
-```
-<span>df</span><span>.</span><span>to_csv</span> <span>(</span><span>"00000_final.csv"</span><span>,</span> <span>index</span> <span>=</span> <span>false</span><span>)</span>
-```
-
-## “00000\_final.xlsx” 엑셀로 저장 2[](https://lovespacewhite.github.io/#00000_finalxlsx-%EC%97%91%EC%85%80%EB%A1%9C-%EC%A0%80%EC%9E%A5-2)
-
-```
-<span>df</span><span>.</span><span>to_excel</span> <span>(</span><span>"00000.xlsx"</span><span>)</span>
-```
+> ## “00000.csv” 데이터 로드
+> (cp949는 MS office에서 인코딩할때 쓰임)
+> ```
+> df = pd.read_csv ("./00000.csv", encoding = "cp949")
+> ```
+> ## 커스텀 프레임웍에서 “00000.csv” 데이터 로드 2
+> (custom\_framework.config.data\_dir 폴더에서 불러옴)
+> ```
+> df = pd.read_csv (custom_framework.config.data_dir + "/00000.csv")
+> ```
+> ## 파일위치 환경변수
+> data 경로: custom\_framework.config.data\_dir  
+> workspace 경로: custom\_framework.config.workspace\_dir  
+> model 경로: custom\_framework.config.model\_dir  
+> log 경로: custom\_framework.config.workspace\_logs
+> ## “00000\_final.csv” 데이터 저장 1
+> ```
+> df.to_csv ("00000_final.csv", index = false)
+> ```
+> ## “00000\_final.xlsx” 엑셀로 저장 2
+> ```
+> df.to_excel ("00000.xlsx")
+> ```
 
 ___
 
 ## \[1-2.빅데이터 분석\]
-
 Column Names = 열  
 index = 행  
-value = 값
-
-## df데이터 / 처음 위(head)아래(tail) 10개행을 보여주기[](https://lovespacewhite.github.io/#df%EB%8D%B0%EC%9D%B4%ED%84%B0--%EC%B2%98%EC%9D%8C-%EC%9C%84head%EC%95%84%EB%9E%98tail-10%EA%B0%9C%ED%96%89%EC%9D%84-%EB%B3%B4%EC%97%AC%EC%A3%BC%EA%B8%B0)
-
-```
-<span>df</span><span>.</span><span>head</span><span>(</span> <span>)</span>
-<span>df</span><span>.</span><span>head</span><span>(</span><span>10</span><span>)</span>
-<span>df</span><span>.</span><span>tail</span><span>(</span><span>10</span><span>)</span>
-```
-
-## df데이터 / 형태(row/column수) 확인[](https://lovespacewhite.github.io/#df%EB%8D%B0%EC%9D%B4%ED%84%B0--%ED%98%95%ED%83%9Crowcolumn%EC%88%98-%ED%99%95%EC%9D%B8)
-
-## df데이터 / 컬럼내역 출력[](https://lovespacewhite.github.io/#df%EB%8D%B0%EC%9D%B4%ED%84%B0--%EC%BB%AC%EB%9F%BC%EB%82%B4%EC%97%AD-%EC%B6%9C%EB%A0%A5)
-
-## df데이터 / 로우내역 출력[](https://lovespacewhite.github.io/#df%EB%8D%B0%EC%9D%B4%ED%84%B0--%EB%A1%9C%EC%9A%B0%EB%82%B4%EC%97%AD-%EC%B6%9C%EB%A0%A5)
-
-## df데이터 / 자료구조 파악[](https://lovespacewhite.github.io/#df%EB%8D%B0%EC%9D%B4%ED%84%B0--%EC%9E%90%EB%A3%8C%EA%B5%AC%EC%A1%B0-%ED%8C%8C%EC%95%85)
-
-## df데이터 / 타입 확인[](https://lovespacewhite.github.io/#df%EB%8D%B0%EC%9D%B4%ED%84%B0--%ED%83%80%EC%9E%85-%ED%99%95%EC%9D%B8)
-
-## df데이터 / 통계정보[](https://lovespacewhite.github.io/#df%EB%8D%B0%EC%9D%B4%ED%84%B0--%ED%86%B5%EA%B3%84%EC%A0%95%EB%B3%B4)
-
-mean(평균), std(분산), min/max(최소/최대값)  
-※ df.describe( ).transpose( )
-
-## df데이터 / 상관관계 분석[](https://lovespacewhite.github.io/#df%EB%8D%B0%EC%9D%B4%ED%84%B0--%EC%83%81%EA%B4%80%EA%B4%80%EA%B3%84-%EB%B6%84%EC%84%9D)
-
-## 데이터 뽑아오기[](https://lovespacewhite.github.io/#%EB%8D%B0%EC%9D%B4%ED%84%B0-%EB%BD%91%EC%95%84%EC%98%A4%EA%B8%B0)
-
-```
-<span>x</span><span>[</span><span>0</span><span>]</span>  <span>## x의 0번째 데이터 뽑아오기
-</span><span>x</span><span>[</span><span>-</span><span>1</span><span>]</span>  <span>## x의 뒤에서 1번째 데이터 뽑아오기
-</span><span>x</span><span>[</span><span>0</span><span>:</span><span>4</span><span>]</span>  <span>## x의 0~4번째까지 데이터 뽑아오기
-</span><span>x</span><span>[:]</span>  <span>## x의 전체 데이터 뽑아오기
-</span>
-```
-
-## df데이터 / “00000”컬럼의 데이터 확인[](https://lovespacewhite.github.io/#df%EB%8D%B0%EC%9D%B4%ED%84%B0--00000%EC%BB%AC%EB%9F%BC%EC%9D%98-%EB%8D%B0%EC%9D%B4%ED%84%B0-%ED%99%95%EC%9D%B8)
-
-## df데이터 / “00000”컬럼의 값분포 확인[](https://lovespacewhite.github.io/#df%EB%8D%B0%EC%9D%B4%ED%84%B0--00000%EC%BB%AC%EB%9F%BC%EC%9D%98-%EA%B0%92%EB%B6%84%ED%8F%AC-%ED%99%95%EC%9D%B8)
-
-```
-<span>df</span><span>[</span><span>"00000"</span><span>].</span><span>value_counts</span><span>()</span>
-```
-
-## df데이터 / “00000”칼럼의 값비율 확인[](https://lovespacewhite.github.io/#df%EB%8D%B0%EC%9D%B4%ED%84%B0--00000%EC%B9%BC%EB%9F%BC%EC%9D%98-%EA%B0%92%EB%B9%84%EC%9C%A8-%ED%99%95%EC%9D%B8)
-
-```
-<span>df</span><span>[</span><span>"00000"</span><span>].</span><span>value_counts</span><span>(</span><span>normalize</span><span>=</span><span>True</span><span>)</span>
-```
+value = 값(행들의 데이터)
+> ## df데이터 / 처음 위(head)아래(tail) 10개행을 보여주기
+> ```
+> df.head( )
+> df.head(10)
+> df.tail(10)
+> ```
+> ## df데이터 / 형태(column/row수) 확인
+> ```
+> df.shape
+> ```
+> ## df데이터 / 컬럼내역 출력 (열,세로)
+> ```
+> df.columns
+> ```
+> ## df데이터 / 로우내역 출력 (행,가로)
+> ```
+> df.values
+> ```
+> ## df데이터 / 자료구조 파악
+> ```
+> df.info( )
+> ```
+> ## df데이터 / 타입 확인
+> ```
+> df.dtypes 
+> ```
+> ## df데이터 / 통계정보
+> mean(평균), std(분산), min/max(최소/최대값)  
+> ※ df.describe( ).transpose( )
+> ```
+> df.describe( )
+> ```
+> ## df데이터 / 상관관계 분석
+> ```
+> df.corr( )
+> ```
+> ## 데이터 뽑아오기
+> ```
+> x[0]  ## x의 0번째 데이터 뽑아오기
+> x[-1]  ## x의 뒤에서 1번째 데이터 뽑아오기
+> x[0:4]  ## x의 0~4번째까지 데이터 뽑아오기
+> x[:]  ## x의 전체 데이터 뽑아오기
+> ```
+> ## df데이터 / “00000”컬럼의 데이터 확인
+> ```
+> df["00000"]
+> ```
+> ## df데이터 / “00000”컬럼의 값분포 확인
+> ```
+> df["00000"].value_counts()
+> ```
+> ## df데이터 / “00000”칼럼의 값비율 확인
+> ```
+> df["00000"].value_counts(normalize=True)
+> ```
 
 ___
 
 ## \[1-3.빅데이터 시각화\]
 
-## \[Matplotlib\] 시각화 (스캐터,바챠트)[](https://lovespacewhite.github.io/#matplotlib-%EC%8B%9C%EA%B0%81%ED%99%94-%EC%8A%A4%EC%BA%90%ED%84%B0%EB%B0%94%EC%B1%A0%ED%8A%B8)
-
-영역 지정 : plt.figure()  
-차트/값 지정 : plt.plot()  
-시각화 출력 : plt.show()
-
-### df데이터 / “00000”칼럼, 바차트 시각화 1 (이산)[](https://lovespacewhite.github.io/#df%EB%8D%B0%EC%9D%B4%ED%84%B0--00000%EC%B9%BC%EB%9F%BC-%EB%B0%94%EC%B0%A8%ED%8A%B8-%EC%8B%9C%EA%B0%81%ED%99%94-1-%EC%9D%B4%EC%82%B0)
-
-```
-<span>df</span><span>[</span><span>"00000"</span><span>].</span><span>value_counts</span><span>(</span> <span>).</span><span>plot</span><span>(</span><span>kind</span><span>=</span><span>"bar"</span><span>)</span>
-<span>plt</span><span>.</span><span>show</span><span>(</span> <span>)</span>
-```
-
-### df데이터 / “00000”칼럼, 바차트 시각화 2[](https://lovespacewhite.github.io/#df%EB%8D%B0%EC%9D%B4%ED%84%B0--00000%EC%B9%BC%EB%9F%BC-%EB%B0%94%EC%B0%A8%ED%8A%B8-%EC%8B%9C%EA%B0%81%ED%99%94-2)
-
-```
-<span>df</span><span>.</span><span>corr</span><span>(</span> <span>)[</span><span>"00000"</span><span>][:</span><span>-</span><span>1</span><span>].</span><span>sort_values</span><span>(</span> <span>).</span><span>plot</span><span>(</span><span>kind</span><span>=</span><span>"bar"</span><span>)</span>
-<span>sns</span><span>.</span><span>pairplot</span><span>(</span><span>df</span><span>)</span>
-```
-
-### df데이터 / “A.B”칼럼, 히스토그램 시각화 (연속)[](https://lovespacewhite.github.io/#df%EB%8D%B0%EC%9D%B4%ED%84%B0--ab%EC%B9%BC%EB%9F%BC-%ED%9E%88%EC%8A%A4%ED%86%A0%EA%B7%B8%EB%9E%A8-%EC%8B%9C%EA%B0%81%ED%99%94-%EC%97%B0%EC%86%8D)
-
-```
-<span>df</span><span>[</span><span>"A.B"</span><span>].</span><span>plot</span><span>(</span><span>kind</span><span>=</span><span>"hist"</span><span>)</span>
-<span>plt</span><span>.</span><span>show</span><span>(</span> <span>)</span>
-```
-
-```
-<span>df</span><span>[</span><span>"00000"</span><span>].</span><span>plot</span><span>(</span><span>kind</span><span>=</span><span>"hist"</span><span>)</span>
-```
-
-### 바 플롯[](https://lovespacewhite.github.io/#%EB%B0%94-%ED%94%8C%EB%A1%AF)
-
-### 히스토그램[](https://lovespacewhite.github.io/#%ED%9E%88%EC%8A%A4%ED%86%A0%EA%B7%B8%EB%9E%A8)
-
-### 산점도[](https://lovespacewhite.github.io/#%EC%82%B0%EC%A0%90%EB%8F%84)
-
-### 색깔별 산점도 시각화[](https://lovespacewhite.github.io/#%EC%83%89%EA%B9%94%EB%B3%84-%EC%82%B0%EC%A0%90%EB%8F%84-%EC%8B%9C%EA%B0%81%ED%99%94)
-
-```
-<span>groups</span> <span>=</span> <span>df</span><span>.</span><span>groupby</span><span>(</span><span>'variety'</span><span>)</span>
-<span>groups</span>
-<span>for</span> <span>name</span><span>,</span><span>group</span> <span>in</span> <span>groups</span> <span>:</span>
- <span>plt</span><span>.</span><span>scatter</span><span>(</span><span>x</span> <span>=</span> <span>'A'</span><span>,</span> <span>y</span> <span>=</span> <span>'B'</span><span>,</span> <span>data</span> <span>=</span> <span>group</span><span>,</span> <span>label</span> <span>=</span> <span>name</span><span>)</span>
-<span>plt</span><span>.</span><span>legend</span><span>()</span>  <span>## 범례 추가
-</span><span>plt</span><span>.</span><span>show</span><span>()</span>
-```
-
-### 선 그래프[](https://lovespacewhite.github.io/#%EC%84%A0-%EA%B7%B8%EB%9E%98%ED%94%84)
-
-## \[Seaborn\] 시각화 (히트맵, 통계)[](https://lovespacewhite.github.io/#seaborn-%EC%8B%9C%EA%B0%81%ED%99%94-%ED%9E%88%ED%8A%B8%EB%A7%B5-%ED%86%B5%EA%B3%84)
-
-### 카운트 플롯[](https://lovespacewhite.github.io/#%EC%B9%B4%EC%9A%B4%ED%8A%B8-%ED%94%8C%EB%A1%AF)
-
-```
-<span>sns</span><span>.</span><span>countplot</span><span>(</span><span>x</span><span>=</span><span>"A"</span><span>,</span> <span>data</span><span>=</span><span>df</span><span>)</span>
-```
-
-### 박스 플롯[](https://lovespacewhite.github.io/#%EB%B0%95%EC%8A%A4-%ED%94%8C%EB%A1%AF)
-
-```
-<span>sns</span><span>.</span><span>boxplot</span><span>(</span><span>x</span><span>=</span><span>"A"</span><span>,</span> <span>y</span><span>=</span><span>"B"</span><span>,</span> <span>data</span><span>=</span><span>df</span><span>)</span>
-```
-
-### 조인트 플롯[](https://lovespacewhite.github.io/#%EC%A1%B0%EC%9D%B8%ED%8A%B8-%ED%94%8C%EB%A1%AF)
-
-```
-<span>sns</span><span>.</span><span>jointplot</span><span>(</span><span>x</span><span>=</span><span>"A"</span><span>,</span> <span>y</span><span>=</span><span>"B"</span><span>,</span> <span>data</span><span>=</span><span>df</span><span>,</span> <span>kind</span><span>=</span><span>"hex"</span><span>)</span>
-```
-
-### 상관관계 히트맵[](https://lovespacewhite.github.io/#%EC%83%81%EA%B4%80%EA%B4%80%EA%B3%84-%ED%9E%88%ED%8A%B8%EB%A7%B5)
-
-```
-<span>sns</span><span>.</span><span>heatmap</span><span>(</span><span>df</span><span>.</span><span>corr</span><span>(</span> <span>),</span> <span>annot</span><span>=</span><span>True</span><span>)</span>  
-```
-
-```
-<span>corr</span> <span>=</span> <span>jiro_df</span><span>.</span><span>corr</span><span>()</span>  <span>## corr함수로 상관계수 구하기
-</span><span>sns</span><span>.</span><span>heatmap</span><span>(</span><span>corr</span><span>,</span><span>annot</span><span>=</span><span>True</span><span>)</span>  <span>## annotation 포함
-</span>
-```
+> ## \[Matplotlib\] 시각화 (스캐터,바챠트)
+> 영역 지정 : plt.figure()  
+> 차트/값 지정 : plt.plot()  
+> 시각화 출력 : plt.show()  
+>> ### df데이터 / “00000”칼럼, 바차트 시각화 1 (이산)
+>> ```
+>> df["00000"].value_counts( ).plot(kind="bar")
+>> plt.show( )
+>> ```
+>> ### df데이터 / “00000”칼럼, 바차트 시각화 2
+>> ```
+>> df.corr( )["00000"][:-1].sort_values( ).plot(kind="bar")
+>> sns.pairplot(df)
+>> ```
+>> ### df데이터 / “A.B”칼럼, 히스토그램 시각화 (연속)
+>> ```
+>> df["A.B"].plot(kind="hist")
+>> plt.show( )
+>> ```
+>> ```
+>> df["00000"].plot(kind="hist")
+>> ```
+>> ### 바 플롯
+>> ```
+>> plt.bar(x, height)
+>> ```
+>> ### 히스토그램
+>> ```
+>> plt.hist(x)
+>> ```
+>> ### 산점도
+>> ```
+>> plt.scatter(x, y)
+>> ```
+>> ### 색깔별 산점도 시각화
+>> ```
+>> groups = df.groupby('variety')
+>> groups
+>> for name,group in groups :
+>>  plt.scatter(x = 'A', y = 'B', data = group, label = name)
+>> plt.legend()  ## 범례 추가
+>> plt.show()
+>> ```
+>> ### 선 그래프
+>> ```
+>> plt.plot(data)
+>> ```
+> ## \[Seaborn\] 시각화 (히트맵, 통계)
+>> ### 카운트 플롯
+>> ```
+>> sns.countplot(x="A", data=df)
+>> ```
+>> ### 박스 플롯
+>> ```
+>> sns.boxplot(x="A", y="B", data=df)
+>> ```
+>> ### 조인트 플롯
+>> ```
+>> sns.jointplot(x="A", y="B", data=df, kind="hex")
+>> ```
+>> ### 상관관계 히트맵
+>> ```
+>> sns.heatmap(df.corr( ), annot=True)
+>> ```
+>> ```
+>> corr = jiro_df.corr()  ## corr함수로 상관계수 구하기
+>> sns.heatmap(corr,annot=True)  ## annotation 포함
+>> ```
 
 ___
 
 ## \[1-4.빅데이터 전처리\]
-
 최고빈번값(Most frequent), 중앙값(Median), 평균값(Mean), 상수값(Constant)
 
-## 입력데이터에서 제외[](https://lovespacewhite.github.io/#%EC%9E%85%EB%A0%A5%EB%8D%B0%EC%9D%B4%ED%84%B0%EC%97%90%EC%84%9C-%EC%A0%9C%EC%99%B8)
+> ## 입력데이터에서 제외
+> ※ axis=0(행), axis=1(열)
+> ```
+> drop( )
+> ```
+> ```
+> df = df.drop('A', axis=1)
+> ```
+> ## 누락데이터 처리
+> ※ axis=0(행), axis=1(열)
+> ```
+> replace( )
+> ```
+> ## 결측치
+>> ## df데이터 / 칼럼마다 결측치 여부 확인
+>> ```
+>> df.isnull().sum()
+>> ```
+>> ## 결측치(Null데이터) 처리
+>> ```
+>> dropna( ), fillna( ) 
+>> ```
+>> ```
+>> df['float_A'] = df['float_A'].fillna(0)  ##float_A열 결측치 0으로 채우기
+>> ```
+>> ## 결측치 처리
+>> missing(결측값수)  
+>> “_“를 numpy의 null값(결측치)으로 변경
+>> ```
+>> df = df.replace("_", np.NaN)
+>> ```
+>> ## “Class” 열의 결측치값 제외시키기
+>> ```
+>> df.dropna(subset=["class"])
+>> ```
+>> ## Listwise 결측치 행 제외시키기
+>> (행의 1개값이라도 NaN이면 제외)
+>> ```
+>> df.dropna()
+>> ```
+>> ## Pairwise 결측치 행 제외시키기
+>> (행의 모든값이 NaN일때 제외)
+>> ```
+>> df.dropna(how="all")
+>> ```
+>> ## Most frequent(최빈)값 대체하여 채우기
+>> (범주형데이터 주로사용)  
+>> df데이터 / 모두
+>> ```
+>> df.fillna(df.mode().iloc[0])
+>> ```
+>> df데이터 / “A”칼럼 결측치를 해당칼럼 최빈값으로 채우기
+>> ```
+>> df["A"].fillna(df["A"].mode()[0])
+>> ```
+>> ## mean(평균), median(중간)값 대체하여 채우기
+>> (범주형데이터 주로사용)
+>> ```
+>> df.fillna(df.mean()["C1":"C2"])
+>> ```
+>> ## 앞값(ffill), 뒷값(backfill) 대체하여 채우기
+>> ```
+>> df = df.fillna(method="ffill")
+>> ```
+>> ## 주변값과 상관관계로 선형 채우기
+>> (선형관계형 데이터에서 주로사용)
+>> ```
+>> df = df.interpolate()
+>> ```
 
-※ axis=0(행), axis=1(열)
-
-```
-<span>df</span> <span>=</span> <span>df</span><span>.</span><span>drop</span><span>(</span><span>'A'</span><span>,</span> <span>axis</span><span>=</span><span>1</span><span>)</span>
-```
-
-## 누락데이터 처리[](https://lovespacewhite.github.io/#%EB%88%84%EB%9D%BD%EB%8D%B0%EC%9D%B4%ED%84%B0-%EC%B2%98%EB%A6%AC)
-
-※ axis=0(행), axis=1(열)
-
-___
-
-## 결측치
-
-## df데이터 / 칼럼마다 결측치 여부 확인[](https://lovespacewhite.github.io/#df%EB%8D%B0%EC%9D%B4%ED%84%B0--%EC%B9%BC%EB%9F%BC%EB%A7%88%EB%8B%A4-%EA%B2%B0%EC%B8%A1%EC%B9%98-%EC%97%AC%EB%B6%80-%ED%99%95%EC%9D%B8)
-
-## 결측치(Null데이터) 처리[](https://lovespacewhite.github.io/#%EA%B2%B0%EC%B8%A1%EC%B9%98null%EB%8D%B0%EC%9D%B4%ED%84%B0-%EC%B2%98%EB%A6%AC)
-
-```
-<span>df</span><span>[</span><span>'float_A'</span><span>]</span> <span>=</span> <span>df</span><span>[</span><span>'float_A'</span><span>].</span><span>fillna</span><span>(</span><span>0</span><span>)</span>  <span>##float_A열 결측치 0으로 채우기
-</span>
-```
-
-## 결측치 처리[](https://lovespacewhite.github.io/#%EA%B2%B0%EC%B8%A1%EC%B9%98-%EC%B2%98%EB%A6%AC)
-
-missing(결측값수)  
-“\_“를 numpy의 null값(결측치)으로 변경
-
-```
-<span>df</span> <span>=</span> <span>df</span><span>.</span><span>replace</span><span>(</span><span>"_"</span><span>,</span> <span>np</span><span>.</span><span>NaN</span><span>)</span>
-```
-
-## “Class” 열의 결측치값 제외시키기[](https://lovespacewhite.github.io/#class-%EC%97%B4%EC%9D%98-%EA%B2%B0%EC%B8%A1%EC%B9%98%EA%B0%92-%EC%A0%9C%EC%99%B8%EC%8B%9C%ED%82%A4%EA%B8%B0)
-
-```
-<span>df</span><span>.</span><span>dropna</span><span>(</span><span>subset</span><span>=</span><span>[</span><span>"class"</span><span>])</span>
-```
-
-## Listwise 결측치 행 제외시키기[](https://lovespacewhite.github.io/#listwise-%EA%B2%B0%EC%B8%A1%EC%B9%98-%ED%96%89-%EC%A0%9C%EC%99%B8%EC%8B%9C%ED%82%A4%EA%B8%B0)
-
-(행의 1개값이라도 NaN이면 제외)
-
-## Pairwise 결측치 행 제외시키기[](https://lovespacewhite.github.io/#pairwise-%EA%B2%B0%EC%B8%A1%EC%B9%98-%ED%96%89-%EC%A0%9C%EC%99%B8%EC%8B%9C%ED%82%A4%EA%B8%B0)
-
-(행의 모든값이 NaN일때 제외)
-
-### Most frequent(최빈)값 대체하여 채우기[](https://lovespacewhite.github.io/#most-frequent%EC%B5%9C%EB%B9%88%EA%B0%92-%EB%8C%80%EC%B2%B4%ED%95%98%EC%97%AC-%EC%B1%84%EC%9A%B0%EA%B8%B0)
-
-(범주형데이터 주로사용)  
-df데이터 / 모두
-
-```
-<span>df</span><span>.</span><span>fillna</span><span>(</span><span>df</span><span>.</span><span>mode</span><span>().</span><span>iloc</span><span>[</span><span>0</span><span>])</span>
-```
-
-df데이터 / “A”칼럼 결측치를 해당칼럼 최빈값으로 채우기
-
-```
-<span>df</span><span>[</span><span>"A"</span><span>].</span><span>fillna</span><span>(</span><span>df</span><span>[</span><span>"A"</span><span>].</span><span>mode</span><span>()[</span><span>0</span><span>])</span>
-```
-
-(범주형데이터 주로사용)
-
-```
-<span>df</span><span>.</span><span>fillna</span><span>(</span><span>df</span><span>.</span><span>mean</span><span>()[</span><span>"C1"</span><span>:</span><span>"C2"</span><span>])</span>
-```
-
-## 앞값(ffill), 뒷값(backfill) 대체하여 채우기[](https://lovespacewhite.github.io/#%EC%95%9E%EA%B0%92ffill-%EB%92%B7%EA%B0%92backfill-%EB%8C%80%EC%B2%B4%ED%95%98%EC%97%AC-%EC%B1%84%EC%9A%B0%EA%B8%B0)
-
-```
-<span>df</span> <span>=</span> <span>df</span><span>.</span><span>fillna</span><span>(</span><span>method</span><span>=</span><span>"ffill"</span><span>)</span>
-```
-
-## 주변값과 상관관계로 선형 채우기[](https://lovespacewhite.github.io/#%EC%A3%BC%EB%B3%80%EA%B0%92%EA%B3%BC-%EC%83%81%EA%B4%80%EA%B4%80%EA%B3%84%EB%A1%9C-%EC%84%A0%ED%98%95-%EC%B1%84%EC%9A%B0%EA%B8%B0)
-
-(선형관계형 데이터에서 주로사용)
-
-___
-
-## 아웃라이어
+> # 아웃라이어
 
 ## 아웃라이어 제외[](https://lovespacewhite.github.io/#%EC%95%84%EC%9B%83%EB%9D%BC%EC%9D%B4%EC%96%B4-%EC%A0%9C%EC%99%B8)
 
