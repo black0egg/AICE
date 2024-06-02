@@ -1,6 +1,6 @@
 ___
 
-## \[0-1.Command\]
+## \[0-1.Command]\
 
 ## Jupyter Notebook 명령어
 Shift + Enter : 셀실행 후, 아래셀 선택  
