@@ -2,8 +2,7 @@ ___
 
 ## \[0-1.Command\]
 
-## Jupyter Notebook 명령어[](https://lovespacewhite.github.io/#jupyter-notebook-%EB%AA%85%EB%A0%B9%EC%96%B4)
-
+## Jupyter Notebook 명령어
 Shift + Enter : 셀실행 후, 아래셀 선택  
 Alt + Enter : 셀실행 후, 아래 빈쉘 생성  
 Ctrl + Enter : 셀실행  
