@@ -316,49 +316,35 @@ ___
 >> ```
 >> df = df.interpolate()
 >> ```
-
-> # 아웃라이어
-
-## 아웃라이어 제외[](https://lovespacewhite.github.io/#%EC%95%84%EC%9B%83%EB%9D%BC%EC%9D%B4%EC%96%B4-%EC%A0%9C%EC%99%B8)
-
-Class열의 H값 제외후 변경
-
-```
-<span>df</span> <span>=</span> <span>df</span> <span>[(</span><span>df</span><span>[</span><span>"class"</span><span>]</span><span>!</span> <span>=</span> <span>"H"</span><span>)]</span>
-```
-
-## 아웃라이어 변경[](https://lovespacewhite.github.io/#%EC%95%84%EC%9B%83%EB%9D%BC%EC%9D%B4%EC%96%B4-%EB%B3%80%EA%B2%BD)
-
-Class열의 H값을 F값으로 변경
-
-```
-<span>df</span><span>[</span><span>"class"</span><span>]</span> <span>=</span> <span>df</span><span>[</span><span>"class"</span><span>].</span><span>replace</span><span>(</span><span>"H"</span><span>,</span> <span>"F"</span><span>)</span>
-```
-
-제거기준 = (Q3 + IQR \* 1.5 보다 큰 값) & (Q1 - IQR \* 1.5 보다 작은 값)
-
-가.Q1, Q3, IQR 정의 IQR = Q3(3사분위수)-Q1(1사분위수)
-
-```
-<span>Q1</span> <span>=</span> <span>df</span><span>[[</span><span>"Dividend"</span><span>,</span><span>"PBR"</span><span>]].</span><span>quantile</span><span>(</span><span>q</span><span>=</span><span>0.25</span><span>)</span>
-<span>Q3</span> <span>=</span> <span>df</span><span>[[</span><span>"Dividend"</span><span>,</span><span>"PBR"</span><span>]].</span><span>quantile</span><span>(</span><span>q</span><span>=</span><span>0.75</span><span>)</span>
-<span>IQR</span> <span>=</span> <span>Q3</span><span>-</span><span>Q1</span>
-```
-
-나.변경
-
-```
-<span>IQR_df</span> <span>=</span> <span>df</span><span>[(</span><span>df</span><span>[</span><span>"Dividend"</span><span>]</span> <span>&lt;=</span> <span>Q3</span><span>[</span><span>"Dividend"</span><span>]</span><span>+</span><span>1.5</span><span>*</span><span>IQR</span><span>[</span><span>"Dividend"</span><span>])</span> <span>&amp;</span> <span>(</span><span>df</span><span>[</span><span>"Dividend"</span><span>]</span> <span>&gt;=</span> <span>Q1</span><span>[</span><span>"Dividend"</span><span>]</span><span>-</span><span>1.5</span><span>*</span><span>IQR</span><span>[</span><span>"Dividend"</span><span>])]</span>
-<span>IQR_df</span> <span>=</span> <span>IQR_df</span><span>[(</span><span>IQR_df</span><span>[</span><span>"PBR"</span><span>]</span> <span>&lt;=</span> <span>Q3</span><span>[</span><span>"PBR"</span><span>]</span><span>+</span><span>1.5</span><span>*</span><span>IQR</span><span>[</span><span>"PBR"</span><span>])</span> <span>&amp;</span> <span>(</span><span>IQR_df</span><span>[</span><span>"PBR"</span><span>]</span> <span>&gt;=</span> <span>Q1</span><span>[</span><span>"PBR"</span><span>]</span><span>-</span><span>1.5</span><span>*</span><span>IQR</span><span>[</span><span>"PBR"</span><span>])]</span>
-<span>IQR_df</span> <span>=</span> <span>IQR_df</span><span>[[</span><span>"Dividend"</span><span>,</span><span>"PBR"</span><span>]]</span>
-```
-
-다.확인(박스플롯)
-
-```
-<span>IQR_df</span><span>.</span><span>boxplot</span><span>()</span>
-<span>IQR_df</span><span>.</span><span>hist</span><span>(</span><span>bins</span><span>=</span><span>20</span><span>,</span> <span>figsize</span><span>=</span><span>(</span><span>10</span><span>,</span><span>5</span><span>))</span>
-```
+> ## 아웃라이어
+>> ## 아웃라이어 제외
+>> Class열의 H값 제외후 변경
+>> ```
+>> df = df [(df["class"]! = "H")]
+>> ```
+>> ## 아웃라이어 변경
+>> Class열의 H값을 F값으로 변경
+>> ```
+>> df["class"] = df["class"].replace("H", "F")
+>> ```
+>> 제거기준 = (Q3 + IQR \* 1.5 보다 큰 값) & (Q1 - IQR \* 1.5 보다 작은 값)
+>> 가.Q1, Q3, IQR 정의 IQR = Q3(3사분위수)-Q1(1사분위수)
+>> ```
+>> Q1 = df[["Dividend","PBR"]].quantile(q=0.25)
+>> Q3 = df[["Dividend","PBR"]].quantile(q=0.75)
+>> IQR = Q3-Q1
+>> ```
+>> 나.변경
+>> ```
+>> IQR_df = df[(df["Dividend"] <= Q3["Dividend"]+1.5*IQR["Dividend"]) & (df["Dividend"] >= Q1["Dividend"]-1.5*IQR["Dividend"])]
+>> IQR_df = IQR_df[(IQR_df["PBR"] <= Q3["PBR"]+1.5*IQR["PBR"]) & (IQR_df["PBR"] >= Q1["PBR"]-1.5*IQR["PBR"])]
+>> IQR_df = IQR_df[["Dividend","PBR"]]
+>> ```
+>> 다.확인(박스플롯)
+>> ```
+>> IQR_df.boxplot()
+>> IQR_df.hist(bins=20, figsize=(10,5))
+>> ```
 
 ___
 
