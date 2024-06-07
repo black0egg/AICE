@@ -1,6 +1,6 @@
 ___
 
-## \[0-1.기본 명령어\]
+## [0-1.기본 명령어]
 
 > ## Jupyter Notebook 명령어
 > Shift + Enter : 셀실행 후, 아래셀 선택  
@@ -12,7 +12,7 @@ ___
 
 ___
 
-## \[0-2.도구 불러오기\]
+## [0-2.도구 불러오기]
 
 > ## pandas 불러오고, pd로 정의
 > ```python
@@ -345,38 +345,28 @@ ___
 >> IQR_df.boxplot()
 >> IQR_df.hist(bins=20, figsize=(10,5))
 >> ```
-
-___
-
-## Feature Engineering
-
-## 비닝(Binning)[](https://lovespacewhite.github.io/#%EB%B9%84%EB%8B%9Dbinning)
-
-연속형 변수를 범주형 변수로 만드는 방법
-
-비닝 / cut : (구간값으로 나누기)
-
-```
-<span>q1</span> <span>=</span> <span>df</span><span>[</span><span>"avg_bill"</span><span>].</span><span>quantile</span><span>(</span><span>0.25</span><span>)</span>
-<span>q3</span> <span>=</span> <span>df</span><span>[</span><span>"avg_bill"</span><span>].</span><span>quantile</span><span>(</span><span>0.75</span><span>)</span>
-
-<span>df</span><span>[</span><span>"bill_rating"</span><span>]</span> <span>=</span> <span>pd</span><span>.</span><span>cut</span><span>(</span>
-                 <span>df</span><span>[</span><span>"avg_bill"</span><span>],</span>
-                 <span>bins</span> <span>=</span> <span>[</span><span>0</span><span>,</span> <span>q1</span><span>,</span> <span>q3</span><span>,</span> <span>df</span><span>[</span><span>"avg_bill"</span><span>].</span><span>max</span><span>()],</span>
-                 <span>labels</span> <span>=</span> <span>[</span><span>"low"</span><span>,</span> <span>"mid"</span><span>,</span> <span>"high"</span><span>])</span>
-<span>print</span> <span>(</span><span>df</span><span>[</span><span>"bill_rating"</span><span>].</span><span>value_counts</span><span>()]</span>
-```
-
-비닝 / qcut : (구간개수로 나누기)
-
-```
-<span>df</span><span>[</span><span>"bill_rating"</span><span>]</span> <span>=</span> <span>pd</span><span>.</span><span>qcut</span><span>(</span>
-                 <span>df</span><span>[</span><span>"avg_bill"</span><span>],</span>
-                 <span>3</span><span>,</span>
-                 <span>labels</span><span>=</span><span>[</span><span>"low"</span><span>,</span> <span>"mid"</span><span>,</span> <span>;</span><span>high</span><span>"])
-print (df["</span><span>bill_rating</span><span>"].value_counts()]
-</span>
-```
+> ## Feature Engineering
+>> ## 비닝(Binning)
+>> 연속형 변수를 범주형 변수로 만드는 방법
+>> 비닝 / cut : (구간값으로 나누기)
+>> ```
+>> q1 = df["avg_bill"].quantile(0.25)
+>> q3 = df["avg_bill"].quantile(0.75)
+>> 
+>> df["bill_rating"] = pd.cut(
+>>                 df["avg_bill"],
+>>                 bins = [0, q1, q3, df["avg_bill"].max()],
+>>                 labels = ["low", "mid", "high"])
+>> print (df["bill_rating"].value_counts()]
+>> ```
+>> 비닝 / qcut : (구간개수로 나누기)
+>> ```
+>> df["bill_rating"] = pd.qcut(
+>>                 df["avg_bill"],
+>>                 3,
+>>                 labels=["low", "mid", ;high"])
+>> print (df["bill_rating"].value_counts()]
+>> ```
 
 ## 스케일링(Scaling)[](https://lovespacewhite.github.io/#%EC%8A%A4%EC%BC%80%EC%9D%BC%EB%A7%81scaling)
 
