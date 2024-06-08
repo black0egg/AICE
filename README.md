@@ -104,9 +104,9 @@
 > ```
 
 ## [1-2.빅데이터 분석]
-Column Names = 열  
-index = 행  
-value = 값(행들의 데이터)
+> Column Names = 열  
+> index = 행  
+> value = 값(행들의 데이터)
 > ## df데이터 / 처음 위(head)아래(tail) 10개행을 보여주기
 > ```python
 > df.head( )
@@ -234,11 +234,8 @@ value = 값(행들의 데이터)
 >> sns.heatmap(corr,annot=True)  ## annotation 포함
 >> ```
 
-___
-
 ## [1-4.빅데이터 전처리]
-최고빈번값(Most frequent), 중앙값(Median), 평균값(Mean), 상수값(Constant)
-
+> 최고빈번값(Most frequent), 중앙값(Median), 평균값(Mean), 상수값(Constant)
 > ## 입력데이터에서 제외
 > ※ axis=0(행), axis=1(열)
 > ```python
@@ -308,6 +305,7 @@ ___
 >> ```python
 >> df = df.interpolate()
 >> ```
+>
 > ## 아웃라이어
 >> ## 아웃라이어 제외
 >> Class열의 H값 제외후 변경
@@ -432,29 +430,24 @@ ___
 >> ## 편향값
 >> 순서(인덱스)는 의미의 유무에 따라 제외
 
-___
-
 ## [1-5.세트 구성]
 
 > ## 트레이닝/테스트 세트 나누기
 > ```python
 > from sklearn.model_selection import train_test_split 
 > ```
-
 > ## X,y데이터 설정하기
 > ‘Answer’ 칼럼이 y값/타겟/레이블
 > ```python
 > X = df.drop('Answer',axis=1).values
 > y = df['Answer'].values
 > ```
-
 > ## X,y데이터 불러오기
 > reshape(-1,1) 2차원배열 디자인포맷(reshape) 확장(-1은 알아서 넣으라는 뜻)
 > ```python
 > X = np.array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]).resharpe(-1,1)
 > y = np.array([13, 25, 34, 47, 59, 62, 79, 88, 90, 100])
 > ```
-
 > ## 테스트세트를 30%로 분류하고, 50번 랜덤하게 섞기
 > (y값이 골고루 분할되도록 stratify하게 분할)
 > ```python
@@ -471,8 +464,6 @@ ___
 > X_train = scaler.transform(X_train)
 > X_test = scaler.transform(X_test)
 > ```
-
-___
 
 ## [2.학습모델] ~ [3.최적화]
 >
