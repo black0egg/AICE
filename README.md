@@ -985,11 +985,13 @@
 > -   재현율(Recall) = TP = TP + FN (실제 클래스 중, 예측한 클래스와 일치한 데이터 비율)
 > -   F1점수(F1-score) = 2 \* \[1/{(1/Precision)+(1/Recall)}\] (Precision과 Recall의 조화평균)
 > -   Support = 각 클래스 실제 데이터수
+> 
 > 오차행렬 성능지표 쉽게확인
 > ```python
 > from sklearn.metrics import classification_report
 > print(classification_report(y_test, y_pred))
 > ```
+> 
 > 오차행렬 성능지표 확인
 >```python
 > import seaborn as sns
