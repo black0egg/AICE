@@ -16,7 +16,7 @@ ___
 
 > ## pandas 불러오고, pd로 정의
 > ```python
-> import pandas as pd
+> import pandas as pd  # 판다스 불러오기
 > ```
 > ## numpy 불러오고, np로 정의
 > ```python
@@ -45,25 +45,25 @@ ___
 > from tensorflow.keras.layers import Dense, Activation, Dropout
 > ```
 > ## \[모델\] sklearn에서, 선형회귀모델(LinearRegression) 불러오기
-> ```
+> ```python
 > from sklearn.family import model
 > from sklearn.linear_model import LinearRegression
 > ```
 > ## \[모델\] sklearn에서, 분류회귀모델(Logistic Regression) 불러오기
 > (설명: 분류모델 주로 활용)
-> ```
+> ```python
 > from sklearn.linear_model import LogisticRegression
 > from sklearn.model_selection import train_test_split
 > from sklearn.metrics import classification_report 
 > ```
 > ## \[모델\] sklearn에서, 랜덤포레스트 불러오기
 > (설명: 의사결정나무 2개에서, 여러개를 더해 예측율을 높임)
-> ```
+> ```python
 > from sklearn.tree import DecisionTreeClassifier
 > ```
 > ## \[모델\] sklearn에서, 의사결정나무 불러오기
 > (설명: 분류/회귀가능한 다재다능, 다소복잡한 데이터셋도 학습가능)
-> ```
+> ```python
 > from sklearn.tree import DecisionTreeClassifier
 > ```
 > ## \[모델\] AdaBoost
@@ -85,12 +85,12 @@ ___
 ## \[1-1.빅데이터 수집\]
 > ## “00000.csv” 데이터 로드
 > (cp949는 MS office에서 인코딩할때 쓰임)
-> ```
+> ```python
 > df = pd.read_csv ("./00000.csv", encoding = "cp949")
 > ```
 > ## 커스텀 프레임웍에서 “00000.csv” 데이터 로드 2
 > (custom\_framework.config.data\_dir 폴더에서 불러옴)
-> ```
+> ```python
 > df = pd.read_csv (custom_framework.config.data_dir + "/00000.csv")
 > ```
 > ## 파일위치 환경변수
@@ -99,11 +99,11 @@ ___
 > model 경로: custom\_framework.config.model\_dir  
 > log 경로: custom\_framework.config.workspace\_logs
 > ## “00000\_final.csv” 데이터 저장 1
-> ```
+> ```python
 > df.to_csv ("00000_final.csv", index = false)
 > ```
 > ## “00000\_final.xlsx” 엑셀로 저장 2
-> ```
+> ```python
 > df.to_excel ("00000.xlsx")
 > ```
 
@@ -114,58 +114,58 @@ Column Names = 열
 index = 행  
 value = 값(행들의 데이터)
 > ## df데이터 / 처음 위(head)아래(tail) 10개행을 보여주기
-> ```
+> ```python
 > df.head( )
 > df.head(10)
 > df.tail(10)
 > ```
 > ## df데이터 / 형태(column/row수) 확인
-> ```
+> ```python
 > df.shape
 > ```
 > ## df데이터 / 컬럼내역 출력 (열,세로)
-> ```
+> ```python
 > df.columns
 > ```
 > ## df데이터 / 로우내역 출력 (행,가로)
-> ```
+> ```python
 > df.values
 > ```
 > ## df데이터 / 자료구조 파악
-> ```
+> ```python
 > df.info( )
 > ```
 > ## df데이터 / 타입 확인
-> ```
+> ```python
 > df.dtypes 
 > ```
 > ## df데이터 / 통계정보
 > mean(평균), std(분산), min/max(최소/최대값)  
 > ※ df.describe( ).transpose( )
-> ```
+> ```python
 > df.describe( )
 > ```
 > ## df데이터 / 상관관계 분석
-> ```
+> ```python
 > df.corr( )
 > ```
 > ## 데이터 뽑아오기
-> ```
+> ```python
 > x[0]  ## x의 0번째 데이터 뽑아오기
 > x[-1]  ## x의 뒤에서 1번째 데이터 뽑아오기
 > x[0:4]  ## x의 0~4번째까지 데이터 뽑아오기
 > x[:]  ## x의 전체 데이터 뽑아오기
 > ```
 > ## df데이터 / “00000”컬럼의 데이터 확인
-> ```
+> ```python
 > df["00000"]
 > ```
 > ## df데이터 / “00000”컬럼의 값분포 확인
-> ```
+> ```python
 > df["00000"].value_counts()
 > ```
 > ## df데이터 / “00000”칼럼의 값비율 확인
-> ```
+> ```python
 > df["00000"].value_counts(normalize=True)
 > ```
 
@@ -178,33 +178,33 @@ ___
 > 차트/값 지정 : plt.plot()  
 > 시각화 출력 : plt.show()  
 >> ### df데이터 / “00000”칼럼, 바차트 시각화 1 (이산)
->> ```
+>> ```python
 >> df["00000"].value_counts( ).plot(kind="bar")
 >> plt.show( )
 >> ```
 >> ### df데이터 / “00000”칼럼, 바차트 시각화 2
->> ```
+>> ```python
 >> df.corr( )["00000"][:-1].sort_values( ).plot(kind="bar")
 >> sns.pairplot(df)
 >> ```
 >> ### df데이터 / “A.B”칼럼, 히스토그램 시각화 (연속)
->> ```
+>> ```python
 >> df["A.B"].plot(kind="hist")
 >> plt.show( )
 >> ```
->> ```
+>> ```python
 >> df["00000"].plot(kind="hist")
 >> ```
 >> ### 바 플롯
->> ```
+>> ```python
 >> plt.bar(x, height)
 >> ```
 >> ### 히스토그램
->> ```
+>> ```python
 >> plt.hist(x)
 >> ```
 >> ### 산점도
->> ```
+>> ```python
 >> plt.scatter(x, y)
 >> ```
 >> ### 색깔별 산점도 시각화
@@ -345,38 +345,27 @@ ___
 >> IQR_df.boxplot()
 >> IQR_df.hist(bins=20, figsize=(10,5))
 >> ```
-
-___
-
-## Feature Engineering
-
-## 비닝(Binning)[](https://lovespacewhite.github.io/#%EB%B9%84%EB%8B%9Dbinning)
-
-연속형 변수를 범주형 변수로 만드는 방법
-
-비닝 / cut : (구간값으로 나누기)
-
-```
-<span>q1</span> <span>=</span> <span>df</span><span>[</span><span>"avg_bill"</span><span>].</span><span>quantile</span><span>(</span><span>0.25</span><span>)</span>
-<span>q3</span> <span>=</span> <span>df</span><span>[</span><span>"avg_bill"</span><span>].</span><span>quantile</span><span>(</span><span>0.75</span><span>)</span>
-
-<span>df</span><span>[</span><span>"bill_rating"</span><span>]</span> <span>=</span> <span>pd</span><span>.</span><span>cut</span><span>(</span>
-                 <span>df</span><span>[</span><span>"avg_bill"</span><span>],</span>
-                 <span>bins</span> <span>=</span> <span>[</span><span>0</span><span>,</span> <span>q1</span><span>,</span> <span>q3</span><span>,</span> <span>df</span><span>[</span><span>"avg_bill"</span><span>].</span><span>max</span><span>()],</span>
-                 <span>labels</span> <span>=</span> <span>[</span><span>"low"</span><span>,</span> <span>"mid"</span><span>,</span> <span>"high"</span><span>])</span>
-<span>print</span> <span>(</span><span>df</span><span>[</span><span>"bill_rating"</span><span>].</span><span>value_counts</span><span>()]</span>
-```
-
-비닝 / qcut : (구간개수로 나누기)
-
-```
-<span>df</span><span>[</span><span>"bill_rating"</span><span>]</span> <span>=</span> <span>pd</span><span>.</span><span>qcut</span><span>(</span>
-                 <span>df</span><span>[</span><span>"avg_bill"</span><span>],</span>
-                 <span>3</span><span>,</span>
-                 <span>labels</span><span>=</span><span>[</span><span>"low"</span><span>,</span> <span>"mid"</span><span>,</span> <span>;</span><span>high</span><span>"])
-print (df["</span><span>bill_rating</span><span>"].value_counts()]
-</span>
-```
+> ## Feature Engineering
+>> ## 비닝(Binning)
+>> 연속형 변수를 범주형 변수로 만드는 방법
+>> 비닝 / cut : (구간값으로 나누기)
+>> ```
+>> q1 = df["avg_bill"].quantile(0.25)
+>> q3 = df["avg_bill"].quantile(0.75)
+>> df["bill_rating"] = pd.cut(
+>>                     df["avg_bill"],
+>>                     bins = [0, q1, q3, df["avg_bill"].max()],
+>>                     labels = ["low", "mid", "high"])
+>> print (df["bill_rating"].value_counts()]
+>> ```
+>> 비닝 / qcut : (구간개수로 나누기)
+>> ```
+>> df["bill_rating"] = pd.qcut(  # 비닝
+>>                     df["avg_bill"],
+>>                     3,
+>>                     labels=["low", "mid", ;high"])
+>> print (df["bill_rating"].value_counts()]
+>> ```
 
 ## 스케일링(Scaling)[](https://lovespacewhite.github.io/#%EC%8A%A4%EC%BC%80%EC%9D%BC%EB%A7%81scaling)
 
