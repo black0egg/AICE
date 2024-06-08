@@ -609,10 +609,12 @@
 > ```
 >
 > ## 딥러닝 모델
+>
 > 가. 케라스 초기화
 > ```python
 > keras.backend.clear_session( )
 > ```
+> 
 > 나. 모델 작성 30개의 features, 보통 연산효율을 위해 relu활용
 > -   Batchnormalization 활용
 > -   과적합 방지
@@ -634,6 +636,7 @@
 > ```python
 > model.add(Dense(3, activation="softmax"))
 > ```
+> 
 > 다.컴파일
 >> 이진분류 모델 (binary\_crossentropy)
 >> ```python
@@ -658,6 +661,7 @@
 >> model.compile(optimizer="adam",
 >>               loss="mse")
 >> ```
+>
 > 라. 딥러닝 테스트 핏
 > ```python
 > model.fit(x=X_train, y=y_train,
@@ -680,6 +684,7 @@
 >> check_point = ModelCheckpoint("best_model.h5", verbose=1,
 >>               monitor="val_loss", mode="min", save_best_only=True)
 >> ```
+>
 > 마. 학습과정 로그(loss,accuracy) history에 선언하여 남기기
 > ```python
 > history = model.fit(x=X_train, y=y_train,
@@ -688,6 +693,7 @@
 >           verbose=1,
 >           callbacks=[early_stop, check_point])
 > ```
+> 
 > 바. 학습로그 시각화 확인
 > ```python
 > import matplotlib.pyplot as plt
@@ -699,6 +705,7 @@
 > plt.legend(["train_acc", "val_acc"])
 > plt.show( )
 > ```
+> 
 > 사. 딥러닝 성능평가
 > ```python
 > losses = pd.DataFrame(model.history.history)
