@@ -672,420 +672,365 @@ ___
 > 예측 모델
 > ```python
 > model.compile(optimizer="adam",
-                loss="mse")
+>               loss="mse")
 > ```
 > 마. 딥러닝 테스트 핏
 > ```python
-> 
+> model.fit(x=X_train, y=y_train,
+>           epochs=50, batch_size=20,
+>           validation_data=(X_test, y_test),
+>           verbose=1,
+>           callbacks=[early_stop, check_point])
 > ```
-> 조기종료 옵션 (케라스 조기종료&체크포인트 불러오기)
+>> 조기종료 옵션 (케라스 조기종료&체크포인트 불러오기)
+>> ```python
+>> from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
+>> ```
+>> (조기종료 : 로스값이 올라가면(5번까지는 괜찮음) 조기종료하기)
+>> ```python
+>> early_stop = EarlyStopping(monitor="val_loss", mode="min",
+>>              verbose=1, patience=5)
+>> ```
+>> (체크포인트 : 최적 로스값을 기억(best\_model.h5)하여 불러오기)
+>> ```python
+>> check_point = ModelCheckpoint("best_model.h5", verbose=1,
+>>               monitor="val_loss", mode="min", save_best_only=True)
+>> ```
+> 바. 학습과정 로그(loss,accuracy) history에 선언하여 남기기
+> ```python
+> history = model.fit(x=X_train, y=y_train,
+>           epochs=50, batch_size=20,
+>           validation_data=(X_test, y_test),
+>           verbose=1,
+>           callbacks=[early_stop, check_point])
+> ```
+> 사. 학습로그 시각화 확인
+> ```python
+> import matplotlib.pyplot as plt
+> plt.plot(history.history["accuracy"])
+> plt.plot(history.history["val_accuracy"])
+> plt.title("Accuracy")
+> plt.xlabel("Epochs")
+> plt.ylabel("Accuracy")
+> plt.legend(["train_acc", "val_acc"])
+> plt.show( )
+> ```
+> 아. 딥러닝 성능평가
+> ```python
+> losses = pd.DataFrame(model.history.history)
+> losses[["loss", "val_loss"]].plot( )
+>
+> frome sklearn.metrics import classification_report, confusion_matrix
+> predictions = model.predict_classes(X_test)
+> print(classification_report(y_test, predictions))
+> print(confustion_matrix(y_test,predictions))
+> ```
+
+> ## RNN
+> RNN 모델링
+> ```python
+> import tensorflow as tf
+> from tensorflow.keras.models import Sequential
+> from tensorflow.keras.layers import Dense, Flatten
+> from tensorflow.keras.layers import LSTM
+> 
+> X_train.shape, X_test.shape
+> 
+> X_train = X_train.reshape(-1,18,1)
+> X_test = X_test.reshape(-1,18,1)
+> 
+> X_train.shape, X_test.shape
+> 
+> model = Sequential()
+> model.add(LSTM(32,activation='relu',return_sequences=True,input_shape=(18,1)))
+> model.add(LSTM(16,activation='relu',return_sequences=True))
+> model.add(Flatten)
+> model.add(Dense(8,activation='relu'))
+> model.add(Dense(1,activation='sigmoid'))
+> 
+> model.summary()
+> 
+> model.compile(
+> optimizer='adam',
+> loss='binary_crossentropy',  ## 이진분류 : binary_crossentropy
+> metrics=['accuracy'])
+>
+> history = model.fit(x=X_train,y=y_train,
+>           epochs=10,
+>           batch_size=128,
+>           validation_data=(X_test,y_test),
+>           verbose=1)
+>
+> losses = pd.DataFream(model.history.history)
+> losses.head()
+> losses[['loss','val_loss']].plot()
+> 
+> losses[['loss','val_loss','accuracy','val_accuracy']].plot()
+> 
+> plt.plot(history.history['accuracy'])
+> plt.plot(history.history['val_accuracy'])
+> plt.title('Accuracy')
+> plt.xlabel('Epochs')
+> plt.ylabel('Acc')
+> plt.legend(['acc','val_acc'])
+> plt.show()
+> ```
+> ## CNN
+> 가. 이미지 불러오기
+> ```python
+> import os
+> from glob import glob
+> import tensorflow as tf
+> 
+> FILENAME = 'dataset-new_old.zip'
+> glob(FILENAME)
+> 
+> if not os.path.exists('IMAGE') :
+> !mkdir IMAGE
+> !cp dataset-new_old.zip ./IMAGE
+> !cd IMAGE ; unzip dataset-new_old.zip
+>
+> new_img_path = './IMAGE/new/plastic1.jpg'
+> gfile = tf.io.read_file(new_img_path)
+> image = tf.io.decode_image(gfile,dtype=tf.float32)
+> image.shape
+> plt.imshow(image)
+> plt.show()
+> 
+> old_img_path = './IMAGE/old/old_plastic1.jpg'
+> gfile = tf.io.read_file(old_img_path)
+> image.shape
+> plt.imshow(image)
+> plt.show()
+> 
+> Data Preprocess
+> 
+> num_epochs = 50
+> batch_size = 4
+> learning_rate = 0.001
+> 
+> input_shape = (384,512,3)  ## size
+> num_classes = 2  ## new & old
+> 
+> from tensorflow.keras.preprocessing.image import ImageDataGenerator
+> 
+> training_datagen = ImageDataGenerator(
+>                    rescale = 1./255,
+>                    validation_split=0.2  # train set : 435*(1-0.2)=348)
+> 
+> test_datagen = ImageDataGenerator(
+>                rescale = 1./255,
+>                validation_split=0.2  # test set : 435*0.2 = 87)
+> ```
+> 나. 이미지 읽기, 배치, 셔플, 레이블링
+> ```python
+> !rm -rf ./IMAGE/.ipynb_checkpoints 
+> 
+> training_generator
+> training_datagen.flow_from_directory(
+>  ',/IMAGE/',
+>  batch_size = batch_size,
+>  target_size = (384,512),  # size
+>  class_mode = 'catrgorical',  # binary, categorical
+>  shuffle = True,
+>  subset ='training'  # training, validation, validation_split 사용하므로 subset 지정
+> )
+> 
+> test_generator
+> test_datagen.flow_from_directory(
+> ',/IMAGE/',
+> batch_size = batch_size,
+> target_size = (384,512),  # size
+> class_mode = 'catrgorical',  # binary, categorical
+> shuffle = True,
+> subset ='validation'  # training, validation, validation_split 사용하므로 subset 지정
+> )
+> 
+> print(training_generator.class_indices)
+> 
+> batch_samples = next(iter(traning_generator))
+> 
+> print('True Value : 'batch_sample[1][0])
+> plt.imshow(batch_sample[0][0])
+> plt.show()
+> ```
+> 다. CNN 모델링
+> ```python
+> import tensorflow as tf
+> from tensorflow.keras.models import Sequential
+> from tensorflow.keras.layers import Dense, Flatten, Dropout
+> from tensorflow.keras.layers import Conv2D, MaxPooling2D
+> 
+> model = Sequential()  # Feature extraction
+> model.add(Conv2D(filters=32,kernel_size=3,activation='relu',input_shape=input_shape))
+> model.add(MaxPooling2D(pool_size=2))
+> model.add(Conv2D(filters=16,kernel_size=3,activation='relu'))
+> model.add(MaxPooling2D(pool_size=2))
+> 
+> model.add(Flatten())  # Classfication
+> model.add(Dense(50, activation='relu'))
+> model.add(Dense(2, activation='softmax))
+>
+> model.summary()
+>
+> model.compile(
+> optimizer='adam',
+> loss='categorical_crossentropy',  # 이진분류
+> metrics=['accuracy'])
+>
+> history = model.fit(training_generator,
+> epochs=3,
+> steps_per_epoch = len(training_generator) / batch_size,
+> validation_steps = len(test_generator) / batch_size,
+> validation_data = test_generator,
+> vervose = 1
+> )
+> ```
+> 라. 성능평가/시각화
+> ```python
+> losses = pd.Dataframe(model.history.history)
+> losses = head()
+> 
+> losses[['loss','val_loss']].plot()
+> 
+> losses[['loss','val_loss','accuracy','val_accuracy']].plot()
+> 
+> plt.plot(history.history['accuracy'])
+> plt.plot(history.history['val_accuracy'])
+> plt.title('Accuracy')
+> plt.xlabel('Epochs')
+> plt.ylable('Acc')
+> plt.legend(['acc','val_acc'])
+> plt.show()
+> ```
+> 마. 예측하기
+> ```python
+>  # test_generator 샘플데이터 가져오기
+>  # 배치사이즈 32 확인
+> batch_img, batch_label = next(iter(test_generator))
+> print(batch_img.shape)
+> print(batch_label.shape)
+> 
+>  # 4개 test 샘플이지미 그려보고 예측해보기
+> i = 1
+> plt.figure(figsize=(16,30))
+> for img, label in list(zip(batch_img, batch_label)):
+> pred = model.predict(img,reshape(-1,384,512,3))
+> pred_t = np.argmax(pred)
+> plt.subplot(8,4,i)
+> plt.title(f'True Value:{np.argmax(label)}, Pred Value:{pred_t})
+> plt.imshow(img)
+> i = i + 1
+> ```
+
+> ## Stacking
+> 개별모델이 예측한 데이터를 기반한 종합예측
+> ```python
+> from sklearn.ensemle import StackingRegressor, StackingClassifier
+> 
+> stack_models =
+> [('LogisticRegression',lg),('KNN',knn),('DecisionTree',dt)]
+> 
+> stacking = StackingClassifier(
+>            stack_models, final_estimator=rfc,n_jobs=-1)
+> 
+> stacking.fit(X_train,y_train)
+> 
+> stacking_pred = stacking.predict(X_test)
+> 
+> accuracy_eval('Stacking Ensemble', stacking_pred, y_test)
+> ```
+
+> ## Weighted Blending
+> 각 모델 예측값에 대하여 weight를 곱하여 최종계산
+> ```python
+> final_output = {
+>  'DecisionTree':dt_pred,
+>  'randomforest':rf_pred,
+>  'xgb':xgb_pred,
+>  'lgbm':lgbm_pred,
+>  'stacking':stacking_pred
+> }
+>
+> final_prediction=\
+> final_outputs['DecisionTree']*0.1\
+> +final_outputs['randomforest']*0.2\
+> +final_outputs['xgb']*0.25\
+> +final_outputs['lgbm']*0.15\
+> +final_outputs['stacking']*0.3\
+> 
+> final_prediction = np.where(final_prediction>0.5,1,0) 
+> # 가중치값이 0.5 초과하면 1, 그렇지 않으면 0
+> 
+> accuracy_eval('Weighted Blending', final_prediction, y_test)
+> ```
+
+## [4.성능평가]
+> ## 목표
+> Loss(오차율) 낮추고, Accuracy(정확도) 높이기  
+> Error -> Epochs이 많아질수록 줄어들어야 함  
+> Epoch 많아질수록, 오히려 TestSet Error 올라가는경우 생길때, 직전Stop  
+> 학습시 조기종료(early stop) 적용되지 않았을 때는 개선여지가 있기에,  
+> 배치사이즈나 에포크를 수정하여 개선할 수 있음
+> 
+> ## 좋은 모델
+> 과적합(overfitting) : 선이 너무 복잡  
+> 트레인 어큐러시만 높아지고, 벨리드 어큐러시는 높아지지 않을때 (트레인어큐러시에 맞춰짐)  
+> 과소적합(underfitting) : 선이 너무 단순  
+> 트레인/벨리드 어큐러시가 교차되지 않고 아직 수평선을 향해갈때  
+> 좋은모델 : 어느정도 따라가는 적당선  
+> 트레인/벨리드 어큐러시가 수평선을 이어 서로 교차될때
+>
+> ## 성능지표
+> 오차행렬(Confusion Matrix) (분류모델에 주로 쓰임)
+> -   TP (True Positive)
+> -   TN (True Negative)
+> -   FP (False Positive)
+> -   FN (False Negative)
+> 오차행렬 지표
+> -   정확도(Accuracy) = 맞춤(TP&TN) / 전체(total)
+> -   정밀도(Precision) = TP / TP + FP (예측한 클래스 중, 실제로 해당 클래스인 데이터 비율)
+> -   재현율(Recall) = TP = TP + FN (실제 클래스 중, 예측한 클래스와 일치한 데이터 비율)
+> -   F1점수(F1-score) = 2 \* \[1/{(1/Precision)+(1/Recall)}\] (Precision과 Recall의 조화평균)
+> -   Support = 각 클래스 실제 데이터수
+> 오차행렬 성능지표 쉽게확인
+> ```python
+> from sklearn.metrics import classification_report
+> print(classification_report(y_test, y_pred))
+> ```
+> 오차행렬 성능지표 확인
+>```python
+> import seaborn as sns
+> from sklearn.metrics import confusion_matrix
+> from sklearn.metrics import precision_score, recall_score
+> 
+> y_pred = model.predict(X_test)
+> cm = confusion_matrix(y_true=y_test, y_pred=y_pred)
+>
+> sns.heatmap(cm, annot=True)
+> plt.show()
+> 
+> print(classification_report(y_test, y_pred))
+> 
+> precision_score(y_true, y_pred)
+> recall_score(y_true, y_pred)
+>```
+> 
+> ## 손실함수
+> 회귀모델 손실함수(Loss Function)
+> -   MSE(Mean Squared Error) : 실제에서 예측값 차이를 제곱, 합하여 평균 (예측)
+> -   MAE(Mean Absolute Error) : 실제값 빼기 예측값 절댓값의 평균
+> -   CEE(Cross Entropy Error) : 예측결과가 빗나갈수록 더큰패널티 부여 (분류)
+> 분류모델 손실함수
+> -   Binary Cross Entropy (이진분류)
+> -   Multi Class Classfication (다중분류)
+> ## 주요 지표
+> -   loss = MSE (학습시 사용한 loss function종류에 의해 결정) (작을수록 좋음)
+> -   error = 실제값 빼기 예측값의 평균 (작을수록 좋음)
+> -   MSE = 실제값 빼기 예측값 제곱의 평균 (작을수록 좋음)
+> -   MAE = 실제값 빼기 예측값 절댓값의 평균 (작을수록 좋음)
+> -   R2(결정계수) = 독립변수가 종속변수를 얼마나 잘설명하는지 (클수록 좋음)
+> ## RMSE값 확인하기
+
+## [5.적용]
 
-```
-<span>from</span> <span>tensorflow.keras.callbacks</span> <span>import</span> <span>EarlyStopping</span><span>,</span> <span>ModelCheckpoint</span>
-```
-
-(조기종료 : 로스값이 올라가면(5번까지는 괜찮음) 조기종료하기)
-
-```
-<span>early_stop</span> <span>=</span> <span>EarlyStopping</span><span>(</span><span>monitor</span><span>=</span><span>"val_loss"</span><span>,</span> <span>mode</span><span>=</span><span>"min"</span><span>,</span>
-                     <span>verbose</span><span>=</span><span>1</span><span>,</span> <span>patience</span><span>=</span><span>5</span><span>)</span>
-```
-
-(체크포인트 : 최적 로스값을 기억(best\_model.h5)하여 불러오기)
-
-```
-<span>check_point</span> <span>=</span> <span>ModelCheckpoint</span><span>(</span><span>"best_model.h5"</span><span>,</span> <span>verbose</span><span>=</span><span>1</span><span>,</span>
-                       <span>monitor</span><span>=</span><span>"val_loss"</span><span>,</span> <span>mode</span><span>=</span><span>"min"</span><span>,</span> <span>save_best_only</span><span>=</span><span>True</span><span>)</span>
-```
-
-바. 학습과정 로그(loss,accuracy) history에 선언하여 남기기
-
-```
-<span>history</span> <span>=</span> <span>model</span><span>.</span><span>fit</span><span>(</span><span>x</span><span>=</span><span>X_train</span><span>,</span> <span>y</span><span>=</span><span>y_train</span><span>,</span>
-        <span>epochs</span><span>=</span><span>50</span><span>,</span> <span>batch_size</span><span>=</span><span>20</span><span>,</span>
-        <span>validation_data</span><span>=</span><span>(</span><span>X_test</span><span>,</span> <span>y_test</span><span>),</span>
-        <span>verbose</span><span>=</span><span>1</span><span>,</span>
-        <span>callbacks</span><span>=</span><span>[</span><span>early_stop</span><span>,</span> <span>check_point</span><span>])</span>
-```
-
-사. 학습로그 시각화 확인
-
-```
-<span>import</span> <span>matplotlib.pyplot</span> <span>as</span> <span>plt</span>
-<span>plt</span><span>.</span><span>plot</span><span>(</span><span>history</span><span>.</span><span>history</span><span>[</span><span>"accuracy"</span><span>])</span>
-<span>plt</span><span>.</span><span>plot</span><span>(</span><span>history</span><span>.</span><span>history</span><span>[</span><span>"val_accuracy"</span><span>])</span>
-<span>plt</span><span>.</span><span>title</span><span>(</span><span>"Accuracy"</span><span>)</span>
-<span>plt</span><span>.</span><span>xlabel</span><span>(</span><span>"Epochs"</span><span>)</span>
-<span>plt</span><span>.</span><span>ylabel</span><span>(</span><span>"Accuracy"</span><span>)</span>
-<span>plt</span><span>.</span><span>legend</span><span>([</span><span>"train_acc"</span><span>,</span> <span>"val_acc"</span><span>])</span>
-<span>plt</span><span>.</span><span>show</span><span>(</span> <span>)</span>
-```
-
-아. 딥러닝 성능평가
-
-```
-<span>losses</span> <span>=</span> <span>pd</span><span>.</span><span>DataFrame</span><span>(</span><span>model</span><span>.</span><span>history</span><span>.</span><span>history</span><span>)</span>
-<span>losses</span><span>[[</span><span>"loss"</span><span>,</span> <span>"val_loss"</span><span>]].</span><span>plot</span><span>(</span> <span>)</span>
-
-<span>frome</span> <span>sklearn</span><span>.</span><span>metrics</span> <span>import</span> <span>classification_report</span><span>,</span> <span>confusion_matrix</span>
-<span>predictions</span> <span>=</span> <span>model</span><span>.</span><span>predict_classes</span><span>(</span><span>X_test</span><span>)</span>
-<span>print</span><span>(</span><span>classification_report</span><span>(</span><span>y_test</span><span>,</span> <span>predictions</span><span>))</span>
-<span>print</span><span>(</span><span>confustion_matrix</span><span>(</span><span>y_test</span><span>,</span><span>predictions</span><span>))</span>
-```
-
-## RNN[](https://lovespacewhite.github.io/#rnn)
-
-RNN 모델링
-
-```
-<span>import</span> <span>tensorflow</span> <span>as</span> <span>tf</span>
-<span>from</span> <span>tensorflow.keras.models</span> <span>import</span> <span>Sequential</span>
-<span>from</span> <span>tensorflow.keras.layers</span> <span>import</span> <span>Dense</span><span>,</span> <span>Flatten</span>
-<span>from</span> <span>tensorflow.keras.layers</span> <span>import</span> <span>LSTM</span>
-
-<span>X_train</span><span>.</span><span>shape</span><span>,</span> <span>X_test</span><span>.</span><span>shape</span>
-
-<span>X_train</span> <span>=</span> <span>X_train</span><span>.</span><span>reshape</span><span>(</span><span>-</span><span>1</span><span>,</span><span>18</span><span>,</span><span>1</span><span>)</span>
-<span>X_test</span> <span>=</span> <span>X_test</span><span>.</span><span>reshape</span><span>(</span><span>-</span><span>1</span><span>,</span><span>18</span><span>,</span><span>1</span><span>)</span>
-
-<span>X_train</span><span>.</span><span>shape</span><span>,</span> <span>X_test</span><span>.</span><span>shape</span>
-
-<span>model</span> <span>=</span> <span>Sequential</span><span>()</span>
-<span>model</span><span>.</span><span>add</span><span>(</span><span>LSTM</span><span>(</span><span>32</span><span>,</span><span>activation</span><span>=</span><span>'relu'</span><span>,</span><span>return_sequences</span><span>=</span><span>True</span><span>,</span><span>input_shape</span><span>=</span><span>(</span><span>18</span><span>,</span><span>1</span><span>)))</span>
-<span>model</span><span>.</span><span>add</span><span>(</span><span>LSTM</span><span>(</span><span>16</span><span>,</span><span>activation</span><span>=</span><span>'relu'</span><span>,</span><span>return_sequences</span><span>=</span><span>True</span><span>))</span>
-<span>model</span><span>.</span><span>add</span><span>(</span><span>Flatten</span><span>)</span>
-<span>model</span><span>.</span><span>add</span><span>(</span><span>Dense</span><span>(</span><span>8</span><span>,</span><span>activation</span><span>=</span><span>'relu'</span><span>))</span>
-<span>model</span><span>.</span><span>add</span><span>(</span><span>Dense</span><span>(</span><span>1</span><span>,</span><span>activation</span><span>=</span><span>'sigmoid'</span><span>))</span>
-
-<span>model</span><span>.</span><span>summary</span><span>()</span>
-
-<span>model</span><span>.</span><span>compile</span><span>(</span>
- <span>optimizer</span><span>=</span><span>'adam'</span><span>,</span>
- <span>loss</span><span>=</span><span>'binary_crossentropy'</span><span>,</span>  <span>## 이진분류 : binary_crossentropy
-</span> <span>metrics</span><span>=</span><span>[</span><span>'accuracy'</span><span>])</span>
-
-
-<span>history</span> <span>=</span> <span>model</span><span>.</span><span>fit</span><span>(</span><span>x</span><span>=</span><span>X_train</span><span>,</span><span>y</span><span>=</span><span>y_train</span><span>,</span>
- <span>epochs</span><span>=</span><span>10</span><span>,</span>
- <span>batch_size</span><span>=</span><span>128</span><span>,</span>
- <span>validation_data</span><span>=</span><span>(</span><span>X_test</span><span>,</span><span>y_test</span><span>),</span>
- <span>verbose</span><span>=</span><span>1</span><span>)</span>
-
-<span>losses</span> <span>=</span> <span>pd</span><span>.</span><span>DataFream</span><span>(</span><span>model</span><span>.</span><span>history</span><span>.</span><span>history</span><span>)</span>
-<span>losses</span><span>.</span><span>head</span><span>()</span>
-<span>losses</span><span>[[</span><span>'loss'</span><span>,</span><span>'val_loss'</span><span>]].</span><span>plot</span><span>()</span>
-
-<span>losses</span><span>[[</span><span>'loss'</span><span>,</span><span>'val_loss'</span><span>,</span><span>'accuracy'</span><span>,</span><span>'val_accuracy'</span><span>]].</span><span>plot</span><span>()</span>
-
-<span>plt</span><span>.</span><span>plot</span><span>(</span><span>history</span><span>.</span><span>history</span><span>[</span><span>'accuracy'</span><span>])</span>
-<span>plt</span><span>.</span><span>plot</span><span>(</span><span>history</span><span>.</span><span>history</span><span>[</span><span>'val_accuracy'</span><span>])</span>
-<span>plt</span><span>.</span><span>title</span><span>(</span><span>'Accuracy'</span><span>)</span>
-<span>plt</span><span>.</span><span>xlabel</span><span>(</span><span>'Epochs'</span><span>)</span>
-<span>plt</span><span>.</span><span>ylabel</span><span>(</span><span>'Acc'</span><span>)</span>
-<span>plt</span><span>.</span><span>legend</span><span>([</span><span>'acc'</span><span>,</span><span>'val_acc'</span><span>])</span>
-<span>plt</span><span>.</span><span>show</span><span>()</span>
-```
-
-## CNN[](https://lovespacewhite.github.io/#cnn)
-
-가. 이미지 불러오기
-
-```
-<span>import</span> <span>os</span>
-<span>from</span> <span>glob</span> <span>import</span> <span>glob</span>
-<span>import</span> <span>tensorflow</span> <span>as</span> <span>tf</span>
-
-<span>FILENAME</span> <span>=</span> <span>'dataset-new_old.zip'</span>
-<span>glob</span><span>(</span><span>FILENAME</span><span>)</span>
-
-<span>if</span> <span>not</span> <span>os</span><span>.</span><span>path</span><span>.</span><span>exists</span><span>(</span><span>'IMAGE'</span><span>)</span> <span>:</span>
- <span>!</span><span>mkdir</span> <span>IMAGE</span>
- <span>!</span><span>cp</span> <span>dataset</span><span>-</span><span>new_old</span><span>.</span><span>zip</span> <span>.</span><span>/</span><span>IMAGE</span>
- <span>!</span><span>cd</span> <span>IMAGE</span> <span>;</span> <span>unzip</span> <span>dataset</span><span>-</span><span>new_old</span><span>.</span><span>zip</span>
-
-<span>new_img_path</span> <span>=</span> <span>'./IMAGE/new/plastic1.jpg'</span>
-<span>gfile</span> <span>=</span> <span>tf</span><span>.</span><span>io</span><span>.</span><span>read_file</span><span>(</span><span>new_img_path</span><span>)</span>
-<span>image</span> <span>=</span> <span>tf</span><span>.</span><span>io</span><span>.</span><span>decode_image</span><span>(</span><span>gfile</span><span>,</span><span>dtype</span><span>=</span><span>tf</span><span>.</span><span>float32</span><span>)</span>
-<span>image</span><span>.</span><span>shape</span>
-<span>plt</span><span>.</span><span>imshow</span><span>(</span><span>image</span><span>)</span>
-<span>plt</span><span>.</span><span>show</span><span>()</span>
-
-<span>old_img_path</span> <span>=</span> <span>'./IMAGE/old/old_plastic1.jpg'</span>
-<span>gfile</span> <span>=</span> <span>tf</span><span>.</span><span>io</span><span>.</span><span>read_file</span><span>(</span><span>old_img_path</span><span>)</span>
-<span>image</span><span>.</span><span>shape</span>
-<span>plt</span><span>.</span><span>imshow</span><span>(</span><span>image</span><span>)</span>
-<span>plt</span><span>.</span><span>show</span><span>()</span>
-
-<span>Data</span> <span>Preprocess</span>
-
-<span>num_epochs</span> <span>=</span> <span>50</span>
-<span>batch_size</span> <span>=</span> <span>4</span>
-<span>learning_rate</span> <span>=</span> <span>0.001</span>
-
-<span>input_shape</span> <span>=</span> <span>(</span><span>384</span><span>,</span><span>512</span><span>,</span><span>3</span><span>)</span>  <span>## size
-</span><span>num_classes</span> <span>=</span> <span>2</span>  <span>## new &amp; old
-</span>
-<span>from</span> <span>tensorflow.keras.preprocessing.image</span> <span>import</span> <span>ImageDataGenerator</span>
-
-<span>training_datagen</span> <span>=</span> <span>ImageDataGenerator</span><span>(</span>
- <span>rescale</span> <span>=</span> <span>1.</span><span>/</span><span>255</span><span>,</span>
- <span>validation_split</span><span>=</span><span>0.2</span>  <span># train set : 435*(1-0.2)=348)
-</span>
-<span>test_datagen</span> <span>=</span> <span>ImageDataGenerator</span><span>(</span>
- <span>rescale</span> <span>=</span> <span>1.</span><span>/</span><span>255</span><span>,</span>
- <span>validation_split</span><span>=</span><span>0.2</span>  <span># test set : 435*0.2 = 87)
-</span>
-```
-
-나. 이미지 읽기, 배치, 셔플, 레이블링
-
-```
-<span>!</span><span>rm</span> <span>-</span><span>rf</span> <span>.</span><span>/</span><span>IMAGE</span><span>/</span><span>.</span><span>ipynb_checkpoints</span> 
-
-<span>training_generator</span>
-<span>training_datagen</span><span>.</span><span>flow_from_directory</span><span>(</span>
- <span>',/IMAGE/'</span><span>,</span>
- <span>batch_size</span> <span>=</span> <span>batch_size</span><span>,</span>
- <span>target_size</span> <span>=</span> <span>(</span><span>384</span><span>,</span><span>512</span><span>),</span>  <span>## size
-</span> <span>class_mode</span> <span>=</span> <span>'catrgorical'</span><span>,</span>  <span>## binary, categorical
-</span> <span>shuffle</span> <span>=</span> <span>True</span><span>,</span>
- <span>subset</span> <span>=</span><span>'training'</span>  <span>## training, validation, validation_split 사용하므로 subset 지정
-</span><span>)</span>
-
-<span>test_generator</span>
-<span>test_datagen</span><span>.</span><span>flow_from_directory</span><span>(</span>
- <span>',/IMAGE/'</span><span>,</span>
- <span>batch_size</span> <span>=</span> <span>batch_size</span><span>,</span>
- <span>target_size</span> <span>=</span> <span>(</span><span>384</span><span>,</span><span>512</span><span>),</span>  <span>## size
-</span> <span>class_mode</span> <span>=</span> <span>'catrgorical'</span><span>,</span>  <span>## binary, categorical
-</span> <span>shuffle</span> <span>=</span> <span>True</span><span>,</span>
- <span>subset</span> <span>=</span><span>'validation'</span>  <span>## training, validation, validation_split 사용하므로 subset 지정
-</span><span>)</span>
-
-<span>print</span><span>(</span><span>training_generator</span><span>.</span><span>class_indices</span><span>)</span>
-
-<span>batch_samples</span> <span>=</span> <span>next</span><span>(</span><span>iter</span><span>(</span><span>traning_generator</span><span>))</span>
-
-<span>print</span><span>(</span><span>'True Value : '</span><span>batch_sample</span><span>[</span><span>1</span><span>][</span><span>0</span><span>])</span>
-<span>plt</span><span>.</span><span>imshow</span><span>(</span><span>batch_sample</span><span>[</span><span>0</span><span>][</span><span>0</span><span>])</span>
-<span>plt</span><span>.</span><span>show</span><span>()</span>
-```
-
-다. CNN 모델링
-
-```
-<span>import</span> <span>tensorflow</span> <span>as</span> <span>tf</span>
-<span>from</span> <span>tensorflow.keras.models</span> <span>import</span> <span>Sequential</span>
-<span>from</span> <span>tensorflow.keras.layers</span> <span>import</span> <span>Dense</span><span>,</span> <span>Flatten</span><span>,</span> <span>Dropout</span>
-<span>from</span> <span>tensorflow.keras.layers</span> <span>import</span> <span>Conv2D</span><span>,</span> <span>MaxPooling2D</span>
-
-<span>model</span> <span>=</span> <span>Sequential</span><span>()</span>  <span>## Feature extraction
-</span><span>model</span><span>.</span><span>add</span><span>(</span><span>Conv2D</span><span>(</span><span>filters</span><span>=</span><span>32</span><span>,</span><span>kernel_size</span><span>=</span><span>3</span><span>,</span><span>activation</span><span>=</span><span>'relu'</span><span>,</span><span>input_shape</span><span>=</span><span>input_shape</span><span>))</span>
-<span>model</span><span>.</span><span>add</span><span>(</span><span>MaxPooling2D</span><span>(</span><span>pool_size</span><span>=</span><span>2</span><span>))</span>
-<span>model</span><span>.</span><span>add</span><span>(</span><span>Conv2D</span><span>(</span><span>filters</span><span>=</span><span>16</span><span>,</span><span>kernel_size</span><span>=</span><span>3</span><span>,</span><span>activation</span><span>=</span><span>'relu'</span><span>))</span>
-<span>model</span><span>.</span><span>add</span><span>(</span><span>MaxPooling2D</span><span>(</span><span>pool_size</span><span>=</span><span>2</span><span>))</span>
-
-<span>model</span><span>.</span><span>add</span><span>(</span><span>Flatten</span><span>())</span>  <span>## Classfication
-</span><span>model</span><span>.</span><span>add</span><span>(</span><span>Dense</span><span>(</span><span>50</span><span>,</span> <span>activation</span><span>=</span><span>'relu'</span><span>))</span>
-<span>model</span><span>.</span><span>add</span><span>(</span><span>Dense</span><span>(</span><span>2</span><span>,</span> <span>activation</span><span>=</span><span>'softmax))
-
-model.summary()
-
-model.compile(
- optimizer='</span><span>adam</span><span>',
- loss='</span><span>categorical_crossentropy</span><span>',  ## 이진분류
- metrics=['</span><span>accuracy</span><span>'])
-
-history = model.fit(training_generator,
- epochs=3,
- steps_per_epoch = len(training_generator) / batch_size,
- validation_steps = len(test_generator) / batch_size,
- validation_data = test_generator,
- vervose = 1
-)
-</span>
-```
-
-라. 성능평가/시각화
-
-```
-<span>losses</span> <span>=</span> <span>pd</span><span>.</span><span>Dataframe</span><span>(</span><span>model</span><span>.</span><span>history</span><span>.</span><span>history</span><span>)</span>
-<span>losses</span> <span>=</span> <span>head</span><span>()</span>
-
-<span>losses</span><span>[[</span><span>'loss'</span><span>,</span><span>'val_loss'</span><span>]].</span><span>plot</span><span>()</span>
-
-<span>losses</span><span>[[</span><span>'loss'</span><span>,</span><span>'val_loss'</span><span>,</span><span>'accuracy'</span><span>,</span><span>'val_accuracy'</span><span>]].</span><span>plot</span><span>()</span>
-
-<span>plt</span><span>.</span><span>plot</span><span>(</span><span>history</span><span>.</span><span>history</span><span>[</span><span>'accuracy'</span><span>])</span>
-<span>plt</span><span>.</span><span>plot</span><span>(</span><span>history</span><span>.</span><span>history</span><span>[</span><span>'val_accuracy'</span><span>])</span>
-<span>plt</span><span>.</span><span>title</span><span>(</span><span>'Accuracy'</span><span>)</span>
-<span>plt</span><span>.</span><span>xlabel</span><span>(</span><span>'Epochs'</span><span>)</span>
-<span>plt</span><span>.</span><span>ylable</span><span>(</span><span>'Acc'</span><span>)</span>
-<span>plt</span><span>.</span><span>legend</span><span>([</span><span>'acc'</span><span>,</span><span>'val_acc'</span><span>])</span>
-<span>plt</span><span>.</span><span>show</span><span>()</span>
-```
-
-마. 예측하기
-
-```
-<span># test_generator 샘플데이터 가져오기
-# 배치사이즈 32 확인
-</span><span>batch_img</span><span>,</span> <span>batch_label</span> <span>=</span> <span>next</span><span>(</span><span>iter</span><span>(</span><span>test_generator</span><span>))</span>
-<span>print</span><span>(</span><span>batch_img</span><span>.</span><span>shape</span><span>)</span>
-<span>print</span><span>(</span><span>batch_label</span><span>.</span><span>shape</span><span>)</span>
-
-<span># 4개 test 샘플이지미 그려보고 예측해보기
-</span><span>i</span> <span>=</span> <span>1</span>
-<span>plt</span><span>.</span><span>figure</span><span>(</span><span>figsize</span><span>=</span><span>(</span><span>16</span><span>,</span><span>30</span><span>))</span>
-<span>for</span> <span>img</span><span>,</span> <span>label</span> <span>in</span> <span>list</span><span>(</span><span>zip</span><span>(</span><span>batch_img</span><span>,</span> <span>batch_label</span><span>)):</span>
- <span>pred</span> <span>=</span> <span>model</span><span>.</span><span>predict</span><span>(</span><span>img</span><span>,</span><span>reshape</span><span>(</span><span>-</span><span>1</span><span>,</span><span>384</span><span>,</span><span>512</span><span>,</span><span>3</span><span>))</span>
- <span>pred_t</span> <span>=</span> <span>np</span><span>.</span><span>argmax</span><span>(</span><span>pred</span><span>)</span>
- <span>plt</span><span>.</span><span>subplot</span><span>(</span><span>8</span><span>,</span><span>4</span><span>,</span><span>i</span><span>)</span>
- <span>plt</span><span>.</span><span>title</span><span>(</span><span>f</span><span>'True Value:</span><span>{</span><span>np</span><span>.</span><span>argmax</span><span>(</span><span>label</span><span>)</span><span>}</span><span>, Pred Value:</span><span>{</span><span>pred_t</span><span>}</span><span>)
- plt.imshow(img)
- i = i + 1
-</span>
-```
-
-___
-
-## Stacking[](https://lovespacewhite.github.io/#stacking)
-
-개별모델이 예측한 데이터를 기반한 종합예측
-
-```
-<span>from</span> <span>sklearn.ensemle</span> <span>import</span> <span>StackingRegressor</span><span>,</span> <span>StackingClassifier</span>
-
-<span>stack_models</span> <span>=</span>
-<span>[(</span><span>'LogisticRegression'</span><span>,</span><span>lg</span><span>),(</span><span>'KNN'</span><span>,</span><span>knn</span><span>),(</span><span>'DecisionTree'</span><span>,</span><span>dt</span><span>)]</span>
-
-<span>stacking</span> <span>=</span> <span>StackingClassifier</span><span>(</span>
- <span>stack_models</span><span>,</span> <span>final_estimator</span><span>=</span><span>rfc</span><span>,</span><span>n_jobs</span><span>=-</span><span>1</span><span>)</span>
-
-<span>stacking</span><span>.</span><span>fit</span><span>(</span><span>X_train</span><span>,</span><span>y_train</span><span>)</span>
-
-<span>stacking_pred</span> <span>=</span> <span>stacking</span><span>.</span><span>predict</span><span>(</span><span>X_test</span><span>)</span>
-
-<span>accuracy_eval</span><span>(</span><span>'Stacking Ensemble'</span><span>,</span> <span>stacking_pred</span><span>,</span> <span>y_test</span><span>)</span>
-```
-
-## Weighted Blending[](https://lovespacewhite.github.io/#weighted-blending)
-
-각 모델 예측값에 대하여 weight를 곱하여 최종계산
-
-```
-<span>final_output</span> <span>=</span> <span>{</span>
- <span>'DecisionTree'</span><span>:</span><span>dt_pred</span><span>,</span>
- <span>'randomforest'</span><span>:</span><span>rf_pred</span><span>,</span>
- <span>'xgb'</span><span>:</span><span>xgb_pred</span><span>,</span>
- <span>'lgbm'</span><span>:</span><span>lgbm_pred</span><span>,</span>
- <span>'stacking'</span><span>:</span><span>stacking_pred</span>
-<span>}</span>
-
-<span>final_prediction</span><span>=</span>\
-<span>final_outputs</span><span>[</span><span>'DecisionTree'</span><span>]</span><span>*</span><span>0.1</span>\
-<span>+</span><span>final_outputs</span><span>[</span><span>'randomforest'</span><span>]</span><span>*</span><span>0.2</span>\
-<span>+</span><span>final_outputs</span><span>[</span><span>'xgb'</span><span>]</span><span>*</span><span>0.25</span>\
-<span>+</span><span>final_outputs</span><span>[</span><span>'lgbm'</span><span>]</span><span>*</span><span>0.15</span>\
-<span>+</span><span>final_outputs</span><span>[</span><span>'stacking'</span><span>]</span><span>*</span><span>0.3</span>\
-
-<span>final_prediction</span> <span>=</span> <span>np</span><span>.</span><span>where</span><span>(</span><span>final_prediction</span><span>&gt;</span><span>0.5</span><span>,</span><span>1</span><span>,</span><span>0</span><span>)</span> 
-<span>## 가중치값이 0.5 초과하면 1, 그렇지 않으면 0
-</span>
-<span>accuracy_eval</span><span>(</span><span>'Weighted Blending'</span><span>,</span> <span>final_prediction</span><span>,</span> <span>y_test</span><span>)</span>
-```
-
-___
-
-## \[4.성능평가\]
-
-## 목표[](https://lovespacewhite.github.io/#%EB%AA%A9%ED%91%9C)
-
-Loss(오차율) 낮추고, Accuracy(정확도) 높이기  
-Error -> Epochs이 많아질수록 줄어들어야 함  
-Epoch 많아질수록, 오히려 TestSet Error 올라가는경우 생길때, 직전Stop  
-학습시 조기종료(early stop) 적용되지 않았을 때는 개선여지가 있기에,  
-배치사이즈나 에포크를 수정하여 개선할 수 있음
-
-## 좋은 모델[](https://lovespacewhite.github.io/#%EC%A2%8B%EC%9D%80-%EB%AA%A8%EB%8D%B8)
-
-과적합(overfitting) : 선이 너무 복잡  
-트레인 어큐러시만 높아지고, 벨리드 어큐러시는 높아지지 않을때 (트레인어큐러시에 맞춰짐)  
-과소적합(underfitting) : 선이 너무 단순  
-트레인/벨리드 어큐러시가 교차되지 않고 아직 수평선을 향해 갈때  
-좋은모델 : 어느정도 따라가는 적당선  
-트레인/벨리드 어큐러시가 수평선을 이어 서로 교차될때
-
-## 성능지표[](https://lovespacewhite.github.io/#%EC%84%B1%EB%8A%A5%EC%A7%80%ED%91%9C)
-
-오차행렬(Confusion Matrix) (분류모델에 주로 쓰임)
-
--   TP (True Positive)
--   TN (True Negative)
--   FP (False Positive)
--   FN (False Negative)
-
-오차행렬 지표
-
--   정확도(Accuracy) = 맞춤(TP&TN) / 전체(total)
--   정밀도(Precision) = TP / TP + FP (예측한 클래스 중, 실제로 해당 클래스인 데이터 비율)
--   재현율(Recall) = TP = TP + FN (실제 클래스 중, 예측한 클래스와 일치한 데이터 비율)
--   F1점수(F1-score) = 2 \* \[1/{(1/Precision)+(1/Recall)}\] (Precision과 Recall의 조화평균)
--   Support = 각 클래스 실제 데이터수
-
-오차행렬 성능지표 쉽게확인
-
-```
-<span>from</span> <span>sklearn.metrics</span> <span>import</span> <span>classification_report</span>
-<span>print</span><span>(</span><span>classification_report</span><span>(</span><span>y_test</span><span>,</span> <span>y_pred</span><span>))</span>
-```
-
-오차행렬 성능지표 확인
-
-```
-<span>import</span> <span>seaborn</span> <span>as</span> <span>sns</span>
-<span>from</span> <span>sklearn.metrics</span> <span>import</span> <span>confusion_matrix</span>
-<span>from</span> <span>sklearn.metrics</span> <span>import</span> <span>precision_score</span><span>,</span> <span>recall_score</span>
-
-<span>y_pred</span> <span>=</span> <span>model</span><span>.</span><span>predict</span><span>(</span><span>X_test</span><span>)</span>
-<span>cm</span> <span>=</span> <span>confusion_matrix</span><span>(</span><span>y_true</span><span>=</span><span>y_test</span><span>,</span> <span>y_pred</span><span>=</span><span>y_pred</span><span>)</span>
-```
-
-```
-<span>sns</span><span>.</span><span>heatmap</span><span>(</span><span>cm</span><span>,</span> <span>annot</span><span>=</span><span>True</span><span>)</span>
-<span>plt</span><span>.</span><span>show</span><span>()</span>
-
-<span>print</span><span>(</span><span>classification_report</span><span>(</span><span>y_test</span><span>,</span> <span>y_pred</span><span>))</span>
-
-<span>precision_score</span><span>(</span><span>y_true</span><span>,</span> <span>y_pred</span><span>)</span>
-<span>recall_score</span><span>(</span><span>y_true</span><span>,</span> <span>y_pred</span><span>)</span>
-```
-
-## 손실함수[](https://lovespacewhite.github.io/#%EC%86%90%EC%8B%A4%ED%95%A8%EC%88%98)
-
-회귀모델 손실함수(Loss Function)
-
--   MSE(Mean Squared Error) : 실제에서 예측값 차이를 제곱, 합하여 평균 (예측)
--   MAE(Mean Absolute Error) : 실제값 빼기 예측값 절댓값의 평균
--   CEE(Cross Entropy Error) : 예측결과가 빗나갈수록 더큰패널티 부여 (분류)
-
-분류모델 손실함수
-
--   Binary Cross Entropy (이진분류)
--   Multi Class Classfication (다중분류)
-
-## 주요 지표[](https://lovespacewhite.github.io/#%EC%A3%BC%EC%9A%94-%EC%A7%80%ED%91%9C)
-
--   loss = MSE (학습시 사용한 loss function종류에 의해 결정) (작을수록 좋음)
--   error = 실제값 빼기 예측값의 평균 (작을수록 좋음)
--   MSE = 실제값 빼기 예측값 제곱의 평균 (작을수록 좋음)
--   MAE = 실제값 빼기 예측값 절댓값의 평균 (작을수록 좋음)
--   R2(결정계수) = 독립변수가 종속변수를 얼마나 잘설명하는지 (클수록 좋음)
-
-## RMSE값 확인하기[](https://lovespacewhite.github.io/#rmse%EA%B0%92-%ED%99%95%EC%9D%B8%ED%95%98%EA%B8%B0)
-
-___
-
-## \[5.적용\]
-
-___
