@@ -79,6 +79,7 @@
 > ## [모델] VGG
 
 ## [1-1.빅데이터 수집]
+>
 > ## “00000.csv” 데이터 로드
 > (cp949는 MS office에서 인코딩할때 쓰임)
 > ```python
@@ -235,6 +236,7 @@
 >> ```
 
 ## [1-4.빅데이터 전처리]
+> 
 > 최고빈번값(Most frequent), 중앙값(Median), 평균값(Mean), 상수값(Constant)
 > ## 입력데이터에서 제외
 > ※ axis=0(행), axis=1(열)
@@ -431,7 +433,7 @@
 >> 순서(인덱스)는 의미의 유무에 따라 제외
 
 ## [1-5.세트 구성]
-
+> 
 > ## 트레이닝/테스트 세트 나누기
 > ```python
 > from sklearn.model_selection import train_test_split 
@@ -570,8 +572,7 @@
 > ```
 > 
 > ## Random Forest
-> 선형회귀모델 중 하나  
-> 의사결정나무 2개에서, 여러개를 더해 예측율을 높임
+> 선형회귀모델 중 하나로, 의사결정나무(2개)에서 여러개를 더해 예측율을 높임
 >
 > 가. 랜덤포레스트 불러오기
 > ```python
@@ -634,30 +635,30 @@
 > model.add(Dense(3, activation="softmax"))
 > ```
 > 다.컴파일
-> 이진분류 모델 (binary\_crossentropy)
-> ```python
-> model.compile(optimizer="adam",
->               loss="binary_crossentropy",
->               metrics=["accuracy"])
-> ```
-> 다중분류 모델 (categorical\_crossentropy) (원핫인코딩 된 경우)
-> ```python
-> model.compile(optimizer="adam",
->               loss="categorical_crossentropy",
->               metrics=["accuracy"])
-> ```
-> 다중분류 모델 (sparse\_categorical\_crossentropy) (원핫인코딩 안된 경우)
-> ```python
-> model.compile(optimizer="adam",
->               loss="sparse_categorical_crossentropy",
->               metrics=["accuracy"])
-> ```
-> 예측 모델
-> ```python
-> model.compile(optimizer="adam",
->               loss="mse")
-> ```
-> 마. 딥러닝 테스트 핏
+>> 이진분류 모델 (binary\_crossentropy)
+>> ```python
+>> model.compile(optimizer="adam",
+>>               loss="binary_crossentropy",
+>>               metrics=["accuracy"])
+>> ```
+>> 다중분류 모델 (categorical\_crossentropy) (원핫인코딩 된 경우)
+>> ```python
+>> model.compile(optimizer="adam",
+>>               loss="categorical_crossentropy",
+>>               metrics=["accuracy"])
+>> ```
+>> 다중분류 모델 (sparse\_categorical\_crossentropy) (원핫인코딩 안된 경우)
+>> ```python
+>> model.compile(optimizer="adam",
+>>               loss="sparse_categorical_crossentropy",
+>>               metrics=["accuracy"])
+>> ```
+>> 예측 모델
+>> ```python
+>> model.compile(optimizer="adam",
+>>               loss="mse")
+>> ```
+> 라. 딥러닝 테스트 핏
 > ```python
 > model.fit(x=X_train, y=y_train,
 >           epochs=50, batch_size=20,
@@ -679,7 +680,7 @@
 >> check_point = ModelCheckpoint("best_model.h5", verbose=1,
 >>               monitor="val_loss", mode="min", save_best_only=True)
 >> ```
-> 바. 학습과정 로그(loss,accuracy) history에 선언하여 남기기
+> 마. 학습과정 로그(loss,accuracy) history에 선언하여 남기기
 > ```python
 > history = model.fit(x=X_train, y=y_train,
 >           epochs=50, batch_size=20,
@@ -687,7 +688,7 @@
 >           verbose=1,
 >           callbacks=[early_stop, check_point])
 > ```
-> 사. 학습로그 시각화 확인
+> 바. 학습로그 시각화 확인
 > ```python
 > import matplotlib.pyplot as plt
 > plt.plot(history.history["accuracy"])
@@ -698,7 +699,7 @@
 > plt.legend(["train_acc", "val_acc"])
 > plt.show( )
 > ```
-> 아. 딥러닝 성능평가
+> 사. 딥러닝 성능평가
 > ```python
 > losses = pd.DataFrame(model.history.history)
 > losses[["loss", "val_loss"]].plot( )
@@ -708,7 +709,7 @@
 > print(classification_report(y_test, predictions))
 > print(confustion_matrix(y_test,predictions))
 > ```
-
+>
 > ## RNN
 > RNN 모델링
 > ```python
