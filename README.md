@@ -1013,6 +1013,7 @@
 >> -   MSE(Mean Squared Error) : 실제에서 예측값 차이를 제곱, 합하여 평균 (예측) (작을수록 좋음)
 >> -   MAE(Mean Absolute Error) : 실제값 빼기 예측값 절댓값의 평균 (작을수록 좋음)
 >> -   CEE(Cross Entropy Error) : 예측결과가 빗나갈수록 더큰패널티 부여 (분류)
+>> 
 >> 분류모델 손실함수
 >> -   Binary Cross Entropy (이진분류)
 >> -   Multi Class Classfication (다중분류)
