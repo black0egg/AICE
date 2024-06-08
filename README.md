@@ -623,87 +623,62 @@ ___
 > ```python
 > np.mean((y_pred - y_test) ** 2) ** 0.5  
 > ```
-
-___
-
-## 딥러닝 모델[](https://lovespacewhite.github.io/#%EB%94%A5%EB%9F%AC%EB%8B%9D-%EB%AA%A8%EB%8D%B8)
-
-가. 케라스 초기화
-
-```
-<span>keras</span><span>.</span><span>backend</span><span>.</span><span>clear_session</span><span>(</span> <span>)</span>
-```
-
-나. 모델 작성 30개의 features, 보통 연산효율을 위해 relu활용  
-Batchnormalization 활용  
-과적합 방지  
-input layer(30features), 2 hidden layer, output layer(이진분류)
-
-```
-<span>model</span> <span>=</span> <span>Sequential</span><span>(</span> <span>)</span>
-<span>model</span><span>.</span><span>add</span><span>(</span><span>Dense</span><span>(</span><span>64</span><span>,</span> <span>activation</span><span>=</span><span>"relu"</span><span>,</span> <span>input_shape</span><span>=</span><span>(</span><span>30</span><span>,)))</span>
-<span>model</span><span>.</span><span>add</span><span>(</span><span>BatchNormalization</span><span>(</span> <span>))</span>
-<span>model</span><span>.</span><span>add</span><span>(</span><span>dropout</span><span>(</span><span>0.5</span><span>))</span>
-<span>model</span><span>.</span><span>add</span><span>(</span><span>Dense</span><span>(</span><span>64</span><span>,</span> <span>activation</span><span>=</span><span>"relu"</span><span>))</span>
-<span>model</span><span>.</span><span>add</span><span>(</span><span>BatchNormalization</span><span>(</span> <span>))</span>
-<span>model</span><span>.</span><span>add</span><span>(</span><span>dropout</span><span>(</span><span>0.5</span><span>))</span>
-<span>model</span><span>.</span><span>add</span><span>(</span><span>Dense</span><span>(</span><span>32</span><span>,</span> <span>activation</span><span>=</span><span>"relu"</span><span>))</span>
-<span>model</span><span>.</span><span>add</span><span>(</span><span>dropout</span><span>(</span><span>0.5</span><span>))</span>
-<span>model</span><span>.</span><span>add</span><span>(</span><span>Dense</span><span>(</span><span>1</span><span>,</span> <span>activation</span><span>=</span><span>"sigmoid"</span><span>))</span>
-<span>#### 또는 output layer ()
-</span>
-```
-
-(※ 아웃풋1(이진분류) = sigmoid, 아웃풋3(다중분류), softmax)
-
-```
-<span>model</span><span>.</span><span>add</span><span>(</span><span>Dense</span><span>(</span><span>3</span><span>,</span> <span>activation</span><span>=</span><span>"softmax"</span><span>))</span>
-```
-
-다.컴파일
-
-이진분류 모델 (binary\_crossentropy)
-
-```
-<span>model</span><span>.</span><span>compile</span><span>(</span><span>optimizer</span><span>=</span><span>"adam"</span><span>,</span>
-                       <span>loss</span><span>=</span><span>"binary_crossentropy"</span><span>,</span>
-                       <span>metrics</span><span>=</span><span>[</span><span>"accuracy"</span><span>])</span>
-```
-
-다중분류 모델 (categorical\_crossentropy) (원핫인코딩 된 경우)
-
-```
-<span>model</span><span>.</span><span>compile</span><span>(</span><span>optimizer</span><span>=</span><span>"adam"</span><span>,</span>
-                       <span>loss</span><span>=</span><span>"categorical_crossentropy"</span><span>,</span>
-                       <span>metrics</span><span>=</span><span>[</span><span>"accuracy"</span><span>])</span>
-```
-
-다중분류 모델 (sparse\_categorical\_crossentropy) (원핫인코딩 안된 경우)
-
-```
-<span>model</span><span>.</span><span>compile</span><span>(</span><span>optimizer</span><span>=</span><span>"adam"</span><span>,</span>
-                       <span>loss</span><span>=</span><span>"sparse_categorical_crossentropy"</span><span>,</span>
-                       <span>metrics</span><span>=</span><span>[</span><span>"accuracy"</span><span>])</span>
-```
-
-예측 모델
-
-```
-<span>model</span><span>.</span><span>compile</span><span>(</span><span>optimizer</span><span>=</span><span>"adam"</span><span>,</span>
-                       <span>loss</span><span>=</span><span>"mse"</span><span>)</span>
-```
-
-마. 딥러닝 테스트 핏
-
-```
-<span>model</span><span>.</span><span>fit</span><span>(</span><span>x</span><span>=</span><span>X_train</span><span>,</span> <span>y</span><span>=</span><span>y_train</span><span>,</span>
-        <span>epochs</span><span>=</span><span>50</span><span>,</span> <span>batch_size</span><span>=</span><span>20</span><span>,</span>
-        <span>validation_data</span><span>=</span><span>(</span><span>X_test</span><span>,</span> <span>y_test</span><span>),</span>
-        <span>verbose</span><span>=</span><span>1</span><span>,</span>
-        <span>callbacks</span><span>=</span><span>[</span><span>early_stop</span><span>,</span> <span>check_point</span><span>])</span>
-```
-
-조기종료 옵션 (케라스 조기종료&체크포인트 불러오기)
+>
+> ## 딥러닝 모델
+> 가. 케라스 초기화
+> ```python
+> keras.backend.clear_session( )
+> ```
+> 나. 모델 작성 30개의 features, 보통 연산효율을 위해 relu활용  
+>    Batchnormalization 활용  
+>    과적합 방지  
+>    input layer(30features), 2 hidden layer, output layer(이진분류)
+> ```python
+> model = Sequential( )
+> model.add(Dense(64, activation="relu", input_shape=(30,)))
+> model.add(BatchNormalization( ))
+> model.add(dropout(0.5))
+> model.add(Dense(64, activation="relu"))
+> model.add(BatchNormalization( ))
+> model.add(dropout(0.5))
+> model.add(Dense(32, activation="relu"))
+> model.add(dropout(0.5))
+> model.add(Dense(1, activation="sigmoid"))
+> # 또는 output layer ()
+> ```
+> (※ 아웃풋1(이진분류) = sigmoid, 아웃풋3(다중분류), softmax)
+> ```python
+> model.add(Dense(3, activation="softmax"))
+> ```
+> 다.컴파일
+> 이진분류 모델 (binary\_crossentropy)
+> ```python
+> model.compile(optimizer="adam",
+>               loss="binary_crossentropy",
+>               metrics=["accuracy"])
+> ```
+> 다중분류 모델 (categorical\_crossentropy) (원핫인코딩 된 경우)
+> ```python
+> model.compile(optimizer="adam",
+>               loss="categorical_crossentropy",
+>               metrics=["accuracy"])
+> ```
+> 다중분류 모델 (sparse\_categorical\_crossentropy) (원핫인코딩 안된 경우)
+> ```python
+> model.compile(optimizer="adam",
+>               loss="sparse_categorical_crossentropy",
+>               metrics=["accuracy"])
+> ```
+> 예측 모델
+> ```python
+> model.compile(optimizer="adam",
+                loss="mse")
+> ```
+> 마. 딥러닝 테스트 핏
+> ```python
+> 
+> ```
+> 조기종료 옵션 (케라스 조기종료&체크포인트 불러오기)
 
 ```
 <span>from</span> <span>tensorflow.keras.callbacks</span> <span>import</span> <span>EarlyStopping</span><span>,</span> <span>ModelCheckpoint</span>
