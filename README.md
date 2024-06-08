@@ -44,45 +44,45 @@ ___
 > from tensorflow.keras.models import Sequential
 > from tensorflow.keras.layers import Dense, Activation, Dropout
 > ```
-> ## \[모델\] sklearn에서, 선형회귀모델(LinearRegression) 불러오기
+> ## [모델] sklearn에서, 선형회귀모델(LinearRegression) 불러오기
 > ```python
 > from sklearn.family import model
 > from sklearn.linear_model import LinearRegression
 > ```
-> ## \[모델\] sklearn에서, 분류회귀모델(Logistic Regression) 불러오기
+> ## [모델] sklearn에서, 분류회귀모델(Logistic Regression) 불러오기
 > (설명: 분류모델 주로 활용)
 > ```python
 > from sklearn.linear_model import LogisticRegression
 > from sklearn.model_selection import train_test_split
 > from sklearn.metrics import classification_report 
 > ```
-> ## \[모델\] sklearn에서, 랜덤포레스트 불러오기
+> ## [모델] sklearn에서, 랜덤포레스트 불러오기
 > (설명: 의사결정나무 2개에서, 여러개를 더해 예측율을 높임)
 > ```python
 > from sklearn.tree import DecisionTreeClassifier
 > ```
-> ## \[모델\] sklearn에서, 의사결정나무 불러오기
+> ## [모델] sklearn에서, 의사결정나무 불러오기
 > (설명: 분류/회귀가능한 다재다능, 다소복잡한 데이터셋도 학습가능)
 > ```python
 > from sklearn.tree import DecisionTreeClassifier
 > ```
-> ## \[모델\] AdaBoost
-> ## \[모델\] GBM (Gradient Boost)
-> ## \[모델\] XGBoost
+> ## [모델] AdaBoost
+> ## [모델] GBM (Gradient Boost)
+> ## [모델] XGBoost
 > (설명: GBM의 느림, 과적합 방지를 위해 Regulation만 추가, 리소스를 적게 먹으며 조기종료 제공)
-> ## \[모델\] SVM (Support Vector Machine)
-> ## \[모델\] Auto Encoder
-> ## \[모델\] CNN
-> ## \[모델\] RNN
-> ## \[모델\] LSTM
-> ## \[모델\] Transformer
-> ## \[모델\] SES (Simple Exponential Smoothing)
-> ## \[모델\] YOLO
-> ## \[모델\] VGG
+> ## [모델] SVM (Support Vector Machine)
+> ## [모델] Auto Encoder
+> ## [모델] CNN
+> ## [모델] RNN
+> ## [모델] LSTM
+> ## [모델] Transformer
+> ## [모델] SES (Simple Exponential Smoothing)
+> ## [모델] YOLO
+> ## [모델] VGG
 
 ___
 
-## \[1-1.빅데이터 수집\]
+## [1-1.빅데이터 수집]
 > ## “00000.csv” 데이터 로드
 > (cp949는 MS office에서 인코딩할때 쓰임)
 > ```python
@@ -109,7 +109,7 @@ ___
 
 ___
 
-## \[1-2.빅데이터 분석\]
+## [1-2.빅데이터 분석]
 Column Names = 열  
 index = 행  
 value = 값(행들의 데이터)
@@ -171,9 +171,9 @@ value = 값(행들의 데이터)
 
 ___
 
-## \[1-3.빅데이터 시각화\]
+## [1-3.빅데이터 시각화]
 
-> ## \[Matplotlib\] 시각화 (스캐터,바챠트)
+> ## [Matplotlib] 시각화 (스캐터,바챠트)
 > 영역 지정 : plt.figure()  
 > 차트/값 지정 : plt.plot()  
 > 시각화 출력 : plt.show()  
@@ -220,7 +220,7 @@ ___
 >> ```python
 >> plt.plot(data)
 >> ```
-> ## \[Seaborn\] 시각화 (히트맵, 통계)
+> ## [Seaborn] 시각화 (히트맵, 통계)
 >> ### 카운트 플롯
 >> ```python
 >> sns.countplot(x="A", data=df)
@@ -237,14 +237,14 @@ ___
 >> ```python
 >> sns.heatmap(df.corr( ), annot=True)
 >> ```
->> ```
+>> ```python
 >> corr = jiro_df.corr()  ## corr함수로 상관계수 구하기
 >> sns.heatmap(corr,annot=True)  ## annotation 포함
 >> ```
 
 ___
 
-## \[1-4.빅데이터 전처리\]
+## [1-4.빅데이터 전처리]
 최고빈번값(Most frequent), 중앙값(Median), 평균값(Mean), 상수값(Constant)
 
 > ## 입력데이터에서 제외
@@ -423,268 +423,206 @@ ___
 >> ```
 > ## 기타 주요작업
 >> ## 토탈차지 공백을 0으로 변경후, 소수점 숫자형(float타입)으로 변경
+>> ```python
+>> df["TotalCharge"].replace([" "], ["0"], inplace=True)
+>> df["TotalCharge"] = df["TotalCharge"].astype(float)
 >> ```
-<span>df</span><span>[</span><span>"TotalCharge"</span><span>].</span><span>replace</span><span>([</span><span>" "</span><span>],</span> <span>[</span><span>"0"</span><span>],</span> <span>inplace</span><span>=</span><span>True</span><span>)</span>
-<span>df</span><span>[</span><span>"TotalCharge"</span><span>]</span> <span>=</span> <span>df</span><span>[</span><span>"TotalCharge"</span><span>].</span><span>astype</span><span>(</span><span>float</span><span>)</span>
-```
-
-## 해지여부 Yes/No를 1,0의 정수형으로 변경[](https://lovespacewhite.github.io/#%ED%95%B4%EC%A7%80%EC%97%AC%EB%B6%80-yesno%EB%A5%BC-10%EC%9D%98-%EC%A0%95%EC%88%98%ED%98%95%EC%9C%BC%EB%A1%9C-%EB%B3%80%EA%B2%BD)
-
-```
-<span>df</span><span>[</span><span>"Churn"</span><span>].</span><span>replace</span><span>([</span><span>"Yes"</span><span>,</span> <span>"No"</span><span>],</span> <span>[</span><span>1</span><span>,</span> <span>0</span><span>],</span> <span>inplace</span><span>=</span><span>True</span><span>)</span>
-```
-
-## 새로운 뉴피처 추가[](https://lovespacewhite.github.io/#%EC%83%88%EB%A1%9C%EC%9A%B4-%EB%89%B4%ED%94%BC%EC%B2%98-%EC%B6%94%EA%B0%80)
-
-```
-<span>df</span><span>[</span><span>"new_feature"</span><span>]</span> <span>=</span> <span>df</span><span>[</span><span>"f_1"</span><span>]</span><span>/</span><span>df</span><span>[</span><span>"f_2"</span><span>]</span>
-```
-
-## distinct 피처 제외 (값종류수)[](https://lovespacewhite.github.io/#distinct-%ED%94%BC%EC%B2%98-%EC%A0%9C%EC%99%B8-%EA%B0%92%EC%A2%85%EB%A5%98%EC%88%98)
-
-distinct=1인 경우, 모든컬럼이 동일하므로 피처에서 제외
-
-## 편향값[](https://lovespacewhite.github.io/#%ED%8E%B8%ED%96%A5%EA%B0%92)
-
-## 순서(인덱스)는 의미의 유무에 따라 제외[](https://lovespacewhite.github.io/#%EC%88%9C%EC%84%9C%EC%9D%B8%EB%8D%B1%EC%8A%A4%EB%8A%94-%EC%9D%98%EB%AF%B8%EC%9D%98-%EC%9C%A0%EB%AC%B4%EC%97%90-%EB%94%B0%EB%9D%BC-%EC%A0%9C%EC%99%B8)
+>> ## 해지여부 Yes/No를 1,0의 정수형으로 변경
+>> ```python
+>> df["Churn"].replace(["Yes", "No"], [1, 0], inplace=True)
+>> ```
+>> ## 새로운 뉴피처 추가
+>> ```python
+>> df["new_feature"] = df["f_1"]/df["f_2"]
+>> ```
+>> ## distinct 피처 제외 (값종류수)
+>> distinct=1인 경우, 모든컬럼이 동일하므로 피처에서 제외
+>> ## 편향값
+>> 순서(인덱스)는 의미의 유무에 따라 제외
 
 ___
 
-## \[1-5.세트 구성\]
+## [1-5.세트 구성]
 
-## 트레이닝/테스트 세트 나누기[](https://lovespacewhite.github.io/#%ED%8A%B8%EB%A0%88%EC%9D%B4%EB%8B%9D%ED%85%8C%EC%8A%A4%ED%8A%B8-%EC%84%B8%ED%8A%B8-%EB%82%98%EB%88%84%EA%B8%B0)
+> ## 트레이닝/테스트 세트 나누기
+> ```python
+> from sklearn.model_selection import train_test_split 
+> ```
 
-```
-<span>from</span> <span>sklearn.model_selection</span> <span>import</span> <span>train_test_split</span> 
-```
+> ## X,y데이터 설정하기
+> ‘Answer’ 칼럼이 y값/타겟/레이블
+> ```python
+> X = df.drop('Answer',axis=1).values
+> y = df['Answer'].values
+> ```
 
-## X,y데이터 설정하기[](https://lovespacewhite.github.io/#xy%EB%8D%B0%EC%9D%B4%ED%84%B0-%EC%84%A4%EC%A0%95%ED%95%98%EA%B8%B0)
+> ## X,y데이터 불러오기
+> reshape(-1,1) 2차원배열 디자인포맷(reshape) 확장(-1은 알아서 넣으라는 뜻)
+> ```python
+> X = np.array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]).resharpe(-1,1)
+> y = np.array([13, 25, 34, 47, 59, 62, 79, 88, 90, 100])
+> ```
 
-‘Answer’ 칼럼이 y값/타겟/레이블
-
-```
-<span>X</span> <span>=</span> <span>df</span><span>.</span><span>drop</span><span>(</span><span>'Answer'</span><span>,</span><span>axis</span><span>=</span><span>1</span><span>).</span><span>values</span>
-<span>y</span> <span>=</span> <span>df</span><span>[</span><span>'Answer'</span><span>].</span><span>values</span>
-```
-
-## X,y데이터 불러오기[](https://lovespacewhite.github.io/#xy%EB%8D%B0%EC%9D%B4%ED%84%B0-%EB%B6%88%EB%9F%AC%EC%98%A4%EA%B8%B0)
-
-reshape(-1,1) 2차원배열 디자인포맷(reshape) 확장(-1은 알아서 넣으라는 뜻)
-
-```
-<span>X</span> <span>=</span> <span>np</span><span>.</span><span>array</span><span>([</span><span>1</span><span>,</span> <span>2</span><span>,</span> <span>3</span><span>,</span> <span>4</span><span>,</span> <span>5</span><span>,</span> <span>6</span><span>,</span> <span>7</span><span>,</span> <span>8</span><span>,</span> <span>9</span><span>,</span> <span>10</span><span>]).</span><span>resharpe</span><span>(</span><span>-</span><span>1</span><span>,</span><span>1</span><span>)</span>
-<span>y</span> <span>=</span> <span>np</span><span>.</span><span>array</span><span>([</span><span>13</span><span>,</span> <span>25</span><span>,</span> <span>34</span><span>,</span> <span>47</span><span>,</span> <span>59</span><span>,</span> <span>62</span><span>,</span> <span>79</span><span>,</span> <span>88</span><span>,</span> <span>90</span><span>,</span> <span>100</span><span>])</span>
-```
-
-## 테스트세트를 30%로 분류하고, 50번 랜덤하게 섞기[](https://lovespacewhite.github.io/#%ED%85%8C%EC%8A%A4%ED%8A%B8%EC%84%B8%ED%8A%B8%EB%A5%BC-30%EB%A1%9C-%EB%B6%84%EB%A5%98%ED%95%98%EA%B3%A0-50%EB%B2%88-%EB%9E%9C%EB%8D%A4%ED%95%98%EA%B2%8C-%EC%84%9E%EA%B8%B0)
-
-(y값이 골고루 분할되도록 stratify하게 분할)
-
-```
-<span>X_train</span><span>,</span> <span>X_test</span><span>,</span> <span>y_test</span> <span>=</span>
-  <span>train_test_split</span>
-  <span>(</span><span>X</span><span>,</span> <span>y</span><span>,</span> <span>test_size</span><span>=</span><span>0.30</span><span>,</span> <span>random_state</span><span>=</span><span>50</span><span>,</span> <span>stratify</span> <span>=</span> <span>y</span><span>)</span>
-```
-
-```
-<span>(</span><span>데이터</span> <span>정규화</span><span>/</span><span>스케일링</span><span>)</span>  
-<span>from</span> <span>sklearn.preprocessing</span> <span>import</span> <span>MinMaxScaler</span>
-<span>help</span><span>(</span><span>MinMaxScaler</span><span>)</span>
-<span>scaler</span> <span>=</span> <span>MinMaxScaler</span><span>(</span> <span>)</span>
-<span>scaler</span><span>.</span><span>fit</span><span>(</span><span>X_train</span><span>)</span>
-<span>X_train</span> <span>=</span> <span>scaler</span><span>.</span><span>transform</span><span>(</span><span>X_train</span><span>)</span>
-<span>X_test</span> <span>=</span> <span>scaler</span><span>.</span><span>transform</span><span>(</span><span>X_test</span><span>)</span>
-```
+> ## 테스트세트를 30%로 분류하고, 50번 랜덤하게 섞기
+> (y값이 골고루 분할되도록 stratify하게 분할)
+> ```python
+> X_train, X_test, y_test =
+> train_test_split
+> (X, y, test_size=0.30, random_state=50, stratify = y)
+> ```
+> (데이터 정규화/스케일링)
+> ```python
+> from sklearn.preprocessing import MinMaxScaler
+> help(MinMaxScaler)
+> scaler = MinMaxScaler( )
+> scaler.fit(X_train)
+> X_train = scaler.transform(X_train)
+> X_test = scaler.transform(X_test)
+> ```
 
 ___
 
-## \[2.학습모델\] ~ \[3.최적화\]
-
-## LinearRegression 모델 (선형회귀)[](https://lovespacewhite.github.io/#linearregression-%EB%AA%A8%EB%8D%B8-%EC%84%A0%ED%98%95%ED%9A%8C%EA%B7%80)
-
-가. 모델 선정
-
-```
-<span>model</span> <span>=</span> <span>LinearRegression</span><span>(</span> <span>)</span>
-```
-
-나. 테스트 핏
-
-```
-<span>model</span><span>.</span><span>fit</span><span>(</span><span>X_train</span><span>,</span> <span>y_train</span><span>)</span>  
-```
-
-다. 예측
-
-```
-<span>linearR_pred</span> <span>=</span> <span>model</span><span>.</span><span>predict</span><span>(</span><span>X_test</span><span>)</span>
-```
-
-라. 확인
-
-회귀예측 주요 성과지표
-
-```
-<span>import</span> <span>numpy</span> <span>as</span> <span>np</span>
-<span>np</span><span>.</span><span>mean</span><span>((</span><span>y_pred</span> <span>-</span> <span>y_test</span><span>)</span> <span>**</span> <span>2</span><span>)</span> <span>**</span> <span>0.5</span>
-```
-
-___
-
-## Logistic Regression 모델 (분류회귀)[](https://lovespacewhite.github.io/#logistic-regression-%EB%AA%A8%EB%8D%B8-%EB%B6%84%EB%A5%98%ED%9A%8C%EA%B7%80)
-
-가. 라이브러리 불러오기
-
-```
-<span>from</span> <span>sklearn.linear_model</span> <span>import</span> <span>LogisticRegression</span>
-<span>from</span> <span>sklearn.model_selection</span> <span>import</span> <span>train_test_split</span>
-<span>from</span> <span>sklearn.metrics</span> <span>import</span> <span>classification_report</span>
-```
-
-나. 데이터 불러오기
-
-```
-<span>train</span> <span>=</span> <span>pd</span><span>.</span><span>read_csv</span><span>(</span><span>custom_framework</span><span>.</span><span>config</span><span>.</span><span>data_dir</span> <span>+</span> <span>"/train.csv"</span><span>)</span>
-```
-
-다. 세트 나누기
-
-```
-<span>X_train</span><span>,</span> <span>X_test</span><span>,</span> <span>y_train</span><span>,</span> <span>y_test</span><span>,</span> <span>=</span> <span>train_test_split</span><span>(</span>
-                 <span>train</span><span>.</span><span>drop</span><span>(</span><span>"OOO"</span><span>,</span> <span>axis</span><span>=</span><span>1</span><span>),</span>
-                 <span>train</span><span>[</span><span>"OOO"</span><span>],</span> <span>test_size</span><span>=</span><span>0.30</span><span>,</span> <span>random_state</span><span>=</span><span>42</span><span>)</span>
-```
-
-라. 모델링
-
-```
-<span>model</span> <span>=</span> <span>LogisticRegression</span><span>(</span> <span>)</span>   
-<span>model</span><span>.</span><span>fit</span><span>(</span><span>x_train</span><span>,</span> <span>y_train</span><span>)</span>
-<span>LogisticR_pred</span> <span>=</span> <span>model</span><span>.</span><span>predict</span><span>(</span><span>x_test</span><span>)</span>
-<span>print</span><span>(</span><span>classification_report</span><span>(</span><span>y_test</span><span>,</span> <span>LogisticR_pred</span><span>)</span>
-```
-
-___
-
-## 의사결정나무(Decision Tree) (선형회귀)[](https://lovespacewhite.github.io/#%EC%9D%98%EC%82%AC%EA%B2%B0%EC%A0%95%EB%82%98%EB%AC%B4decision-tree-%EC%84%A0%ED%98%95%ED%9A%8C%EA%B7%80)
-
-분류/회귀가능한 다재다능, 다소복잡한 데이터셋도 학습가능
-
-가. 의사결정나무 라이브러리 불러오기
-
-```
-<span>from</span> <span>sklearn.tree</span> <span>import</span> <span>DecisionTreeClassifier</span> 
-```
-
-나. 데이터셋(df) 불러오기
-
-```
-<span>model</span> <span>=</span> <span>DecisionTreeClassifier</span><span>(</span><span>max_depth</span><span>=</span><span>10</span><span>,</span><span>random_state</span><span>=</span><span>42</span><span>)</span>
-<span>model</span><span>.</span><span>fit</span><span>(</span><span>X_train</span><span>,</span><span>y_train</span><span>)</span>
-<span>dt_pred</span> <span>=</span> <span>model</span><span>.</span><span>predict</span><span>(</span><span>X_test</span><span>)</span>
-<span>accuracy_eval</span><span>(</span><span>'DecisionTree'</span><span>,</span><span>dt_pred</span><span>,</span><span>y_test</span><span>)</span> 
-```
-
-___
-
-## Ensemble 기법[](https://lovespacewhite.github.io/#ensemble-%EA%B8%B0%EB%B2%95)
-
-1) Bagging  
-2) Boosting : 이전학습 잘못예측한 데이터에 가중치부여해 오차보완  
-3) Stacking : 여러개 모델이 예측한 결과데이터 기반, final\_estimator모델로 종합 예측수행 4) Weighted Blending : 각모델 예측값에 대해 weight 곱하여 최종 아웃풋계산
-
-\-
-
-## XGBoost[](https://lovespacewhite.github.io/#xgboost)
-
-(!는 리눅스 명령어)
-
-```
-<span>!</span><span>pip</span> <span>install</span> <span>xgboost</span>
-
-<span>from</span> <span>xgboost</span> <span>import</span> <span>XGBClassfier</span>
-<span>model</span> <span>=</span> <span>XGBClassifier</span><span>(</span><span>n_estimators</span><span>=</span><span>50</span><span>)</span>
-<span>model</span><span>.</span><span>fit</span><span>(</span><span>X_train</span><span>,</span><span>y_train</span><span>)</span>
-<span>xgb_pred</span> <span>=</span> <span>model</span><span>.</span><span>predict</span><span>(</span><span>X_test</span><span>)</span>
-<span>accuracy_eval</span><span>(</span><span>'XGBoost'</span><span>,</span><span>xgb_pred</span><span>,</span> <span>y_test</span><span>)</span>
-```
-
-## LightGBM[](https://lovespacewhite.github.io/#lightgbm)
-
-```
-<span>!</span><span>pip</span> <span>install</span> <span>lightGBM</span>
-
-<span>from</span> <span>xgboost</span> <span>import</span> <span>GBMClassfier</span>
-<span>model</span> <span>=</span> <span>LGBMClassifier</span><span>(</span><span>n_estimators</span><span>=</span><span>3</span><span>,</span> <span>random_state</span><span>=</span><span>42</span><span>)</span>
-<span>model</span><span>.</span><span>fit</span><span>(</span><span>X_train</span><span>,</span><span>y_train</span><span>)</span>
-<span>lgbm_pred</span> <span>=</span> <span>model</span><span>.</span><span>predict</span><span>(</span><span>X_test</span><span>)</span>
-<span>accuracy_eval</span><span>(</span><span>'lgbm'</span><span>,</span><span>lgbm_pred</span><span>,</span><span>y_test</span><span>)</span>
-```
-
-\-
-
-## KNN (K-Nearest Neighbor)[](https://lovespacewhite.github.io/#knn-k-nearest-neighbor)
-
-```
-<span>from</span> <span>sklearn.neighbors</span> <span>import</span> <span>KNeighborsClassifier</span>
-<span>model</span> <span>=</span> <span>KneighborsClassifier</span><span>(</span><span>n_neighbors</span><span>=</span><span>5</span><span>)</span>
-<span>model</span><span>.</span><span>fit</span><span>(</span><span>X_train</span><span>,</span><span>y_train</span><span>)</span>
-<span>knn_pred</span> <span>=</span> <span>model</span><span>.</span><span>predict</span><span>(</span><span>X_test</span><span>)</span>
-<span>accuracy_eval</span><span>(</span><span>'K-Nearest Neighbor'</span><span>,</span><span>knn_pred</span><span>,</span><span>y_test</span><span>)</span>
-```
-
-\-
-
-## Random Forest[](https://lovespacewhite.github.io/#random-forest)
-
-선형회귀모델 중 하나  
-의사결정나무 2개에서, 여러개를 더해 예측율을 높임
-
-가. 랜덤포레스트 불러오기
-
-```
-<span>from</span> <span>sklearn.ensemble</span> <span>import</span> <span>RandomForestRegressor</span>
-```
-
-나. model 랜덤포레스트 선정
-
-```
-<span>model</span> <span>=</span> <span>RandomForestRegressor</span>
-                 <span>(</span><span>n_estimators</span><span>=</span><span>50</span><span>,</span> <span>##학습시 생성할 트리갯수
-</span>                 <span>max_depth</span><span>=</span><span>20</span><span>,</span> <span>##트리의 최대 깊이
-</span>                 <span>random_state</span><span>=</span><span>42</span><span>,</span> <span>##난수 seed 설정
-</span>                 <span>...,</span>
-                 <span>criterion</span><span>=</span><span>"gini"</span><span>,</span> <span>##분할 품질을 측정하는 기능(디폴트:gini)
-</span>                 <span>min_samples_split</span><span>=</span><span>2</span><span>,</span> <span>##내부노드를 분할하는데 필요한 최소샘플수
-</span>                 <span>min_samples_leaf</span><span>=</span><span>1</span><span>,</span> <span>##리프노드에 있어야할 최소샘플수
-</span>                 <span>min_weight_fraction_leaf</span><span>=</span><span>0.0</span><span>,</span> <span>##가중치가 부여된 min_samples_leaf에서의 샘플수 비율
-</span>                 <span>max_feature</span><span>=</span><span>"auto"</span><span>)</span> <span>##각노드에서 분할에 사용할 특징의 최대수
-</span>
-```
-
-다. 테스트 핏
-
-```
-<span>model</span><span>.</span><span>fit</span><span>(</span><span>x_train</span><span>,</span> <span>y_train</span><span>)</span>
-```
-
-라. 스코어
-
-```
-<span>model</span><span>.</span><span>score</span><span>(</span><span>x_test</span><span>,</span> <span>y_test</span><span>)</span>
-```
-
-마. 예측
-
-```
-<span>rf_pred</span> <span>=</span> <span>model</span><span>.</span><span>predict</span><span>(</span><span>x_test</span><span>)</span>  
-```
-
-바. RMSE값 구하기
-
-```
-<span>np</span><span>.</span><span>mean</span><span>((</span><span>y_pred</span> <span>-</span> <span>y_test</span><span>)</span> <span>**</span> <span>2</span><span>)</span> <span>**</span> <span>0.5</span>  
-```
+## [2.학습모델] ~ [3.최적화]
+>
+> ## LinearRegression 모델 (선형회귀)
+> 가. 모델 선정
+> ```python
+> model = LinearRegression( )
+> ```
+> 나. 테스트 핏
+> ```python
+> model.fit(X_train, y_train)
+> ```
+> 다. 예측
+> ```python
+> linearR_pred = model.predict(X_test)
+> ```
+> 라. 확인
+> ```python
+> model.summary( )
+> ```
+> 회귀예측 주요 성과지표
+> ```python
+> import numpy as np
+> np.mean((y_pred - y_test) ** 2) ** 0.5
+> ```
+>
+> ## Logistic Regression 모델 (분류회귀)
+> 가. 라이브러리 불러오기
+> ```python
+> from sklearn.linear_model import LogisticRegression
+> from sklearn.model_selection import train_test_split
+> from sklearn.metrics import classification_report
+> ```
+> 나. 데이터 불러오기
+> ```python
+> train = pd.read_csv(custom_framework.config.data_dir + "/train.csv")
+> ```
+> 다. 세트 나누기
+> ```python
+> X_train, X_test, y_train, y_test, = train_test_split(
+>                  train.drop("OOO", axis=1),
+>                  train["OOO"], test_size=0.30, random_state=42)
+> ```
+> 라. 모델링
+> ```python
+> model = LogisticRegression( )
+> model.fit(x_train, y_train)
+> LogisticR_pred = model.predict(x_test)
+> print(classification_report(y_test, LogisticR_pred)
+> ```
+>
+> ## 의사결정나무(Decision Tree) (선형회귀)
+> 분류/회귀가능한 다재다능, 다소복잡한 데이터셋도 학습가능
+> 가. 의사결정나무 라이브러리 불러오기
+> ```python
+> from sklearn.tree import DecisionTreeClassifier 
+> ```
+> 나. 데이터셋(df) 불러오기
+> ```python
+> model = DecisionTreeClassifier(max_depth=10,random_state=42)
+> model.fit(X_train,y_train)
+> dt_pred = model.predict(X_test)
+> accuracy_eval('DecisionTree',dt_pred,y_test) 
+> ```
+>
+> ## Ensemble 기법
+> 1) Bagging  
+> 2) Boosting : 이전학습 잘못예측한 데이터에 가중치부여해 오차보완  
+> 3) Stacking : 여러개 모델이 예측한 결과데이터 기반, final\_estimator모델로 종합 예측수행
+> 4) Weighted Blending : 각모델 예측값에 대해 weight 곱하여 최종 아웃풋계산
+>
+> ## XGBoost
+> (!는 리눅스 명령어)
+> ```python
+> !pip install xgboost
+> 
+> from xgboost import XGBClassfier
+> model = XGBClassifier(n_estimators=50)
+> model.fit(X_train,y_train)
+> xgb_pred = model.predict(X_test)
+> accuracy_eval('XGBoost',xgb_pred, y_test)
+> ```
+>
+> ## LightGBM
+>
+> ```python
+> !pip install lightGBM
+>
+> from xgboost import GBMClassfier
+> model = LGBMClassifier(n_estimators=3, random_state=42)
+> model.fit(X_train,y_train)
+> lgbm_pred = model.predict(X_test)
+> accuracy_eval('lgbm',lgbm_pred,y_test)
+> ```
+>
+> ## KNN (K-Nearest Neighbor)
+>
+> ```python
+> from sklearn.neighbors import KNeighborsClassifier
+> model = KneighborsClassifier(n_neighbors=5)
+> model.fit(X_train,y_train)
+> knn_pred = model.predict(X_test)
+> accuracy_eval('K-Nearest Neighbor',knn_pred,y_test)
+> ```
+> 
+> ## Random Forest
+> 선형회귀모델 중 하나  
+> 의사결정나무 2개에서, 여러개를 더해 예측율을 높임
+>
+> 가. 랜덤포레스트 불러오기
+> ```python
+> from sklearn.ensemble import RandomForestRegressor
+> ```
+> 나. model 랜덤포레스트 선정
+> ```python
+> model = RandomForestRegressor
+>         (n_estimators=50,  # 학습시 생성할 트리갯수
+>         max_depth=20,  # 트리의 최대 깊이
+>         random_state=42, # 난수 seed 설정
+>         ...,
+>         criterion="gini",  # 분할 품질을 측정하는 기능(디폴트:gini)
+>         min_samples_split=2,  # 내부노드를 분할하는데 필요한 최소샘플수
+>         min_samples_leaf=1,  # 리프노드에 있어야할 최소샘플수
+>         min_weight_fraction_leaf=0.0,  # 가중치 부여된 min_samples_leaf에서의 샘플수 비율
+>         max_feature="auto")  # 각노드에서 분할에 사용할 특징의 최대수
+> ```
+> 다. 테스트 핏
+> ```python
+> model.fit(x_train, y_train)
+> ```
+> 라. 스코어
+> ```python
+> model.score(x_test, y_test)
+> ```
+> 마. 예측
+> ```python
+> rf_pred = model.predict(x_test)
+> ```
+> 바. RMSE값 구하기
+> ```python
+> np.mean((y_pred - y_test) ** 2) ** 0.5  
+> ```
 
 ___
 
