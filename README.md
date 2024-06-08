@@ -704,7 +704,7 @@
 > losses = pd.DataFrame(model.history.history)
 > losses[["loss", "val_loss"]].plot( )
 >
-> frome sklearn.metrics import classification_report, confusion_matrix
+> from sklearn.metrics import classification_report, confusion_matrix
 > predictions = model.predict_classes(X_test)
 > print(classification_report(y_test, predictions))
 > print(confustion_matrix(y_test,predictions))
