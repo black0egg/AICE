@@ -2,7 +2,7 @@
 
 ## [0-1.기본 명령어]
 >
-> ## Jupyter Notebook 명령어
+> ## Jupyter Notebook Command
 > Shift + Enter : 셀실행 후, 아래셀 선택  
 > Alt + Enter : 셀실행 후, 아래 빈쉘 생성  
 > Ctrl + Enter : 셀실행  
@@ -21,13 +21,13 @@
 > import numpy as np
 > ```
 > ## seaborn 설치 및 불러오고, sns로 정의
->(!: 리눅스 프롬프트 명령어)
+> (!: 리눅스 프롬프트 명령어)
 > ```python
 > !pip install seaborn
 > import seaborn as sns
 > ```
 > ## matplot 불러오고, plt로 정의
->(%: 주피터랩 명령어)
+> (%: 주피터랩 명령어)
 > ```python
 > %matplotlib inline
 > import matplotlib.pylot as plt
@@ -37,7 +37,7 @@
 > import tensorflow as tf
 > ```
 > ## 텐서플로 케라스모델 및 기능 불러오기
-> (시퀀스(히든레이어개수)/덴스(노드개수)/액티베이션/과적합방지기능 불러오기)
+> (시퀀셜:히든레이어개수/덴스:노드개수/액티베이션/과적합방지기능 불러오기)
 > ```python
 > from tensorflow.keras.models import Sequential
 > from tensorflow.keras.layers import Dense, Activation, Dropout
@@ -86,16 +86,16 @@ ___
 > ```python
 > df = pd.read_csv ("./00000.csv", encoding = "cp949")
 > ```
-> ## 커스텀 프레임웍에서 “00000.csv” 데이터 로드 2
+> ## 커스텀 프레임워크에서 “00000.csv” 데이터 로드 2
 > (custom\_framework.config.data\_dir 폴더에서 불러옴)
 > ```python
 > df = pd.read_csv (custom_framework.config.data_dir + "/00000.csv")
 > ```
 > ## 파일위치 환경변수
-> data 경로: custom\_framework.config.data\_dir  
-> workspace 경로: custom\_framework.config.workspace\_dir  
-> model 경로: custom\_framework.config.model\_dir  
-> log 경로: custom\_framework.config.workspace\_logs
+> data 경로 : custom\_framework.config.data\_dir  
+> workspace 경로 : custom\_framework.config.workspace\_dir  
+> model 경로 : custom\_framework.config.model\_dir  
+> log 경로 : custom\_framework.config.workspace\_logs
 > ## “00000\_final.csv” 데이터 저장 1
 > ```python
 > df.to_csv ("00000_final.csv", index = false)
@@ -104,8 +104,6 @@ ___
 > ```python
 > df.to_excel ("00000.xlsx")
 > ```
-
-___
 
 ## [1-2.빅데이터 분석]
 Column Names = 열  
