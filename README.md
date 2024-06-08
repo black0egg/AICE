@@ -1,7 +1,7 @@
-___
+# AIcode
 
 ## [0-1.기본 명령어]
-
+>
 > ## Jupyter Notebook 명령어
 > Shift + Enter : 셀실행 후, 아래셀 선택  
 > Alt + Enter : 셀실행 후, 아래 빈쉘 생성  
@@ -9,11 +9,9 @@ ___
 > A : 바깥에서 위쪽 빈쉘 생성  
 > B : 바깥에서 아래 빈쉘 생성  
 > dd : 바깥에서 해당쉘 삭제
-
-___
-
+>
 ## [0-2.도구 불러오기]
-
+>
 > ## pandas 불러오고, pd로 정의
 > ```python
 > import pandas as pd  # 판다스 불러오기
