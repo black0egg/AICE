@@ -1,6 +1,6 @@
 ___
 
-## \[0-1.기본 명령어\]
+## [0-1.기본 명령어]
 
 > ## Jupyter Notebook 명령어
 > Shift + Enter : 셀실행 후, 아래셀 선택  
@@ -12,7 +12,7 @@ ___
 
 ___
 
-## \[0-2.도구 불러오기\]
+## [0-2.도구 불러오기]
 
 > ## pandas 불러오고, pd로 정의
 > ```python
@@ -208,7 +208,7 @@ ___
 >> plt.scatter(x, y)
 >> ```
 >> ### 색깔별 산점도 시각화
->> ```
+>> ```python
 >> groups = df.groupby('variety')
 >> groups
 >> for name,group in groups :
@@ -217,24 +217,24 @@ ___
 >> plt.show()
 >> ```
 >> ### 선 그래프
->> ```
+>> ```python
 >> plt.plot(data)
 >> ```
 > ## \[Seaborn\] 시각화 (히트맵, 통계)
 >> ### 카운트 플롯
->> ```
+>> ```python
 >> sns.countplot(x="A", data=df)
 >> ```
 >> ### 박스 플롯
->> ```
+>> ```python
 >> sns.boxplot(x="A", y="B", data=df)
 >> ```
 >> ### 조인트 플롯
->> ```
+>> ```python
 >> sns.jointplot(x="A", y="B", data=df, kind="hex")
 >> ```
 >> ### 상관관계 히트맵
->> ```
+>> ```python
 >> sns.heatmap(df.corr( ), annot=True)
 >> ```
 >> ```
@@ -249,99 +249,99 @@ ___
 
 > ## 입력데이터에서 제외
 > ※ axis=0(행), axis=1(열)
-> ```
+> ```python
 > drop( )
 > ```
-> ```
+> ```python
 > df = df.drop('A', axis=1)
 > ```
 > ## 누락데이터 처리
 > ※ axis=0(행), axis=1(열)
-> ```
+> ```python
 > replace( )
 > ```
 > ## 결측치
 >> ## df데이터 / 칼럼마다 결측치 여부 확인
->> ```
+>> ```python
 >> df.isnull().sum()
 >> ```
 >> ## 결측치(Null데이터) 처리
->> ```
+>> ```python
 >> dropna( ), fillna( ) 
 >> ```
->> ```
+>> ```python
 >> df['float_A'] = df['float_A'].fillna(0)  ##float_A열 결측치 0으로 채우기
 >> ```
 >> ## 결측치 처리
 >> missing(결측값수)  
 >> “_“를 numpy의 null값(결측치)으로 변경
->> ```
+>> ```python
 >> df = df.replace("_", np.NaN)
 >> ```
 >> ## “Class” 열의 결측치값 제외시키기
->> ```
+>> ```python
 >> df.dropna(subset=["class"])
 >> ```
 >> ## Listwise 결측치 행 제외시키기
 >> (행의 1개값이라도 NaN이면 제외)
->> ```
+>> ```python
 >> df.dropna()
 >> ```
 >> ## Pairwise 결측치 행 제외시키기
 >> (행의 모든값이 NaN일때 제외)
->> ```
+>> ```python
 >> df.dropna(how="all")
 >> ```
 >> ## Most frequent(최빈)값 대체하여 채우기
 >> (범주형데이터 주로사용)  
 >> df데이터 / 모두
->> ```
+>> ```python
 >> df.fillna(df.mode().iloc[0])
 >> ```
 >> df데이터 / “A”칼럼 결측치를 해당칼럼 최빈값으로 채우기
->> ```
+>> ```python
 >> df["A"].fillna(df["A"].mode()[0])
 >> ```
 >> ## mean(평균), median(중간)값 대체하여 채우기
 >> (범주형데이터 주로사용)
->> ```
+>> ```python
 >> df.fillna(df.mean()["C1":"C2"])
 >> ```
 >> ## 앞값(ffill), 뒷값(backfill) 대체하여 채우기
->> ```
+>> ```python
 >> df = df.fillna(method="ffill")
 >> ```
 >> ## 주변값과 상관관계로 선형 채우기
 >> (선형관계형 데이터에서 주로사용)
->> ```
+>> ```python
 >> df = df.interpolate()
 >> ```
 > ## 아웃라이어
 >> ## 아웃라이어 제외
 >> Class열의 H값 제외후 변경
->> ```
+>> ```python
 >> df = df [(df["class"]! = "H")]
 >> ```
 >> ## 아웃라이어 변경
 >> Class열의 H값을 F값으로 변경
->> ```
+>> ```python
 >> df["class"] = df["class"].replace("H", "F")
 >> ```
 >> 제거기준 = (Q3 + IQR \* 1.5 보다 큰 값) & (Q1 - IQR \* 1.5 보다 작은 값)
 >> 가.Q1, Q3, IQR 정의 IQR = Q3(3사분위수)-Q1(1사분위수)
->> ```
+>> ```python
 >> Q1 = df[["Dividend","PBR"]].quantile(q=0.25)
 >> Q3 = df[["Dividend","PBR"]].quantile(q=0.75)
 >> IQR = Q3-Q1
 >> ```
 >> 나.변경
->> ```
+>> ```python
 >> IQR_df = df[(df["Dividend"] <= Q3["Dividend"]+1.5*IQR["Dividend"]) & (df["Dividend"] >= Q1["Dividend"]-1.5*IQR["Dividend"])]
 >> IQR_df = IQR_df[(IQR_df["PBR"] <= Q3["PBR"]+1.5*IQR["PBR"]) & (IQR_df["PBR"] >= Q1["PBR"]-1.5*IQR["PBR"])]
 >> IQR_df = IQR_df[["Dividend","PBR"]]
 >> ```
 >> 다.확인(박스플롯)
->> ```
+>> ```python
 >> IQR_df.boxplot()
 >> IQR_df.hist(bins=20, figsize=(10,5))
 >> ```
@@ -349,7 +349,7 @@ ___
 >> ## 비닝(Binning)
 >> 연속형 변수를 범주형 변수로 만드는 방법
 >> 비닝 / cut : (구간값으로 나누기)
->> ```
+>> ```python
 >> q1 = df["avg_bill"].quantile(0.25)
 >> q3 = df["avg_bill"].quantile(0.75)
 >> df["bill_rating"] = pd.cut(
@@ -359,102 +359,71 @@ ___
 >> print (df["bill_rating"].value_counts()]
 >> ```
 >> 비닝 / qcut : (구간개수로 나누기)
->> ```
+>> ```python
 >> df["bill_rating"] = pd.qcut(  # 비닝
 >>                     df["avg_bill"],
 >>                     3,
 >>                     labels=["low", "mid", ;high"])
 >> print (df["bill_rating"].value_counts()]
 >> ```
-
-## 스케일링(Scaling)[](https://lovespacewhite.github.io/#%EC%8A%A4%EC%BC%80%EC%9D%BC%EB%A7%81scaling)
-
-데이터 단위크기를 맞춤으로서 표준화/정규화
-
-Standard Scaling :  
-평균을 0, 표준편차를 1로 맞추기 (데이터 이상치가 심할경우 사용)
-
-```
-<span>df_num</span> <span>=</span> <span>df</span><span>[[</span><span>"avg_bill"</span><span>,</span> <span>"A_bill"</span><span>,</span> <span>"B_bill"</span><span>]]</span>
-<span>Standardization_df</span> <span>=</span> <span>(</span><span>df_num</span> <span>-</span> <span>df_num</span><span>.</span><span>mean</span><span>())</span> <span>/</span> <span>df_num</span><span>.</span><span>std</span><span>()</span>
-```
-
-```
-<span>from</span> <span>sklearn.preprocessing</span> <span>import</span> <span>StandardScaler</span>
-<span>scaler</span><span>=</span><span>StandardScaler</span><span>()</span>
-
-<span>X_train2</span> <span>=</span> <span>scaler</span><span>.</span><span>fit_transform</span><span>(</span><span>X_train1</span><span>)</span>  <span>## 정규분포화
-</span><span>X_train2</span> <span>=</span> <span>scaler</span><span>.</span><span>transform</span><span>(</span><span>X_train1</span><span>)</span>  <span>## 표준화
-</span>
-```
-
-Min-Max Scaling : 모든 데이터를 0~1사이로 맞추기
-
-```
-<span>from</span> <span>sklearn.preprocessing</span> <span>import</span> <span>MinMaxScaler</span>
-<span>scaler</span><span>=</span><span>MinMaxScaler</span><span>()</span>
-<span>nomalization_df</span> <span>=</span> <span>df_num</span><span>.</span><span>copy</span><span>()</span>
-<span>nomalization_df</span><span>[:]</span> <span>=</span> <span>scaler</span><span>.</span><span>fit_transform</span><span>(</span><span>normalization_df</span><span>[:])</span>
-```
-
-\-
-
-## 라벨인코딩
-
-```
-<span>from</span> <span>sklearn.preprocessing</span> <span>import</span> <span>LabelEncoder</span>
-<span>lb</span> <span>=</span> <span>LabelEncoder</span><span>()</span>
-<span>df</span><span>[</span><span>'A'</span><span>]</span> <span>=</span> <span>lb</span><span>.</span><span>fit_transform</span><span>(</span><span>df</span><span>[</span><span>'A'</span><span>]</span>
-<span>df</span>
-```
-
-\-
-
-## 원핫인코딩
-
-## 카테고리형 데이터를 원핫인코딩으로 컬럼 작성[](https://lovespacewhite.github.io/#%EC%B9%B4%ED%85%8C%EA%B3%A0%EB%A6%AC%ED%98%95-%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%A5%BC-%EC%9B%90%ED%95%AB%EC%9D%B8%EC%BD%94%EB%94%A9%EC%9C%BC%EB%A1%9C-%EC%BB%AC%EB%9F%BC-%EC%9E%91%EC%84%B1)
-
-```
-<span>cols</span> <span>=</span> <span>[</span><span>"Gender"</span><span>,</span> <span>"Partner"</span><span>,</span> <span>"Dependents"</span><span>,</span> <span>"PhoneService"</span><span>,</span>
- <span>"MultipleLines"</span><span>,</span> <span>"InternetService"</span><span>,</span> <span>"OnlineSecurity"</span><span>,</span>
- <span>"OnlineBackup"</span><span>,</span> <span>"DeviceProtection"</span><span>,</span> <span>"TechSupport"</span><span>,</span> <span>"StreamingTV"</span><span>,</span>
- <span>"StreamingMovies"</span><span>,</span> <span>"Contract"</span><span>,</span> <span>"PaperlessBilling"</span><span>,</span> <span>"PaymentMethod"</span><span>]</span>
-
-<span>dummies</span> <span>=</span> <span>pd</span><span>.</span><span>get_dummies</span><span>(</span><span>df</span><span>[</span><span>cols</span><span>],</span> <span>drop_first</span><span>=</span><span>True</span><span>)</span>
-<span>df</span> <span>=</span> <span>df</span><span>.</span><span>drop</span><span>(</span><span>cols</span><span>,</span> <span>axis</span><span>=</span><span>1</span><span>)</span>
-<span>df</span> <span>=</span> <span>pd</span><span>.</span><span>concat</span><span>([</span><span>df</span><span>,</span> <span>dummies</span><span>],</span> <span>axis</span><span>=</span><span>1</span><span>)</span>
-```
-
-## 카테고리형 데이터를 판다스로 쉽게 원핫인코딩[](https://lovespacewhite.github.io/#%EC%B9%B4%ED%85%8C%EA%B3%A0%EB%A6%AC%ED%98%95-%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%A5%BC-%ED%8C%90%EB%8B%A4%EC%8A%A4%EB%A1%9C-%EC%89%BD%EA%B2%8C-%EC%9B%90%ED%95%AB%EC%9D%B8%EC%BD%94%EB%94%A9)
-
-```
-<span>data</span> <span>=</span> <span>df</span><span>[[</span><span>"AA"</span><span>,</span><span>"BB"</span><span>]]</span>
-<span>one_hot_df</span> <span>=</span> <span>pd</span><span>.</span><span>get_dummies</span><span>(</span><span>data</span><span>,</span> <span>columns</span><span>=</span><span>[</span><span>"class"</span><span>])</span>
-<span>one_hot_df</span>
-```
-
-\-
-
-## OrdinalEncoding
-
-Categorical feature(범주형 특성)에 대한 순서형 코딩  
-각 범주들을 특성으로 변경하지 않고, 그 안에서 1,2,3 등의 숫자로 변경  
-범주가 너무 많아 one hot encoding을 하기 애매한 상황에서 이용
-
-```
-<span>from</span> <span>category_encoders</span> <span>import</span> <span>OrdinalEncoder</span>
-<span>enc1</span> <span>=</span> <span>OrdinalEncoder</span><span>(</span><span>cols</span> <span>=</span> <span>"color"</span><span>)</span>
-<span>df2</span> <span>=</span> <span>enc1</span><span>.</span><span>fit_transform</span><span>(</span><span>df2</span><span>)</span>
-<span>df2</span>
-```
-
-___
-
-## 기타 주요작업
-
-## 토탈차지 공백을 0으로 변경후, 소수점 숫자형(float타입)으로 변경[](https://lovespacewhite.github.io/#%ED%86%A0%ED%83%88%EC%B0%A8%EC%A7%80-%EA%B3%B5%EB%B0%B1%EC%9D%84-0%EC%9C%BC%EB%A1%9C-%EB%B3%80%EA%B2%BD%ED%9B%84-%EC%86%8C%EC%88%98%EC%A0%90-%EC%88%AB%EC%9E%90%ED%98%95float%ED%83%80%EC%9E%85%EC%9C%BC%EB%A1%9C-%EB%B3%80%EA%B2%BD)
-
-```
+>> ## 스케일링(Scaling)
+>> 데이터 단위크기를 맞춤으로서 표준화/정규화
+>> Standard Scaling :  
+>> 평균을 0, 표준편차를 1로 맞추기 (데이터 이상치가 심할경우 사용)
+>> ```python
+>> df_num = df[["avg_bill", "A_bill", "B_bill"]]
+>> Standardization_df = (df_num - df_num.mean()) / df_num.std()
+>> ```
+>> ```python
+>> from sklearn.preprocessing import StandardScaler
+>> scaler=StandardScaler()
+>> 
+>> X_train2 = scaler.fit_transform(X_train1)  # 정규분포화
+>> X_train2 = scaler.transform(X_train1)  # 표준화
+>> ```
+>> Min-Max Scaling : 모든 데이터를 0~1사이로 맞추기
+>> ```python
+>> from sklearn.preprocessing import MinMaxScaler
+>> scaler=MinMaxScaler()
+>> nomalization_df = df_num.copy()
+>> nomalization_df[:] = scaler.fit_transform(normalization_df[:])
+>> ```
+>> ## 라벨인코딩
+>> n개의 종류를 가진 값들에 0 ~ (n-1)의 숫자를 부여하는 방법
+>> 만족도조사, 성적 등 주로 순서형 자료에 적합하여 숫자들 사이에서 관계가 존재할 때 사용
+>> ```python
+>> from sklearn.preprocessing import LabelEncoder
+>> lb = LabelEncoder()
+>> df['A'] = lb.fit_transform(df['A']
+>> df
+>> ```
+>> ## 원핫인코딩
+>>> ## 카테고리형 데이터를 원핫인코딩으로 컬럼 작성
+>>> ```python
+>>> cols = ["Gender", "Partner", "Dependents", "PhoneService", "MultipleLines", "InternetService", "OnlineSecurity", "OnlineBackup", "DeviceProtection", "TechSupport", "StreamingTV", "StreamingMovies", "Contract", "PaperlessBilling", "PaymentMethod"]
+>>> dummies = pd.get_dummies(df[cols], drop_first=True)
+>>> df = df.drop(cols, axis=1)
+>>> df = pd.concat([df, dummies], axis=1)
+>>> ```
+>>> ### 카테고리형 데이터를 판다스로 쉽게 원핫인코딩
+>>> ```python
+>>> data = df[["AA","BB"]]
+>>> one_hot_df = pd.get_dummies(data, columns=["class"])
+>>> one_hot_df
+>>> ```
+>> ## OrdinalEncoding
+>> Categorical feature(범주형 특성)에 대한 순서형 코딩  
+>> 각 범주들을 특성으로 변경하지 않고, 그 안에서 1,2,3 등의 숫자로 변경  
+>> 범주가 너무 많아 one hot encoding을 하기 애매한 상황에서 이용
+>> ```python
+>> from category_encoders import OrdinalEncoder
+>> enc1 = OrdinalEncoder(cols = "color")
+>> df2 = enc1.fit_transform(df2)
+>> df2 
+>> ```
+> ## 기타 주요작업
+>> ## 토탈차지 공백을 0으로 변경후, 소수점 숫자형(float타입)으로 변경
+>> ```
 <span>df</span><span>[</span><span>"TotalCharge"</span><span>].</span><span>replace</span><span>([</span><span>" "</span><span>],</span> <span>[</span><span>"0"</span><span>],</span> <span>inplace</span><span>=</span><span>True</span><span>)</span>
 <span>df</span><span>[</span><span>"TotalCharge"</span><span>]</span> <span>=</span> <span>df</span><span>[</span><span>"TotalCharge"</span><span>].</span><span>astype</span><span>(</span><span>float</span><span>)</span>
 ```
