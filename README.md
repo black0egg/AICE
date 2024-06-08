@@ -638,30 +638,29 @@
 > ```
 > 
 > 다.컴파일
->> 이진분류 모델 (binary\_crossentropy)
->> ```python
->> model.compile(optimizer="adam",
->>               loss="binary_crossentropy",
->>               metrics=["accuracy"])
->> ```
->> 다중분류 모델 (categorical\_crossentropy) (원핫인코딩 된 경우)
->> ```python
->> model.compile(optimizer="adam",
->>               loss="categorical_crossentropy",
->>               metrics=["accuracy"])
->> ```
->> 다중분류 모델 (sparse\_categorical\_crossentropy) (원핫인코딩 안된 경우)
->> ```python
->> model.compile(optimizer="adam",
->>               loss="sparse_categorical_crossentropy",
->>               metrics=["accuracy"])
->> ```
->> 예측 모델
->> ```python
->> model.compile(optimizer="adam",
->>               loss="mse")
->> ```
->
+> 이진분류 모델 (binary\_crossentropy)
+> ```python
+> model.compile(optimizer="adam",
+>               loss="binary_crossentropy",
+>               metrics=["accuracy"])
+> ```
+> 다중분류 모델 (categorical\_crossentropy) (원핫인코딩 된 경우)
+> ```python
+> model.compile(optimizer="adam",
+>               loss="categorical_crossentropy",
+>               metrics=["accuracy"])
+> ```
+> 다중분류 모델 (sparse\_categorical\_crossentropy) (원핫인코딩 안된 경우)
+> ```python
+> model.compile(optimizer="adam",
+>               loss="sparse_categorical_crossentropy",
+>               metrics=["accuracy"])
+> ```
+> 예측 모델
+> ```python
+> model.compile(optimizer="adam",
+>               loss="mse")
+> ```
 > 라. 딥러닝 테스트 핏
 > ```python
 > model.fit(x=X_train, y=y_train,
@@ -670,20 +669,20 @@
 >           verbose=1,
 >           callbacks=[early_stop, check_point])
 > ```
->> 조기종료 옵션 (케라스 조기종료&체크포인트 불러오기)
->> ```python
->> from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
->> ```
->> (조기종료 : 로스값이 올라가면(5번까지는 괜찮음) 조기종료하기)
->> ```python
->> early_stop = EarlyStopping(monitor="val_loss", mode="min",
->>              verbose=1, patience=5)
->> ```
->> (체크포인트 : 최적 로스값을 기억(best\_model.h5)하여 불러오기)
->> ```python
->> check_point = ModelCheckpoint("best_model.h5", verbose=1,
->>               monitor="val_loss", mode="min", save_best_only=True)
->> ```
+> 조기종료 옵션 (케라스 조기종료&체크포인트 불러오기)
+> ```python
+> from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
+> ```
+> (조기종료 : 로스값이 올라가면(5번까지는 괜찮음) 조기종료하기)
+> ```python
+> early_stop = EarlyStopping(monitor="val_loss", mode="min",
+>              verbose=1, patience=5)
+> ```
+> (체크포인트 : 최적 로스값을 기억(best\_model.h5)하여 불러오기)
+> ```python
+> check_point = ModelCheckpoint("best_model.h5", verbose=1,
+>               monitor="val_loss", mode="min", save_best_only=True)
+> ```
 >
 > 마. 학습과정 로그(loss,accuracy) history에 선언하여 남기기
 > ```python
@@ -766,6 +765,7 @@
 > plt.legend(['acc','val_acc'])
 > plt.show()
 > ```
+> 
 > ## CNN
 > 가. 이미지 불러오기
 > ```python
