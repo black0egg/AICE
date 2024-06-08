@@ -987,13 +987,14 @@
 > -   Support = 각 클래스 실제 데이터수
 > 
 > 오차행렬 성능지표 쉽게확인
+> 
 > ```python
 > from sklearn.metrics import classification_report
 > print(classification_report(y_test, y_pred))
 > ```
 > 
 > 오차행렬 성능지표 확인
->```python
+> ```python
 > import seaborn as sns
 > from sklearn.metrics import confusion_matrix
 > from sklearn.metrics import precision_score, recall_score
@@ -1008,7 +1009,7 @@
 > 
 > precision_score(y_true, y_pred)
 > recall_score(y_true, y_pred)
->```
+> ```
 > 
 > ## 손실함수
 >> 회귀모델 손실함수(Loss Function)
