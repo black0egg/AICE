@@ -613,9 +613,9 @@
 > ```python
 > keras.backend.clear_session( )
 > ```
-> 나. 모델 작성 30개의 features, 보통 연산효율을 위해 relu활용  
->    Batchnormalization 활용  
->    과적합 방지  
+> 나. 모델 작성 30개의 features, 보통 연산효율을 위해 relu활용
+>    Batchnormalization 활용
+>    과적합 방지
 >    input layer(30features), 2 hidden layer, output layer(이진분류)
 > ```python
 > model = Sequential( )
