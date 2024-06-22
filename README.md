@@ -120,10 +120,11 @@
 > df.dtypes  # df데이터 / 타입 확인
 > ```
 > ## df데이터 / 통계정보
-> mean(평균), std(분산), min/max(최소/최대값)  
-> ※ df.describe( ).transpose( )
 > ```python
-> df.describe( )
+> df.describe()  # count(컬럼별개수),mean(평균값),std(표준편차),min(최소값),25%,50%,75%(4분위수),max(최대값)
+> df['abc']  # df데이터 / 'abc'컬럼의 데이터 확인
+> df['abc'].value_counts()  # df데이터 / 'abc'컬럼의 값분포 확인
+> df["000"].value_counts(normalize=True)  # df데이터 / “000”칼럼 값분포비율 확인
 > ```
 > ## df데이터 / 상관관계 분석
 > ```python
@@ -131,22 +132,18 @@
 > ```
 > ## 데이터 뽑아오기
 > ```python
-> x[0]  ## x의 0번째 데이터 뽑아오기
-> x[-1]  ## x의 뒤에서 1번째 데이터 뽑아오기
-> x[0:4]  ## x의 0~4번째까지 데이터 뽑아오기
-> x[:]  ## x의 전체 데이터 뽑아오기
+> x[0]  # x의 0번째 데이터 뽑아오기
+> x[-1]  # x의 뒤에서 1번째 데이터 뽑아오기
+> x[0:4]  # x의 0~4번째까지 데이터 뽑아오기
+> x[:]  # x의 전체 데이터 뽑아오기
 > ```
-> ## df데이터 / “00000”컬럼의 데이터 확인
+> ## 결측치 확인
 > ```python
-> df["00000"]
+> df.isnull().sum()
 > ```
-> ## df데이터 / “00000”컬럼의 값분포 확인
-> ```python
-> df["00000"].value_counts()
-> ```
-> ## df데이터 / “00000”칼럼의 값비율 확인
-> ```python
-> df["00000"].value_counts(normalize=True)
+> ## 'abc'컬럼에서 '_'값을 가지고 있는 값들 찾기
+> ```python 
+> df[df['abc'] == '_']
 > ```
 
 ## [1-3.빅데이터 시각화]
@@ -226,37 +223,38 @@
 > ## 입력데이터에서 제외
 > ※ axis=0(행), axis=1(열)
 > ```python
-> drop( )
+> df.drop(['abc',def'], axis=1)  # abc, def 컬럼 삭제
 > ```
 > ```python
-> df = df.drop('A', axis=1)
+> df = df.drop('abc', axis=1)  # abc, def 컬럼 삭제
+> df1 = df.drop(columns=['abc','def'])  # abc, def 컬럼 삭제후 df1로 저장
 > ```
-> ## 누락데이터 처리
-> ※ axis=0(행), axis=1(열)
+> ## 행열 전환
 > ```python
-> replace( )
+> df=df.transpose()  # 행열 전환
 > ```
 > ## 결측치
 >> ## df데이터 / 칼럼마다 결측치 여부 확인
 >> ```python
 >> df.isnull().sum()
 >> ```
->> ## 결측치(Null데이터) 처리
->> ```python
->> dropna( ), fillna( ) 
->> ```
->> ```python
->> df['float_A'] = df['float_A'].fillna(0)  ##float_A열 결측치 0으로 채우기
->> ```
 >> ## 결측치 처리
 >> missing(결측값수)  
 >> “_“를 numpy의 null값(결측치)으로 변경
 >> ```python
->> df = df.replace("_", np.NaN)
+>> df = df.replace('_', np.NaN)
+>> df.replace('_',np.nan, inplace=True)  # df데이터프레임 내에서, '_'값이 있는 값을 모두 nan(null)값으로 변경
+>> df.info()
 >> ```
->> ## “Class” 열의 결측치값 제외시키기
+>> ## 결측치(Null데이터) 처리
 >> ```python
->> df.dropna(subset=["class"])
+>> df['float_A'] = df['float_A'].fillna(0)  ## fillna() 메서드: 이 메서드는 결측치(null 값)를 다른 값으로 채우는 역할
+>> df['abc'].fillna('A', inplace=True)  ## 데이터프레임 df, abc열 내의 null값을 'A'로 채움
+>> df
+>> ```
+>> ## 'Class' 열의 결측치값 제외시키기
+>> ```python
+>> df.dropna(subset=['class'])
 >> ```
 >> ## Listwise 결측치 행 제외시키기
 >> (행의 1개값이라도 NaN이면 제외)
