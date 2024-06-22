@@ -3,9 +3,9 @@
 ## [0-1.기본 명령어]
 >
 > ## Jupyter Notebook Command
+> Ctrl + Enter : 셀실행  
 > Shift + Enter : 셀실행 후, 아래셀 선택  
 > Alt + Enter : 셀실행 후, 아래 빈쉘 생성  
-> Ctrl + Enter : 셀실행  
 > A : 바깥에서 위쪽 빈쉘 생성  
 > B : 바깥에서 아래 빈쉘 생성  
 > dd : 바깥에서 해당쉘 삭제
@@ -21,15 +21,13 @@
 > import numpy as np
 > ```
 > ## seaborn 설치 및 불러오고, sns로 정의
-> (!: 리눅스 프롬프트 명령어)
 > ```python
-> !pip install seaborn
+> !pip install seaborn  # (!: 리눅스 프롬프트 명령어)
 > import seaborn as sns
 > ```
 > ## matplot 불러오고, plt로 정의
-> (%: 주피터랩 명령어)
 > ```python
-> %matplotlib inline
+> %matplotlib inline  # > (%: 주피터랩 명령어)
 > import matplotlib.pylot as plt
 > ```
 > ## 텐서플로 불러오고, tf로 정의
@@ -37,7 +35,7 @@
 > import tensorflow as tf
 > ```
 > ## 텐서플로 케라스모델 및 기능 불러오기
-> (시퀀셜:히든레이어개수/덴스:노드개수/액티베이션/과적합방지기능 불러오기)
+> (시퀀셜:히든레이어개수/덴스:노드개수/액티베이션/과적합방지기능 불러오기)34
 > ```python
 > from tensorflow.keras.models import Sequential
 > from tensorflow.keras.layers import Dense, Activation, Dropout
@@ -108,31 +106,18 @@
 > Column Names = 열  
 > index = 행  
 > value = 값(행들의 데이터)
+>
 > ## df데이터 / 처음 위(head)아래(tail) 10개행을 보여주기
 > ```python
-> df.head( )
-> df.head(10)
-> df.tail(10)
-> ```
-> ## df데이터 / 형태(column/row수) 확인
-> ```python
-> df.shape
-> ```
-> ## df데이터 / 컬럼내역 출력 (열,세로)
-> ```python
-> df.columns
-> ```
-> ## df데이터 / 로우내역 출력 (행,가로)
-> ```python
-> df.values
-> ```
-> ## df데이터 / 자료구조 파악
-> ```python
-> df.info( )
-> ```
-> ## df데이터 / 타입 확인
-> ```python
-> df.dtypes 
+> df  # 데이터 구조 보기
+> df.head()  # 앞에서 5줄 보여주기
+> df.head(10)  # 앞에서 10줄 
+> df.tail(10)  # 뒤에서 10줄
+> df.info()  # df데이터 / 자료구조 파악, Rangeindex(행수), datacolumns(열수), null데이터확인, dtype(설명),int64(정수형),float64(실수형),bool(부울형),datetime64(날짜표현),category(카테고리),object(문자열or복합형)
+> df.values  # df데이터 / 로우내역 출력 (행,가로)
+> df.columns  # df데이터 / 컬럼내역 출력 (열,세로)
+> df.shape  # df데이터 / 형태(column/row수) 확인
+> df.dtypes  # df데이터 / 타입 확인
 > ```
 > ## df데이터 / 통계정보
 > mean(평균), std(분산), min/max(최소/최대값)  
