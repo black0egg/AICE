@@ -176,7 +176,8 @@
 >> ```
 >> ### 바 플롯
 >> ```python
->> plt.bar(x, height)
+>> vc = df['a'].value_counts()
+>> plt.bar(x, height=vc, width=0.1)
 >> ```
 >> ### 히스토그램
 >> ```python
