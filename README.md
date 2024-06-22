@@ -130,6 +130,10 @@
 > ```python
 > df.corr( )
 > ```
+> ```python
+> sns.set(rc={'figure.figsize':(20:16})
+> sns.heatmap(corr, annot=True)
+> ```
 > ## 데이터 뽑아오기
 > ```python
 > x[0]  # x의 0번째 데이터 뽑아오기
@@ -250,7 +254,14 @@
 >> ```python
 >> df['float_A'] = df['float_A'].fillna(0)  ## fillna() 메서드: 이 메서드는 결측치(null 값)를 다른 값으로 채우는 역할
 >> df['abc'].fillna('A', inplace=True)  ## 데이터프레임 df, abc열 내의 null값을 'A'로 채움
->> df
+>> ```
+>> ## 결측치(Null데이터) 처리 (숫자, 중간값으로 변경설정)
+>> ```python
+>> df['abc'.median()  # 가.중간값 찾기
+>> 77.0  # 결과값:77.0
+>> df['abc'].replace(np.nan,77.0,inplace=True)  # 나.abc컬럼 결측치 77.0으로 변경
+>> df['abc'] = df['abc'].astype(int)  # 다.abc컬럼 타입 정수형숫자로 변경
+>> df['abc'].isnull().sum()  # 확인
 >> ```
 >> ## 'Class' 열의 결측치값 제외시키기
 >> ```python
@@ -274,7 +285,7 @@
 >> ```
 >> df데이터 / “A”칼럼 결측치를 해당칼럼 최빈값으로 채우기
 >> ```python
->> df["A"].fillna(df["A"].mode()[0])
+>> df['A'].fillna(df['A'].mode()[0])
 >> ```
 >> ## mean(평균), median(중간)값 대체하여 채우기
 >> (범주형데이터 주로사용)
@@ -368,8 +379,8 @@
 >> 만족도조사, 성적 등 주로 순서형 자료에 적합하여 숫자들 사이에서 관계가 존재할 때 사용
 >> ```python
 >> from sklearn.preprocessing import LabelEncoder
->> lb = LabelEncoder()
->> df['A'] = lb.fit_transform(df['A']
+>> le = LabelEncoder()
+>> df['A'] = le.fit_transform(df['A'])
 >> df
 >> ```
 >> ## 원핫인코딩
@@ -382,8 +393,8 @@
 >>> ```
 >>> ### 카테고리형 데이터를 판다스로 쉽게 원핫인코딩
 >>> ```python
->>> data = df[["AA","BB"]]
->>> one_hot_df = pd.get_dummies(data, columns=["class"])
+>>> data = df[['a','b']]
+>>> one_hot_df = pd.get_dummies(data, columns=['a'], drop_first=True)  # drop_first : 첫번째컬럼 제외하여 효율성 향상
 >>> one_hot_df
 >>> ```
 >> ## OrdinalEncoding
@@ -417,15 +428,14 @@
 
 ## [1-5.세트 구성]
 > 
-> ## 트레이닝/테스트 세트 나누기
-> ```python
-> from sklearn.model_selection import train_test_split 
-> ```
+
 > ## X,y데이터 설정하기
 > ‘Answer’ 칼럼이 y값/타겟/레이블
 > ```python
 > X = df.drop('Answer',axis=1).values
+> X.shape  # 확인
 > y = df['Answer'].values
+> y.shape  # 확인
 > ```
 > ## X,y데이터 불러오기
 > reshape(-1,1) 2차원배열 디자인포맷(reshape) 확장(-1은 알아서 넣으라는 뜻)
@@ -433,21 +443,25 @@
 > X = np.array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]).resharpe(-1,1)
 > y = np.array([13, 25, 34, 47, 59, 62, 79, 88, 90, 100])
 > ```
+> > ## 트레이닝/테스트 세트 나누기
+> ```python
+> from sklearn.model_selection import train_test_split 
+> ```
 > ## 테스트세트를 30%로 분류하고, 50번 랜덤하게 섞기
 > (y값이 골고루 분할되도록 stratify하게 분할)
 > ```python
-> X_train, X_test, y_test =
+> X_train, X_test, y_train, y_test =
 > train_test_split
-> (X, y, test_size=0.30, random_state=50, stratify = y)
+> (X, y, test_size=0.30, random_state=50, stratify = y)  # stratify 메소드: 분류모델은 꼭 추가
 > ```
 > (데이터 정규화/스케일링)
 > ```python
 > from sklearn.preprocessing import MinMaxScaler
 > help(MinMaxScaler)
-> scaler = MinMaxScaler( )
-> scaler.fit(X_train)
+> scaler = MinMaxScaler( )  # 정의
 > X_train = scaler.transform(X_train)
 > X_test = scaler.transform(X_test)
+> pd.DataFram(X_train[:0], columnns=['a']).head()  # 확인
 > ```
 
 ## [2.학습모델] ~ [3.최적화]
