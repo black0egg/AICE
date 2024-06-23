@@ -460,11 +460,16 @@
 > (데이터 정규화/스케일링)
 > ```python
 > from sklearn.preprocessing import MinMaxScaler
+> from sklearn.preprocessing import StandardScaler
 > help(MinMaxScaler)
+> 
+> df1[['a']].head()
+>
 > scaler = MinMaxScaler( )  # 정의
 > X_train = scaler.transform(X_train)
 > X_test = scaler.transform(X_test)
-> pd.DataFram(X_train[:0], columnns=['a']).head()  # 확인
+>
+> pd.DataFrame(X_train[:, 0], columnns=['a']).head()  # 확인
 > ```
 
 ## [2.학습모델] ~ [3.최적화]
