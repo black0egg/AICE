@@ -27,8 +27,8 @@
 > ```
 > ## matplot 불러오고, plt로 정의
 > ```python
-> %matplotlib inline  # > (%: 주피터랩 명령어)
 > import matplotlib.pylot as plt
+> %matplotlib inline  # (%: 주피터랩 명령어)
 > ```
 > ## 텐서플로 불러오고, tf로 정의
 > ```python
@@ -80,22 +80,29 @@
 
 ## [1-1.빅데이터 수집]
 >
-> ## “00000.csv” 데이터 로드
+> ## 디렉토리 확인
+> ```python
+> custom_framwork.config.data_dir
+> ```
+> 
+> ## “000.csv” 데이터 로드
 > (cp949는 MS office에서 인코딩할때 쓰임)
 > ```python
-> df = pd.read_csv ("./00000.csv", encoding = "cp949")
+> df = pd.read_csv ('000.csv', encoding = 'cp949')
 > ```
 > ## 커스텀 프레임워크에서 “00000.csv” 데이터 로드 2
-> (custom\_framework.config.data\_dir 폴더에서 불러옴)
+> (custom_framework.config.data_dir 폴더에서 불러옴)
 > ```python
-> df = pd.read_csv (custom_framework.config.data_dir + "/00000.csv")
+> df = pd.read_csv (custom_framework.config.data_dir + '/000.csv', encoding = 'cp949')
 > ```
+> 
 > ## 파일위치 환경변수
-> data 경로 : custom\_framework.config.data\_dir  
-> workspace 경로 : custom\_framework.config.workspace\_dir  
-> model 경로 : custom\_framework.config.model\_dir  
-> log 경로 : custom\_framework.config.workspace\_logs
-> ## “00000\_final.csv” 데이터 저장 1
+> data 경로 : custom_framework.config.data_dir  
+> workspace 경로 : custom_framework.config.workspace_dir  
+> model 경로 : custom_framework.config.model_dir  
+> log 경로 : custom_framework.config.workspace_logs
+>
+> ## “00000_final.csv” 데이터 저장 1
 > ```python
 > df.to_csv ("00000_final.csv", index = false)
 > ```
@@ -115,18 +122,39 @@
 > df.head()  # 앞에서 5줄 보여주기
 > df.head(10)  # 앞에서 10줄 
 > df.tail(10)  # 뒤에서 10줄
-> df.info()  # df데이터 / 자료구조 파악, Rangeindex(행수), datacolumns(열수), null데이터확인, dtype(설명),int64(정수형),float64(실수형),bool(부울형),datetime64(날짜표현),category(카테고리),object(문자열or복합형)
-> df.values  # df데이터 / 로우내역 출력 (행,가로)
-> df.columns  # df데이터 / 컬럼내역 출력 (열,세로)
-> df.shape  # df데이터 / 형태(column/row수) 확인
-> df.dtypes  # df데이터 / 타입 확인
+> df.info()  # df데이터 자료구조파악,Rangeindex(행수),datacolumns(열수),null데이터확인, dtype(설명),int64(정수형),float64(실수형),bool(부울형),datetime64(날짜표현),category(카테고리),object(문자열or복합형)
+> df.index  # df데이터 Rangindex 출력 (행,가로)
+> df.columns  # df데이터 컬럼내역 출력 (열,세로)
+> df.values  # df데이터 값 출력 (컬럼 별 값)
+> df.shape  # df데이터 형태(column/row수) 확인
+> df.dtypes  # df데이터 타입 확인
+> ```
+> ## 데이터 뽑아오기
+> ```python
+> df[0]  # x의 0번째 데이터 뽑아오기
+> df[-1]  # x의 뒤에서 1번째 데이터 뽑아오기
+> df[0:4]  # x의 0~4번째까지 데이터 뽑아오기
+> df[:]  # x의 전체 데이터 뽑아오기
+> df['a']  # 'a'컬럼 데이터 확인하기
+> ```
+> ## 결측치 확인
+> ```python
+> df.isnull().sum()
+> ```
+> ## 'abc'컬럼에서 '_'값을 가지고 있는 값들 찾기
+> ```python 
+> df[df['abc'] == '_']
 > ```
 > ## df데이터 / 통계정보
 > ```python
 > df.describe()  # count(컬럼별개수),mean(평균값),std(표준편차),min(최소값),25%,50%,75%(4분위수),max(최대값)
 > df['abc']  # df데이터 / 'abc'컬럼의 데이터 확인
 > df['abc'].value_counts()  # df데이터 / 'abc'컬럼의 값분포 확인
-> df["000"].value_counts(normalize=True)  # df데이터 / “000”칼럼 값분포비율 확인
+> df['abc'].value_counts(normalize=True)  # df데이터 / 'abc'칼럼 값분포비율(normalize=True) 확인
+> ```
+> ```python
+> for c in df : print(c)  # df데이터의 모든컬럼 프린트
+> [df[c].value_counts() for c in df]  # df데이터의 모든컬럼 값분포 확인
 > ```
 > ## df데이터 / 상관관계 분석
 > ```python
@@ -136,21 +164,6 @@
 > ```python
 > sns.set(rc={'figure.figsize':(20:16})
 > sns.heatmap(corr1, annot=True)
-> ```
-> ## 데이터 뽑아오기
-> ```python
-> x[0]  # x의 0번째 데이터 뽑아오기
-> x[-1]  # x의 뒤에서 1번째 데이터 뽑아오기
-> x[0:4]  # x의 0~4번째까지 데이터 뽑아오기
-> x[:]  # x의 전체 데이터 뽑아오기
-> ```
-> ## 결측치 확인
-> ```python
-> df.isnull().sum()
-> ```
-> ## 'abc'컬럼에서 '_'값을 가지고 있는 값들 찾기
-> ```python 
-> df[df['abc'] == '_']
 > ```
 
 ## [1-3.빅데이터 시각화]
@@ -250,7 +263,7 @@
 > df.drop(['abc',def'], axis=1)  # abc, def 컬럼 삭제
 > ```
 > ```python
-> df = df.drop('abc', axis=1)  # abc, def 컬럼 삭제
+> df = df.drop('abc', axis=1)  # abc, def 컬럼(axis=1(열)) 삭제, 
 > df1 = df.drop(columns=['abc','def'])  # abc, def 컬럼 삭제후 df1로 저장
 > ```
 > ## 행열 전환
@@ -472,9 +485,9 @@
 > train_test_split
 > (X, y, test_size=0.30, random_state=50, stratify = y)  # stratify 메소드: 분류모델은 꼭 추가
 > ```
-> (데이터 정규화/스케일링)
+> ## 데이터 정규화/스케일링 
 > ```python
-> from sklearn.preprocessing import MinMaxScaler
+> from sklearn.preprocessing import MinMaxScaler  # 데이터를 0~1사이 숫자로 변경하여 머신러닝 알고리즘성능 향상
 > from sklearn.preprocessing import StandardScaler
 > help(MinMaxScaler)
 > 
