@@ -131,7 +131,7 @@
 > df.corr( )
 > ```
 > ```python
-> sns.set(rc={'figure.figsize':(20:16})
+> sns.set(df={'figure.figsize':(20:16})
 > sns.heatmap(corr, annot=True)
 > ```
 > ## 데이터 뽑아오기
@@ -225,6 +225,10 @@
 ## [1-4.빅데이터 전처리]
 > 
 > 최고빈번값(Most frequent), 중앙값(Median), 평균값(Mean), 상수값(Constant)
+> ## 데이터프레임 복사
+> ```python
+> df1 = df.copy()  # df데이터프레임을 df1으로 복사
+> ``` 
 > ## 입력데이터에서 제외
 > ※ axis=0(행), axis=1(열)
 > ```python
@@ -256,29 +260,19 @@
 >> df['float_A'] = df['float_A'].fillna(0)  ## fillna() 메서드: 이 메서드는 결측치(null 값)를 다른 값으로 채우는 역할
 >> df['abc'].fillna('A', inplace=True)  ## 데이터프레임 df, abc열 내의 null값을 'A'로 채움
 >> ```
->> ## 결측치(Null데이터) 처리 (숫자, 중간값으로 변경설정)
->> ```python
->> df['abc'.median()  # 가.중간값 찾기
->> 77.0  # 결과값:77.0
->> df['abc'].replace(np.nan,77.0,inplace=True)  # 나.abc컬럼 결측치 77.0으로 변경
->> df['abc'] = df['abc'].astype(int)  # 다.abc컬럼 타입 정수형숫자로 변경
->> df['abc'].isnull().sum()  # 확인
->> ```
 >> ## 'Class' 열의 결측치값 제외시키기
 >> ```python
 >> df.dropna(subset=['class'])
 >> ```
->> ## Listwise 결측치 행 제외시키기
->> (행의 1개값이라도 NaN이면 제외)
+>> ## 결측치 Listwise방식으로 행 제외시키기 (행 내에서 1개값이라도 NaN이면 제외)
 >> ```python
 >> df.dropna()
 >> ```
->> ## Pairwise 결측치 행 제외시키기
->> (행의 모든값이 NaN일때 제외)
+>> ## 결측치 Pairwise방식으로 행 제외시키기 (행 내에서 모든값이 NaN일때 제외)
 >> ```python
 >> df.dropna(how="all")
 >> ```
->> ## Most frequent(최빈)값 대체하여 채우기
+>> ## 결측치 Most frequent(최빈)값 대체하여 채우기
 >> (범주형데이터 주로사용)  
 >> df데이터 / 모두
 >> ```python
@@ -292,6 +286,14 @@
 >> (범주형데이터 주로사용)
 >> ```python
 >> df.fillna(df.mean()["C1":"C2"])
+>> ```
+>> ## 결측치(Null데이터)를 숫자형태 데이터의 경우, 중간값으로 대체하여 채우기
+>> ```python
+>> df['abc'.median()  # 가.중간값 찾기
+>> 77.0  # 결과값:77.0
+>> df['abc'].replace(np.nan,77.0,inplace=True)  # 나.abc컬럼 결측치 77.0으로 변경
+>> df['abc'] = df['abc'].astype(int)  # 다.abc컬럼 타입 정수형숫자로 변경
+>> df['abc'].isnull().sum()  # 확인
 >> ```
 >> ## 앞값(ffill), 뒷값(backfill) 대체하여 채우기
 >> ```python
@@ -394,9 +396,9 @@
 >>> ```
 >>> ### 카테고리형 데이터를 판다스로 쉽게 원핫인코딩
 >>> ```python
->>> data = df[['a','b']]
->>> one_hot_df = pd.get_dummies(data, columns=['a'], drop_first=True)  # drop_first : 첫번째컬럼 제외하여 효율성 향상
->>> one_hot_df
+>>> onehot column = ['a','b']
+>>> df1 = pd.get_dummies(data=df1, columns = onehot column, drop_first=True)  # drop_first : 첫번째컬럼 제외하여 효율성 향상
+>>> df1
 >>> ```
 >> ## OrdinalEncoding
 >> Categorical feature(범주형 특성)에 대한 순서형 코딩  
@@ -431,11 +433,11 @@
 > 
 
 > ## X,y데이터 설정하기
-> ‘Answer’ 칼럼이 y값/타겟/레이블
+> ‘Answer’ 칼럼을 y값/타겟/레이블로 설정하기
 > ```python
-> X = df.drop('Answer',axis=1).values
+> X = df.drop('Answer',axis=1).values  # y컬럼만 제외하고 X값으로 저장
 > X.shape  # 확인
-> y = df['Answer'].values
+> y = df['Answer'].values  # Answer컬럼을 y값으로 저장
 > y.shape  # 확인
 > ```
 > ## X,y데이터 불러오기
