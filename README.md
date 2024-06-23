@@ -1044,6 +1044,7 @@
 >> - TN (True Negative) : 네거티브 중 맞춤
 >> - FP (False Positive) : 포지티브 중 틀림
 >> - FN (False Negative) : 네거티브 중 틀림
+>
 >> 오차행렬 지표
 >> - 정확도(Accuracy) = TP + TN (맞춤) / 전체(total)
 >> - 정밀도(Precision) = TP / TP + FP (예측한 클래스 중, 실제로 해당 클래스인 데이터 비율)
