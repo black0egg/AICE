@@ -1039,16 +1039,16 @@
 >
 > ## 분류모델 성능지표
 >> 1.오차행렬(Confusion Matrix) (분류모델에 주로 쓰임)
->>> TP (True Positive) : 포지티브 중 맞춤 
->>> TN (True Negative) : 네거티브 중 맞춤
->>> FP (False Positive) : 포지티브 중 틀림
->>> FN (False Negative) : 네거티브 중 틀림
+>> - TP (True Positive) : 포지티브 중 맞춤 
+>> - TN (True Negative) : 네거티브 중 맞춤
+>> - FP (False Positive) : 포지티브 중 틀림
+>> - FN (False Negative) : 네거티브 중 틀림
 >> 오차행렬 지표
->>> 정확도(Accuracy) = TP + TN (맞춤) / 전체(total)
->>> 정밀도(Precision) = TP / TP + FP (예측한 클래스 중, 실제로 해당 클래스인 데이터 비율)
->>> 재현율(Recall) = TP = TP + FN (실제 클래스 중, 예측한 클래스와 일치한 데이터 비율) 
->>> F1점수(F1-score) = 2 \* \[1/{(1/Precision)+(1/Recall)}\] (Precision과 Recall의 조화평균)
->>> Support = 각 클래스 실제 데이터수
+>> - 정확도(Accuracy) = TP + TN (맞춤) / 전체(total)
+>> - 정밀도(Precision) = TP / TP + FP (예측한 클래스 중, 실제로 해당 클래스인 데이터 비율)
+>> - 재현율(Recall) = TP = TP + FN (실제 클래스 중, 예측한 클래스와 일치한 데이터 비율) 
+>> - F1점수(F1-score) = 2 \* \[1/{(1/Precision)+(1/Recall)}\] (Precision과 Recall의 조화평균)
+>> - Support = 각 클래스 실제 데이터수
 >> 2.Classification_report
 >    
 > 오차행렬 성능지표 쉽게확인 
