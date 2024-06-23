@@ -260,7 +260,7 @@
 > ## 입력데이터에서 제외
 > ※ axis=0(행), axis=1(열)
 > ```python
-> df.drop(['abc',def'], axis=1)  # abc, def 컬럼 삭제
+> df.drop(['abc','def'], axis=1)  # abc, def 컬럼 삭제
 > ```
 > ```python
 > df = df.drop('abc', axis=1)  # abc, def 컬럼(axis=1(열)) 삭제, 
@@ -277,10 +277,10 @@
 >> ```
 >> ## 결측치 처리
 >> missing(결측값수)  
->> “_“를 numpy의 null값(결측치)으로 변경
+>> '_'값을 numpy의 null값(결측치)으로 변경
 >> ```python
 >> df = df.replace('_', np.NaN)
->> df.replace('_',np.nan, inplace=True)  # df데이터프레임 내에서, '_'값이 있는 값을 모두 nan(null)값으로 변경
+>> df.replace('_', np.NaN, inplace=True)  # df데이터프레임 내에서, '_'값이 있는 값을 모두 np.nana(null)값으로 자체데이터(inplace=True)에 변경
 >> df.info()
 >> ```
 >> ## 결측치(Null데이터) 처리
@@ -306,9 +306,15 @@
 >> ```python
 >> df.fillna(df.mode().iloc[0])
 >> ```
->> df데이터 / “A”칼럼 결측치를 해당칼럼 최빈값으로 채우기
+>> df데이터 / “a”칼럼 결측치를 해당칼럼 최빈값으로 채우기
 >> ```python
->> df['A'].fillna(df['A'].mode()[0])
+>> df['a'].valuecounts()
+>> df['a'].mode().iloc[0]  # 데이터프레임 df의 열 a에서 최빈값 'L'을 찾아 결측치 채우기
+>> 'L'
+>> df['a'].fillna('L', inplace=True)
+>> ```
+>> ```python
+>> df['a'].fillna(df['a'].mode()[0], inplace=True)  # 데이터프레임 df의 열 a에서 최빈값을 찾아 결측치 채우기
 >> ```
 >> ## mean(평균), median(중간)값 대체하여 채우기
 >> (범주형데이터 주로사용)
@@ -317,10 +323,10 @@
 >> ```
 >> ## 결측치(Null데이터)를 숫자형태 데이터의 경우, 중간값으로 대체하여 채우기
 >> ```python
->> df['abc'.median()  # 가.중간값 찾기
+>> df['abc'].median()  # 가.중간값 찾기
 >> 77.0  # 결과값:77.0
->> df['abc'].replace(np.nan,77.0,inplace=True)  # 나.abc컬럼 결측치 77.0으로 변경
->> df['abc'] = df['abc'].astype(int)  # 다.abc컬럼 타입 정수형숫자로 변경
+>> df['abc'].replace(np.nan, 77.0, inplace=True)  # 나.abc컬럼 결측치 77.0으로 변경
+>> df['abc'] = df['abc'].astype(int)  # 다.abc컬럼 타입 정수형숫자(int)로 변경
 >> df['abc'].isnull().sum()  # 확인
 >> ```
 >> ## 앞값(ffill), 뒷값(backfill) 대체하여 채우기
@@ -414,6 +420,12 @@
 >> df['A'] = le.fit_transform(df['A'])
 >> df
 >> ```
+>> ```python
+>> le_columns = df.select_dtypes(include='object')  # int64(정수형),float64(실수형),bool(부울형),datetime64(날짜표현),category(카테고리),object(문자열or복합형)
+>> le_columns.head()
+>> le = LabelEncoder()
+>> le_columns['a'] = le.fit_transform(le_columns['a'])
+>> ```
 >> ## 원핫인코딩
 >>> ## 카테고리형 데이터를 원핫인코딩으로 컬럼 작성
 >>> ```python
@@ -425,8 +437,8 @@
 >>> ### 카테고리형 데이터를 판다스로 쉽게 원핫인코딩
 >>> ```python
 >>> onehot column = ['a','b']
->>> df1 = pd.get_dummies(data=df1, columns = onehot column, drop_first=True)  # drop_first : 첫번째컬럼 제외하여 효율성 향상
->>> df1
+>>> df1 = pd.get_dummies(data=df1, columns=onehot column, drop_first=True)  # drop_first : 첫번째컬럼 제외하여 효율성 향상
+>>> df1.info()
 >>> ```
 >> ## OrdinalEncoding
 >> Categorical feature(범주형 특성)에 대한 순서형 코딩  
@@ -465,8 +477,10 @@
 > ```python
 > X = df.drop('Answer',axis=1).values  # y컬럼만 제외하고 X값으로 저장
 > X.shape  # 확인
+> (10000, 37)  # 10000개의 행과 37개의 열
 > y = df['Answer'].values  # Answer컬럼을 y값으로 저장
 > y.shape  # 확인
+> (10000,)  # 10000개 데이터
 > ```
 > ## X,y데이터 불러오기
 > reshape(-1,1) 2차원배열 디자인포맷(reshape) 확장(-1은 알아서 넣으라는 뜻)
@@ -483,7 +497,7 @@
 > ```python
 > X_train, X_test, y_train, y_test =
 > train_test_split
-> (X, y, test_size=0.30, random_state=50, stratify = y)  # stratify 메소드: 분류모델은 꼭 추가
+> (X, y, test_size=0.30, random_state=50, stratify=y)  # 70:30(test size=0.3), stratify 메소드: 분류모델은 꼭 추가
 > ```
 > ## 데이터 정규화/스케일링 
 > ```python
@@ -493,7 +507,7 @@
 > 
 > df1[['a']].head()
 >
-> scaler = MinMaxScaler( )  # 정의
+> scaler = MinMaxScaler( )  # scaler 정의
 > X_train = scaler.transform(X_train)
 > X_test = scaler.transform(X_test)
 >
@@ -540,7 +554,9 @@
 > ```python
 > LogisticR_model = LogisticRegression(c=1.0,max_iter=5000)
 > LogisticR_model.fit(x_train, y_train)
+> LogisticR_model.score(X_test, y_test)
 > LogisticR_pred = model.predict(x_test)
+> confusion_matrix(y_test, LogisticR_pred) 
 > print(classification_report(y_test, LogisticR_pred)
 > ```
 >
@@ -603,15 +619,14 @@
 > 4) Weighted Blending : 각모델 예측값에 대해 weight 곱하여 최종 아웃풋계산
 >
 > ## XGBoost (잘못예측한 것들을 좀더 집중등, 예측/분류성능을 높인 앙상블기법)
-> (!는 리눅스 명령어)
 > ```python
-> !pip install xgboost
+> !pip install xgboost  # (!는 리눅스 명령어)
 > 
 > from xgboost import XGBClassfier
 > xgb_model = XGBClassifier(n_estimators=50)  # n_estimators : 결정트리의 개수
-> xgb_model.fit(X_train,y_train)
+> xgb_model.fit(X_train, y_train)
 > xgb_pred = xgb_model.predict(X_test)
-> accuracy_eval('XGBoost',xgb_pred, y_test)
+> accuracy_eval(xgb_model, xgb_pred, y_test)  # accuracy_eval : 정확도를 계산
 > print(confusion_matrix(y_test, xgb_pred))
 > xgb_model.score(X_test, y_test)
 > ```
@@ -655,8 +670,16 @@
 > -   과적합 방지
 > -   input layer(30features), 2 hidden layer, output layer(이진분류)
 > ```python
+> batch_size = 1024  # 하이퍼파라미터 설정
+> epochs = 30
+> X_train.shape
+> (10000,30)
+> y_tran.shape
+> (10000,)
+> ```
+> ```python
 > model = Sequential()
-> model.add(Dense(64, activation="relu", input_shape=(30,)))  # 인풋데이터30, 히든레이더64개
+> model.add(Dense(64, activation="relu", input_shape=(30,)))  # 인풋데이터30(컬럼갯수), 히든레이더64개
 > model.add(BatchNormalization( ))
 > model.add(dropout(0.5))
 > model.add(Dense(64, activation="relu"))  # 히든레이더64개
@@ -664,12 +687,16 @@
 > model.add(dropout(0.5))
 > model.add(Dense(32, activation="relu"))  # 히든레이더32개
 > model.add(dropout(0.5))
+> ```
+> (※ 아웃풋1(이진분류) = sigmoid, 아웃풋3(다중분류), softmax)
+> ```python
 > model.add(Dense(1, activation="sigmoid"))  # 이진분류 : 덴스1,시그모이드
 > # 또는 output layer ()
 > ```
 > (※ 아웃풋1(이진분류) = sigmoid, 아웃풋3(다중분류), softmax)
 > ```python
 > model.add(Dense(3, activation="softmax"))  # 다중분류 : 덴스2~,소프트맥스
+> # 또는 output layer ()
 > ```
 > 
 > 다.컴파일
@@ -700,7 +727,7 @@
 > 라. 딥러닝 테스트 핏
 > ```python
 > model.fit(x=X_train, y=y_train,
->           epochs=50, batch_size=20,  # 하이퍼파라미터 설정
+>           epochs=epochs, batch_size=batch_size,  # 하이퍼파라미터 설정
 >           validation_data=(X_test, y_test),
 >           verbose=1,
 >           callbacks=[early_stop, check_point])  # 하이퍼파라미터 설정
