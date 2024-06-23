@@ -37,8 +37,10 @@
 > ## 텐서플로 케라스모델 및 기능 불러오기
 > (시퀀셜:히든레이어개수/덴스:노드개수/액티베이션/과적합방지기능 불러오기)34
 > ```python
-> from tensorflow.keras.models import Sequential
+> from tensorflow.keras.models import Sequential, load_model
 > from tensorflow.keras.layers import Dense, Activation, Dropout
+> from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
+> from tensorflow.keras.utils import to_categorical
 > ```
 > ## [모델] sklearn에서, 선형회귀모델(LinearRegression) 불러오기
 > ```python
@@ -128,11 +130,12 @@
 > ```
 > ## df데이터 / 상관관계 분석
 > ```python
-> df.corr( )
+> df.corr()
+> corr1 = df.corr()
 > ```
 > ```python
-> sns.set(df={'figure.figsize':(20:16})
-> sns.heatmap(corr, annot=True)
+> sns.set(rc={'figure.figsize':(20:16})
+> sns.heatmap(corr1, annot=True)
 > ```
 > ## 데이터 뽑아오기
 > ```python
@@ -152,7 +155,7 @@
 
 ## [1-3.빅데이터 시각화]
 >
-> ## [Matplotlib] 시각화 (스캐터,바챠트)
+> ## Matplotlib 시각화 (스캐터,바챠트)
 > 영역 지정 : plt.figure()  
 > 차트/값 지정 : plt.plot()  
 > 시각화 출력 : plt.show()  
@@ -161,7 +164,7 @@
 >> df["00000"].value_counts( ).plot(kind="bar")
 >> plt.show( )
 >> ```
->> ### df데이터 / “00000”칼럼, 바차트 시각화 2
+>> ### df데이터 / “00000”칼럼, 바차트 시각화 2 (Pairplot)
 >> ```python
 >> df.corr( )["00000"][:-1].sort_values( ).plot(kind="bar")
 >> sns.pairplot(df)
@@ -181,7 +184,11 @@
 >> ```
 >> ### 히스토그램
 >> ```python
->> plt.hist(x)
+>> plt.hist(df['a'])
+>> ```
+>> ```python
+>> plt.figure(figsize=(10,4))
+>> df['a'].plot(kind='hist')
 >> ```
 >> ### 산점도
 >> ```python
@@ -200,7 +207,7 @@
 >> ```python
 >> plt.plot(data)
 >> ```
-> ## [Seaborn] 시각화 (히트맵, 통계)
+> ## Seaborn 시각화 (히트맵, 통계)
 >> ### 카운트 플롯
 >> ```python
 >> sns.countplot(x="A", data=df)
@@ -212,6 +219,14 @@
 >> ### 조인트 플롯
 >> ```python
 >> sns.jointplot(x="A", y="B", data=df, kind="hex")
+>> ```
+>> ### 스캐터 플롯
+>> ```python
+>> fig, (ax1,ax2,ax3) = plt.subplot(1,3)
+>> fig.set_size(14,4)
+>> sns.scatterplot(data=df, x='a', y='y', ax=ax1)
+>> sns.scatterplot(data=df, x='b', y='y', ax=ax2)
+>> sns.scatterplot(data=df, x='c', y='y', ax=ax3)
 >> ```
 >> ### 상관관계 히트맵
 >> ```python
@@ -475,22 +490,14 @@
 ## [2.학습모델] ~ [3.최적화]
 >
 > ## LinearRegression 모델 (선형회귀)
-> 가. 모델 선정
 > ```python
-> model = LinearRegression( )
+> LinearR_model = LinearRegression()  # 가. 모델 선정
+> LinearR_model.fit(X_train, y_train)  # 나. 테스트 핏
+> score = LinearR_model.score(X_test, y_test)  # 다. 스코어
+> LinearR_pred = model.predict(X_test)  # 라. 예측
+> LinearR_model.summary( )  # 마. 확인
 > ```
-> 나. 테스트 핏
-> ```python
-> model.fit(X_train, y_train)
-> ```
-> 다. 예측
-> ```python
-> linearR_pred = model.predict(X_test)
-> ```
-> 라. 확인
-> ```python
-> model.summary( )
-> ```
+>
 > 회귀예측 주요 성과지표
 > ```python
 > import numpy as np
@@ -502,6 +509,8 @@
 > ```python
 > from sklearn.linear_model import LogisticRegression
 > from sklearn.model_selection import train_test_split
+> from sklearn.metrics import confusion_matrix
+> from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 > from sklearn.metrics import classification_report
 > ```
 > 나. 데이터 불러오기
@@ -516,8 +525,8 @@
 > ```
 > 라. 모델링
 > ```python
-> model = LogisticRegression( )
-> model.fit(x_train, y_train)
+> LogisticR_model = LogisticRegression(c=1.0,max_iter=5000)
+> LogisticR_model.fit(x_train, y_train)
 > LogisticR_pred = model.predict(x_test)
 > print(classification_report(y_test, LogisticR_pred)
 > ```
@@ -530,50 +539,11 @@
 > ```
 > 나. 데이터셋(df) 불러오기
 > ```python
-> model = DecisionTreeClassifier(max_depth=10,random_state=42)
-> model.fit(X_train,y_train)
-> dt_pred = model.predict(X_test)
-> accuracy_eval('DecisionTree',dt_pred,y_test) 
-> ```
->
-> ## Ensemble 기법
-> 1) Bagging  
-> 2) Boosting : 이전학습 잘못예측한 데이터에 가중치부여해 오차보완  
-> 3) Stacking : 여러개 모델이 예측한 결과데이터 기반, final\_estimator모델로 종합 예측수행
-> 4) Weighted Blending : 각모델 예측값에 대해 weight 곱하여 최종 아웃풋계산
->
-> ## XGBoost
-> (!는 리눅스 명령어)
-> ```python
-> !pip install xgboost
-> 
-> from xgboost import XGBClassfier
-> model = XGBClassifier(n_estimators=50)
-> model.fit(X_train,y_train)
-> xgb_pred = model.predict(X_test)
-> accuracy_eval('XGBoost',xgb_pred, y_test)
-> ```
->
-> ## LightGBM
->
-> ```python
-> !pip install lightGBM
->
-> from xgboost import GBMClassfier
-> model = LGBMClassifier(n_estimators=3, random_state=42)
-> model.fit(X_train,y_train)
-> lgbm_pred = model.predict(X_test)
-> accuracy_eval('lgbm',lgbm_pred,y_test)
-> ```
->
-> ## KNN (K-Nearest Neighbor)
->
-> ```python
-> from sklearn.neighbors import KNeighborsClassifier
-> model = KneighborsClassifier(n_neighbors=5)
-> model.fit(X_train,y_train)
-> knn_pred = model.predict(X_test)
-> accuracy_eval('K-Nearest Neighbor',knn_pred,y_test)
+> DT_model = DecisionTreeClassifier(max_depth=10,random_state=42)
+> DT_model.fit(X_train,y_train)
+> DT_pred = DT_model.predict(X_test)
+> accuracy_eval('DecisionTree',DT_pred,y_test)
+> score = DT_model.score(X_test, y_test)
 > ```
 > 
 > ## Random Forest
@@ -585,7 +555,7 @@
 > ```
 > 나. model 랜덤포레스트 선정
 > ```python
-> model = RandomForestRegressor
+> RF_model = RandomForestRegressor
 >         (n_estimators=50,  # 학습시 생성할 트리갯수
 >         max_depth=20,  # 트리의 최대 깊이
 >         random_state=42, # 난수 seed 설정
@@ -598,48 +568,95 @@
 > ```
 > 다. 테스트 핏
 > ```python
-> model.fit(x_train, y_train)
+> RF_model.fit(x_train, y_train)
 > ```
 > 라. 스코어
 > ```python
-> model.score(x_test, y_test)
+> RF_model.score(x_test, y_test)
 > ```
 > 마. 예측
 > ```python
-> rf_pred = model.predict(x_test)
+> RF_pred = model.predict(x_test)
 > ```
 > 바. RMSE값 구하기
 > ```python
-> np.mean((y_pred - y_test) ** 2) ** 0.5  
+> np.mean((RF_pred - y_test) ** 2) ** 0.5  
 > ```
 >
-> ## 딥러닝 모델
+> ## Ensemble 기법
+> 1) Bagging  
+> 2) Boosting : 이전학습 잘못예측한 데이터에 가중치부여해 오차보완  
+> 3) Stacking : 여러개 모델이 예측한 결과데이터 기반, final\_estimator모델로 종합 예측수행
+> 4) Weighted Blending : 각모델 예측값에 대해 weight 곱하여 최종 아웃풋계산
 >
-> 가. 케라스 초기화
+> ## XGBoost (잘못예측한 것들을 좀더 집중등, 예측/분류성능을 높인 앙상블기법)
+> (!는 리눅스 명령어)
 > ```python
-> keras.backend.clear_session( )
+> !pip install xgboost
+> 
+> from xgboost import XGBClassfier
+> xgb_model = XGBClassifier(n_estimators=50)  # n_estimators : 결정트리의 개수
+> xgb_model.fit(X_train,y_train)
+> xgb_pred = xgb_model.predict(X_test)
+> accuracy_eval('XGBoost',xgb_pred, y_test)
+> print(confusion_matrix(y_test, xgb_pred))
+> xgb_model.score(X_test, y_test)
+> ```
+>
+> ## LightGBM (결정트리기반 앙상블기법, 메모리사용량 적고 학습시간 짦음)
+>
+> ```python
+> !pip install lightGBM
+>
+> from xgboost import LGBMClassfier
+> lgbm_model = LGBMClassifier(n_estimators=3, random_state=42)
+> lgbm_model.fit(X_train,y_train)
+> lgbm_pred = lgbm_model.predict(X_test)
+> accuracy_eval('lgbm',lgbm_pred,y_test)
+> ```
+>
+> ## KNN (K-Nearest Neighbor)
+>
+> ```python
+> from sklearn.neighbors import KNeighborsClassifier
+> KNN_model = KNeighborsClassifier(n_neighbors=5)
+> KNN_model.fit(X_train,y_train)
+> knn_pred = KNN_model.predict(X_test)
+> accuracy_eval('K-Nearest Neighbor',knn_pred,y_test)
 > ```
 > 
+> ## 딥러닝 모델
+>
+> 가. 케라스 초기화 및 모델과 기능 불러오기
+> ```python
+> keras.backend.clear_session()
+> ```
+> ```python
+> from tensorflow.keras.models import Sequential, load_model
+> from tensorflow.keras.layers import Dense, Activation, Dropout
+> from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
+> from tensorflow.keras.utils import to_categorical
+> ```
 > 나. 모델 작성 30개의 features, 보통 연산효율을 위해 relu활용
 > -   Batchnormalization 활용
 > -   과적합 방지
 > -   input layer(30features), 2 hidden layer, output layer(이진분류)
 > ```python
-> model = Sequential( )
-> model.add(Dense(64, activation="relu", input_shape=(30,)))
+> model = Sequential()
+> model.add(Dense(64, activation="relu", input_shape=(30,)))  # 인풋데이터30, 히든레이더64개
 > model.add(BatchNormalization( ))
 > model.add(dropout(0.5))
-> model.add(Dense(64, activation="relu"))
+> model.add(Dense(64, activation="relu"))  # 히든레이더64개
 > model.add(BatchNormalization( ))
 > model.add(dropout(0.5))
-> model.add(Dense(32, activation="relu"))
+> model.add(Dense(32, activation="relu"))  # 히든레이더32개
 > model.add(dropout(0.5))
-> model.add(Dense(1, activation="sigmoid"))
+> model.add(Dense(1, activation="sigmoid"))  # 이진분류 : 덴스1,시그모이드
 > # 또는 output layer ()
 > ```
 > (※ 아웃풋1(이진분류) = sigmoid, 아웃풋3(다중분류), softmax)
 > ```python
-> model.add(Dense(3, activation="softmax"))
+> model.add(Dense(3, activation="softmax"))  # 다중분류 : 덴스2~,소프트맥스
 > ```
 > 
 > 다.컴파일
@@ -670,10 +687,10 @@
 > 라. 딥러닝 테스트 핏
 > ```python
 > model.fit(x=X_train, y=y_train,
->           epochs=50, batch_size=20,
+>           epochs=50, batch_size=20,  # 하이퍼파라미터 설정
 >           validation_data=(X_test, y_test),
 >           verbose=1,
->           callbacks=[early_stop, check_point])
+>           callbacks=[early_stop, check_point])  # 하이퍼파라미터 설정
 > ```
 >> ##### 조기종료 옵션 (케라스 조기종료&체크포인트 불러오기)
 >> ```python
@@ -698,17 +715,33 @@
 >           verbose=1,
 >           callbacks=[early_stop, check_point])
 > ```
-> 
+> ```python
+> model.save('my_model1.h5')  # 모델 my_model1.h5로 저장
+> !ls -l my_model1.h5
+> ```
+>
 > 바. 학습로그 시각화 확인
 > ```python
-> import matplotlib.pyplot as plt
+> import matplotlib.pyplot as plt  # Accuracy 그래프
+> plt.figure(figsize=(10,5))
 > plt.plot(history.history["accuracy"])
 > plt.plot(history.history["val_accuracy"])
-> plt.title("Accuracy")
+> plt.title("Model Accuracy")
 > plt.xlabel("Epochs")
 > plt.ylabel("Accuracy")
-> plt.legend(["train_acc", "val_acc"])
+> plt.legend(["train_acc", "val_acc"], loc='lower right')
 > plt.show( )
+> ```
+> ```python
+> import matplotlib.pyplot as plt  # Loss 그래프
+> plt.figure(figsize=(10,5))
+> plt.plot(history.history['loss'], 'b', label='Train Loss')
+> plt.plot(history.history['val_loss'], 'y', label='Validation Loss')
+> plt.title("Model Loss")
+> plt.xlabel("Epochs")
+> plt.ylabel("Loss")
+> plt.legend()
+> plt.show()
 > ```
 > 
 > 사. 딥러닝 성능평가
@@ -963,36 +996,62 @@
 > ```
 
 ## [4.성능평가]
+>
+> ## 손실함수(신경망 학습의 목적으로 출력값,정답 차이계산)
+>> 회귀모델 손실함수(Loss Function)
+>> -   MSE(Mean Squared Error) : 실제에서 예측값 차이를 제곱, 합하여 평균 (예측) (작을수록 좋음)
+>> -   MAE(Mean Absolute Error) : 실제값 빼기 예측값 절댓값의 평균 (작을수록 좋음)
+>> 
+>> 분류모델 손실함수
+>> -   CEE(Cross Entropy Error) : 예측결과가 빗나갈수록 더큰패널티 부여 (분류)
+>> -   Binary Cross Entropy (이진분류)
+>> -   Categorical Cross Entropy (다중분류)
+>> -   Sparse Categorical Cross Entropy
+>> -   Multi Class Classfication (다중분류)
+>>
+>> 주요 지표
+>> -   loss = MSE (학습시 사용한 loss function종류에 의해 결정) (작을수록 좋음)
+>> -   error = 실제값 빼기 예측값의 평균 (작을수록 좋음)
+>> -   R2(결정계수) = 독립변수가 종속변수를 얼마나 잘설명하는지 (클수록 좋음)
+>>
+> ## 옵티마이저 (딥러닝 모델의 매개변수(w,b)를 조절하여 손실함수값을 최저로 만드는 과정
+>> 경사하강법(Gradient Descent) : 손실함수의 현가중치에서 기울기를 구해서 loss를 줄이는 방향으로 업데이트해나가는 방법
+>> 순전파 : 딥러닝 모델에 값을 입력해서 출력을 얻는 과정
+>> 오차역전파 : 실제값과 결과겂 오차를 구한 후, 해당오차를 다시 앞으로 보내 가중치를 재업데이트하는 과정
+>> ref) GD(Gradient Descent), SGD, RMSProp, Adam...
+>>
+> ## RMSE값 확인하기
+>
 > ## 목표
-> Loss(오차율) 낮추고, Accuracy(정확도) 높이기  
-> Error -> Epochs이 많아질수록 줄어들어야 함  
-> Epoch 많아질수록, 오히려 TestSet Error 올라가는경우 생길때, 직전Stop  
-> 학습시 조기종료(early stop) 적용되지 않았을 때는 개선여지가 있기에,  
-> 배치사이즈나 에포크를 수정하여 개선할 수 있음
+>> Loss(오차율) 낮추고, Accuracy(정확도) 높이기  
+>> Error -> Epochs이 많아질수록 줄어들어야 함  
+>> Epoch 많아질수록, 오히려 TestSet Error 올라가는경우 생길때, 직전Stop  
+>> 학습시 조기종료(early stop) 적용되지 않았을 때는 개선여지가 있기에,  
+>> 배치사이즈나 에포크를 수정하여 개선할 수 있음
 > 
 > ## 좋은 모델
-> 과적합(overfitting) : 선이 너무 복잡  
-> 트레인 어큐러시만 높아지고, 벨리드 어큐러시는 높아지지 않을때 (트레인어큐러시에 맞춰짐)  
-> 과소적합(underfitting) : 선이 너무 단순  
-> 트레인/벨리드 어큐러시가 교차되지 않고 아직 수평선을 향해갈때  
-> 좋은모델 : 어느정도 따라가는 적당선  
-> 트레인/벨리드 어큐러시가 수평선을 이어 서로 교차될때
+>> 과적합(overfitting) : 선이 너무 복잡  
+>> 트레인 어큐러시만 높아지고, 벨리드 어큐러시는 높아지지 않을때 (트레인어큐러시에 맞춰짐)  
+>> 과소적합(underfitting) : 선이 너무 단순  
+>> 트레인/벨리드 어큐러시가 교차되지 않고 아직 수평선을 향해갈때  
+>> 좋은모델 : 어느정도 따라가는 적당선  
+>> 트레인/벨리드 어큐러시가 수평선을 이어 서로 교차될때
 >
-> ## 성능지표
-> 오차행렬(Confusion Matrix) (분류모델에 주로 쓰임)
-> -   TP (True Positive)
-> -   TN (True Negative)
-> -   FP (False Positive)
-> -   FN (False Negative)
-> 오차행렬 지표
-> -   정확도(Accuracy) = 맞춤(TP&TN) / 전체(total)
-> -   정밀도(Precision) = TP / TP + FP (예측한 클래스 중, 실제로 해당 클래스인 데이터 비율)
-> -   재현율(Recall) = TP = TP + FN (실제 클래스 중, 예측한 클래스와 일치한 데이터 비율)
-> -   F1점수(F1-score) = 2 \* \[1/{(1/Precision)+(1/Recall)}\] (Precision과 Recall의 조화평균)
-> -   Support = 각 클래스 실제 데이터수
-> 
-> 오차행렬 성능지표 쉽게확인
-> 
+> ## 분류모델 성능지표
+>> 1.오차행렬(Confusion Matrix) (분류모델에 주로 쓰임)
+>>> TP (True Positive) : 포지티브 중 맞춤 
+>>> TN (True Negative) : 네거티브 중 맞춤
+>>> FP (False Positive) : 포지티브 중 틀림
+>>> FN (False Negative) : 네거티브 중 틀림
+>> 오차행렬 지표
+>>> 정확도(Accuracy) = TP + TN (맞춤) / 전체(total)
+>>> 정밀도(Precision) = TP / TP + FP (예측한 클래스 중, 실제로 해당 클래스인 데이터 비율)
+>>> 재현율(Recall) = TP = TP + FN (실제 클래스 중, 예측한 클래스와 일치한 데이터 비율) 
+>>> F1점수(F1-score) = 2 \* \[1/{(1/Precision)+(1/Recall)}\] (Precision과 Recall의 조화평균)
+>>> Support = 각 클래스 실제 데이터수
+>> 2.Classification_report
+>    
+> 오차행렬 성능지표 쉽게확인 
 > ```python
 > from sklearn.metrics import classification_report
 > print(classification_report(y_test, y_pred))
@@ -1011,27 +1070,14 @@
 > plt.show()
 > 
 > print(classification_report(y_test, y_pred))
-> 
+>
+> confusion_matrix(y_true, y_pred)
+> accuracy_score(y_true, y_pred)
 > precision_score(y_true, y_pred)
 > recall_score(y_true, y_pred)
+> f1_score(y_true, y_pred)
 > ```
-> 
-> ## 손실함수
->> 회귀모델 손실함수(Loss Function)
->> -   MSE(Mean Squared Error) : 실제에서 예측값 차이를 제곱, 합하여 평균 (예측) (작을수록 좋음)
->> -   MAE(Mean Absolute Error) : 실제값 빼기 예측값 절댓값의 평균 (작을수록 좋음)
->> -   CEE(Cross Entropy Error) : 예측결과가 빗나갈수록 더큰패널티 부여 (분류)
->> 
->> 분류모델 손실함수
->> -   Binary Cross Entropy (이진분류)
->> -   Multi Class Classfication (다중분류)
->>
->> 주요 지표
->> -   loss = MSE (학습시 사용한 loss function종류에 의해 결정) (작을수록 좋음)
->> -   error = 실제값 빼기 예측값의 평균 (작을수록 좋음)
->> -   R2(결정계수) = 독립변수가 종속변수를 얼마나 잘설명하는지 (클수록 좋음)
 >
-> ## RMSE값 확인하기
->
+
 ## [5.적용]
 
