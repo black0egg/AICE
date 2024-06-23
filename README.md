@@ -1038,6 +1038,7 @@
 >> 트레인/벨리드 어큐러시가 수평선을 이어 서로 교차될때
 >
 > ## 분류모델 성능지표
+>
 >> 1.오차행렬(Confusion Matrix) (분류모델에 주로 쓰임)
 >> - TP (True Positive) : 포지티브 중 맞춤 
 >> - TN (True Negative) : 네거티브 중 맞춤
@@ -1049,6 +1050,7 @@
 >> - 재현율(Recall) = TP = TP + FN (실제 클래스 중, 예측한 클래스와 일치한 데이터 비율) 
 >> - F1점수(F1-score) = 2 \* \[1/{(1/Precision)+(1/Recall)}\] (Precision과 Recall의 조화평균)
 >> - Support = 각 클래스 실제 데이터수
+>
 >> 2.Classification_report
 >    
 > 오차행렬 성능지표 쉽게확인 
