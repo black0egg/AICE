@@ -508,7 +508,6 @@
 > scaler = MinMaxScaler( )  # scaler 정의
 > X_train = scaler.transform(X_train)
 > X_test = scaler.transform(X_test)
->
 > pd.DataFrame(X_train[:, 0], columnns=['a']).head()  # 확인
 > ```
 
