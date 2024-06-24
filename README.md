@@ -497,16 +497,14 @@
 > ```python
 > X_train, X_test, y_train, y_test =
 > train_test_split
-> (X, y, test_size=0.30, random_state=50, stratify=y)  # 70:30(test size=0.3), stratify 메소드: 분류모델은 꼭 추가
+> (X, y, test_size=0.30, random_state=50, stratify=y)  # 70:30(test size=0.3), stratify 메소드: 분류모델에서 필요, 회귀모델에서는 불필요
 > ```
 > ## 데이터 정규화/스케일링 
 > ```python
 > from sklearn.preprocessing import MinMaxScaler  # 데이터를 0~1사이 숫자로 변경하여 머신러닝 알고리즘성능 향상
 > from sklearn.preprocessing import StandardScaler
 > help(MinMaxScaler)
-> 
-> df1[['a']].head()
->
+> df1[['a']].head()  # df1 a칼럼 확인
 > scaler = MinMaxScaler( )  # scaler 정의
 > X_train = scaler.transform(X_train)
 > X_test = scaler.transform(X_test)
