@@ -493,7 +493,7 @@
 > from sklearn.model_selection import train_test_split 
 > ```
 > ## 테스트세트를 30%로 분류하고, 50번 랜덤하게 섞기
-> (y값이 골고루 분할되도록 stratify하게 분할)
+> (stratify : y값이 골고루 분할되도록 분할하는 메소드)
 > ```python
 > X_train, X_test, y_train, y_test =
 > train_test_split
