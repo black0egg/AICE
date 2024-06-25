@@ -1076,7 +1076,18 @@
 >> scoring : 예측 성능을 측정할 평가 방법을 넣는다. 분류 알고리즘일 때는, 'accuracy', 'f1', 회귀 알고리즘일 때는 'neg_mean_squared_error', 'r2' 등을 넣을 수 있다.
 >> cv : 교차 검증에서 몇개로 분할되는지 지정한다.(정수로 넣어주면 K겹 교차검증이 되고, KFold(k) 이런식으로 넣어주어도 무방 // default 값은 cv=3)
 >> refit : True로 하면 최적의 하이퍼 파라미터를 찾아서 estimator를 재학습시킨다. (default 값이 True임)
-
+> ```python
+> grid_search = GridSearchCV(dt_clf, param_grid = param_grid, cv = 5, scoring = 'accuracy', refit=True)
+> grid_search.fit(X_train, y_train)
+> print('best parameters : ', grid_search.best_params_)
+> print('best score : ', round(grid_search.best_score_, 4))
+> df = pd.DataFrame(grid_search.cv_results_)
+> df
+> estimator = grid_search.best_estimator_
+> pred = estimator.predict(X_test)
+> print('score: ', round(accuracy_score(y_test,pred), 4))
+> ```
+> 
 ## [4.성능평가]
 >
 > ## 손실함수(신경망 학습의 목적으로 출력값,정답 차이계산)
