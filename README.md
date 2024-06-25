@@ -14,7 +14,7 @@
 >
 > ## pandas 불러오고, pd로 정의
 > ```python
-> import pandas as pd  # 판다스 불러오기
+> import pandas as pd
 > ```
 > ## numpy 불러오고, np로 정의
 > ```python
@@ -30,59 +30,20 @@
 > import matplotlib.pylot as plt
 > %matplotlib inline  # (%: 주피터랩 명령어)
 > ```
-> ## 텐서플로 불러오고, tf로 정의
-> ```python
-> import tensorflow as tf
-> ```
-> ## 텐서플로 케라스모델 및 기능 불러오기
-> (시퀀셜:히든레이어개수/덴스:노드개수/액티베이션/과적합방지기능 불러오기)34
-> ```python
-> from tensorflow.keras.models import Sequential, load_model
-> from tensorflow.keras.layers import Dense, Activation, Dropout
-> from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
-> from tensorflow.keras.utils import to_categorical
-> ```
-> ## [모델] sklearn에서, 선형회귀모델(LinearRegression) 불러오기
-> ```python
-> from sklearn.family import model
-> from sklearn.linear_model import LinearRegression
-> ```
-> ## [모델] sklearn에서, 분류회귀모델(Logistic Regression) 불러오기
-> (설명: 분류모델 주로 활용)
-> ```python
-> from sklearn.linear_model import LogisticRegression
-> from sklearn.model_selection import train_test_split
-> from sklearn.metrics import classification_report 
-> ```
-> ## [모델] sklearn에서, 랜덤포레스트 불러오기
-> (설명: 의사결정나무 2개에서, 여러개를 더해 예측율을 높임)
-> ```python
-> from sklearn.tree import DecisionTreeClassifier
-> ```
-> ## [모델] sklearn에서, 의사결정나무 불러오기
-> (설명: 분류/회귀가능한 다재다능, 다소복잡한 데이터셋도 학습가능)
-> ```python
-> from sklearn.tree import DecisionTreeClassifier
-> ```
-> ## [모델] AdaBoost
-> ## [모델] GBM (Gradient Boost)
-> ## [모델] XGBoost
-> (설명: GBM의 느림, 과적합 방지를 위해 Regulation만 추가, 리소스를 적게 먹으며 조기종료 제공)
-> ## [모델] SVM (Support Vector Machine)
-> ## [모델] Auto Encoder
-> ## [모델] CNN
-> ## [모델] RNN
-> ## [모델] LSTM
-> ## [모델] Transformer
-> ## [모델] SES (Simple Exponential Smoothing)
-> ## [모델] YOLO
-> ## [모델] VGG
 
 ## [1-1.빅데이터 수집]
 >
 > ## 디렉토리 확인
 > ```python
-> custom_framwork.config.data_dir
+> !pwd  # (Print Working Directory : 현재 디렉토리)
+> %cd ..  # (Change Directory : 상위 디렉토리)
+> %cd ~  # (Change Directory : 홈 디렉토리)
+> cd /root  # (Change Directory /root : 루트 디렉토리)
+> ls  # (List : 리스트 보기)
+> ```
+> ## 디렉토리 확인
+> ```python
+> custom_framework.config.data_dir
 > ```
 > 
 > ## “000.csv” 데이터 로드
@@ -112,6 +73,7 @@
 > ```
 
 ## [1-2.빅데이터 분석]
+>
 > Column Names = 열  
 > index = 행  
 > value = 값(행들의 데이터)
@@ -471,7 +433,6 @@
 
 ## [1-5.세트 구성]
 > 
-
 > ## X,y데이터 설정하기
 > ‘Answer’ 칼럼을 y값/타겟/레이블로 설정하기
 > ```python
@@ -512,6 +473,54 @@
 > ```
 
 ## [2.학습모델] ~ [3.최적화]
+>
+> ## 텐서플로 불러오고, tf로 정의
+> ```python
+> import tensorflow as tf
+> ```
+> ## 텐서플로 케라스모델 및 기능 불러오기
+> (시퀀셜:히든레이어개수/덴스:노드개수/액티베이션/과적합방지기능 불러오기)34
+> ```python
+> from tensorflow.keras.models import Sequential, load_model
+> from tensorflow.keras.layers import Dense, Activation, Dropout
+> from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
+> from tensorflow.keras.utils import to_categorical
+> ```
+> ## [모델] sklearn에서, 선형회귀모델(LinearRegression) 불러오기
+> ```python
+> from sklearn.family import model
+> from sklearn.linear_model import LinearRegression
+> ```
+> ## [모델] sklearn에서, 분류회귀모델(Logistic Regression) 불러오기
+> (설명: 분류모델 주로 활용)
+> ```python
+> from sklearn.linear_model import LogisticRegression
+> from sklearn.model_selection import train_test_split
+> from sklearn.metrics import classification_report 
+> ```
+> ## [모델] sklearn에서, 랜덤포레스트 불러오기
+> (설명: 의사결정나무 2개에서, 여러개를 더해 예측율을 높임)
+> ```python
+> from sklearn.tree import DecisionTreeClassifier
+> ```
+> ## [모델] sklearn에서, 의사결정나무 불러오기
+> (설명: 분류/회귀가능한 다재다능, 다소복잡한 데이터셋도 학습가능)
+> ```python
+> from sklearn.tree import DecisionTreeClassifier
+> ```
+> ## [모델] AdaBoost
+> ## [모델] GBM (Gradient Boost)
+> ## [모델] XGBoost
+> (설명: GBM의 느림, 과적합 방지를 위해 Regulation만 추가, 리소스를 적게 먹으며 조기종료 제공)
+> ## [모델] SVM (Support Vector Machine)
+> ## [모델] Auto Encoder
+> ## [모델] CNN
+> ## [모델] RNN
+> ## [모델] LSTM
+> ## [모델] Transformer
+> ## [모델] SES (Simple Exponential Smoothing)
+> ## [모델] YOLO
+> ## [모델] VGG
 >
 > ## LinearRegression 모델 (선형회귀)
 > ```python
@@ -1031,6 +1040,42 @@
 > 
 > accuracy_eval('Weighted Blending', final_prediction, y_test)
 > ```
+
+> ## GridSearchCV
+> GridSearchCV는 모델과 하이퍼파라미터 값범위를 지정하면 교차검증을 사용하여 하이퍼파라미터값의 가능한 모든조합을 수행하여 최적값 도출
+> ```python
+> from sklearn.model_selection import GridSearchCV, train_test_split  # 불러오기
+> dt_clf = DecisionTreeClassifier(random_state=1)  # 튜닝전 디시전트리 모델 예측정확도 확인
+> dt_clf.fit(X_train, y_train)
+> pred = dt_clf.predict(X_test)
+> accuracy = accuracy_score(y_test, pred)
+> print('예측 정확도 : {0:.4f}'.format(accuracy))  # 결과값 확인
+> print('\nDecisionTreeClassifier 하이퍼 파라미터:\n', dt_clf.get_params())  # 디시전트리 모델 하이퍼 파라미터 확인
+> DecisionTreeClassifier 하이퍼 파라미터:
+> {'ccp_alpha': 0.0, 'class_weight': None, 'criterion': 'gini', 'max_depth': None, 'max_features': None, 'max_leaf_nodes': None, 'min_impurity_decrease': 0.0, 'min_samples_leaf': 1, 'min_samples_split': 2, 'min_weight_fraction_leaf': 0.0, 'random_state': 1, 'splitter': 'best'
+> ```
+>> criterion : 분할 성능 측정 기능
+>> min_samples_split : 노드를 분할하기 위한 최소한의 샘플 데이터수로, 과적합을 제어하는데 주로 사용함. 작게 설정할 수록 분할 노드가 많아져 과적합 가능성이 높아짐
+>> max_depth : 트리의 최대 깊이, 깊이가 깊어지면 과적합될 수 있음
+>> max_features : 최적의 분할을 위해 고려할 최대 feature 개수 (default = None : 데이터 세트의 모든 피처를 사용)
+>> min_samples_leaf : 리프노드가 되기 위해 필요한 최소한의 샘플 데이터수 (과적합 제어 용도), 작게 설정 필요
+>> max_leaf_nodes : 리프노드의 최대 개수
+> ```python
+> param_grid = {  # 하이퍼파라미터 실험영역 설정
+>    'criterion':['gini','entropy'], 
+>    'max_depth':[None,2,3,4,5,6], 
+>    'max_leaf_nodes':[None,2,3,4,5,6,7], 
+>    'min_samples_split':[2,3,4,5,6], 
+>    'min_samples_leaf':[1,2,3], 
+>    'max_features':[None,'sqrt','log2',3,4,5]
+>    }
+> ```
+>> GridSearchCV 의 인자들
+>> estimator : 보통 알고리즘을 객체로 만들어 넣어준다.
+>> param_grid : 튜닝을 위한 대상 파라미터, 사용될 파라미터를 딕셔너리 형태로 넣어준다.
+>> scoring : 예측 성능을 측정할 평가 방법을 넣는다. 분류 알고리즘일 때는, 'accuracy', 'f1', 회귀 알고리즘일 때는 'neg_mean_squared_error', 'r2' 등을 넣을 수 있다.
+>> cv : 교차 검증에서 몇개로 분할되는지 지정한다.(정수로 넣어주면 K겹 교차검증이 되고, KFold(k) 이런식으로 넣어주어도 무방 // default 값은 cv=3)
+>> refit : True로 하면 최적의 하이퍼 파라미터를 찾아서 estimator를 재학습시킨다. (default 값이 True임)
 
 ## [4.성능평가]
 >
