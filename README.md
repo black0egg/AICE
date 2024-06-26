@@ -33,6 +33,13 @@
 
 ## [1-1.빅데이터 수집]
 >
+> ## 시리즈 및 데이터프레임 만들기
+> ```python
+> a1 = pd.Series(['사과','오렌지','딸기'], index=[1,2,3], name=name)  # 시리즈 생성 (Series: 대소문자 구분 필요)
+> a2 = pd.Dataframe({"a" : [1,2,3], "b" : [4,5,6], "c" : [7,8,9]}  # 딕셔너리 데이터프레임 생성, 열단위생성
+> a3 = pd.Dataframe([[1,2,3],[4,5,6],[7,8,9]], ["a","b","c"])  # 리스트 데이터프레임 생성, index명=["a","b","c"], 행단위생성
+> ```
+>
 > ## 디렉토리 확인
 > ```python
 > !pwd  # (Print Working Directory : 현재 디렉토리)
@@ -49,12 +56,13 @@
 > ## “000.csv” 데이터 로드
 > (cp949는 MS office에서 인코딩할때 쓰임)
 > ```python
-> df = pd.read_csv ('000.csv', encoding = 'cp949')
+> df = pd.read_csv ('./000.csv', encoding = 'cp949')
+> df2 = pd.read_csv ('./000.csv', index_col='a', use_cols=['b','c','d'], encoding = 'cp949')  # 원하는 인덱스,컬럼만 가져오기
 > ```
 > ## 커스텀 프레임워크에서 “00000.csv” 데이터 로드 2
 > (custom_framework.config.data_dir 폴더에서 불러옴)
 > ```python
-> df = pd.read_csv (custom_framework.config.data_dir + '/000.csv', encoding = 'cp949')
+> df = pd.read_csv (custom_framework.config.data_dir + './000.csv', encoding = 'cp949')
 > ```
 > 
 > ## 파일위치 환경변수
@@ -128,105 +136,50 @@
 > sns.heatmap(corr1, annot=True)
 > ```
 
-## [1-3.빅데이터 시각화]
->
-> ## Matplotlib 시각화 (스캐터,바챠트)
-> 영역 지정 : plt.figure()  
-> 차트/값 지정 : plt.plot()  
-> 시각화 출력 : plt.show()  
->> ### df데이터 / “00000”칼럼, 바차트 시각화 1 (이산)
->> ```python
->> df["00000"].value_counts( ).plot(kind="bar")
->> plt.show( )
->> ```
->> ### df데이터 / “00000”칼럼, 바차트 시각화 2 (Pairplot)
->> ```python
->> df.corr( )["00000"][:-1].sort_values( ).plot(kind="bar")
->> sns.pairplot(df)
->> ```
->> ### df데이터 / “A.B”칼럼, 히스토그램 시각화 (연속)
->> ```python
->> df["A.B"].plot(kind="hist")
->> plt.show( )
->> ```
->> ```python
->> df["00000"].plot(kind="hist")
->> ```
->> ### 바 플롯
->> ```python
->> vc = df['a'].value_counts()
->> plt.bar(x, height=vc, width=0.1)
->> ```
->> ### 히스토그램
->> ```python
->> plt.hist(df['a'])
->> ```
->> ```python
->> plt.figure(figsize=(10,4))
->> df['a'].plot(kind='hist')
->> ```
->> ### 산점도
->> ```python
->> plt.scatter(x, y)
->> ```
->> ### 색깔별 산점도 시각화
->> ```python
->> groups = df.groupby('variety')
->> groups
->> for name,group in groups :
->>  plt.scatter(x = 'A', y = 'B', data = group, label = name)
->> plt.legend()  ## 범례 추가
->> plt.show()
->> ```
->> ### 선 그래프
->> ```python
->> plt.plot(data)
->> ```
-> ## Seaborn 시각화 (히트맵, 통계)
->> ### 카운트 플롯
->> ```python
->> sns.countplot(x="A", data=df)
->> ```
->> ### 박스 플롯
->> ```python
->> sns.boxplot(x="A", y="B", data=df)
->> ```
->> ### 조인트 플롯
->> ```python
->> sns.jointplot(x="A", y="B", data=df, kind="hex")
->> ```
->> ### 스캐터 플롯
->> ```python
->> fig, (ax1,ax2,ax3) = plt.subplot(1,3)
->> fig.set_size(14,4)
->> sns.scatterplot(data=df, x='a', y='y', ax=ax1)
->> sns.scatterplot(data=df, x='b', y='y', ax=ax2)
->> sns.scatterplot(data=df, x='c', y='y', ax=ax3)
->> ```
->> ### 상관관계 히트맵
->> ```python
->> sns.heatmap(df.corr( ), annot=True)
->> ```
->> ```python
->> corr = jiro_df.corr()  ## corr함수로 상관계수 구하기
->> sns.heatmap(corr,annot=True)  ## annotation 포함
->> ```
-
-## [1-4.빅데이터 전처리]
+## [1-3.빅데이터 전처리]
 > 
 > 최고빈번값(Most frequent), 중앙값(Median), 평균값(Mean), 상수값(Constant)
 > ## 데이터프레임 복사
 > ```python
 > df1 = df.copy()  # df데이터프레임을 df1으로 복사
+> ```
+> ## 데이터프레임 병합
+> ```python
+> df1_1 = df1.reset_index(drop=True)  # df1~2 인덱스 리셋
+> df2_1 = df2.reset_index(drop=True)
+> for col in df1_1.columns :
+>   df1_1.rename(coloumns={col:'a_'+col}.inplac=True)  # df1_1의 각 컬럼에 a_이름추가해서 붙이기
+> df3 = pd.concat([df1_1, df2_1],axis=1]  # concat함수로 병합
+> df3.shape  # 확인
 > ``` 
 > ## 입력데이터에서 제외
 > ※ axis=0(행), axis=1(열)
 > ```python
-> df.drop(['abc','def'], axis=1)  # abc, def 컬럼 삭제
+> df.drop(['abc','def'], axis=1, inplace=True)  # abc, def 컬럼 삭제
+> df.drop(index=0, axis=0, inplace=True)  # 첫번째 행 삭제
+> df = df.drop('abc', axis=1)  # abc, def 컬럼(axis=1(열)) 삭제
+> df1 = df.drop(columns=['abc','def'])  # abc, def 컬럼 삭제후 df1로 저장
+> ```
+> ## 조건 지정 데이터 추출
+> ```python
+> df1 = df['a']>100  # a컬럼이 100보다 큰경우의 데이터만, df1으로 저장
+> df2 = df1['b']=='가'  # b컬럼의 데이터값이 '가'인경우 데이터만, df2로 저장
 > ```
 > ```python
-> df = df.drop('abc', axis=1)  # abc, def 컬럼(axis=1(열)) 삭제, 
-> df1 = df.drop(columns=['abc','def'])  # abc, def 컬럼 삭제후 df1로 저장
+> for column in num_cols :
+>   if(((df[column]==0).sum()/100) >0.95:
+>     print(column+':'+(str)((df[column]==0.sum()/100))))  # 0의 비중이 95%넘는 컬럼찾기 (100은 인덱스수)
+> ```
+> ```python
+> for column in obj_cols :
+>   if((df[column].value_count().iloc[0]/100 > 0.95):
+>     print(column+':'+(str)((df[column].value_count().iloc[0]/100))))  # 1개범주 비중이 95%넘는 컬럼찾기 (100은 인덱스수)
+> ```
+> ## 컬럼 생성/변경
+> ```python
+> df['가나'] = df['가'] + df['나']
+> df.insert(loc, column, value)  # loc(삽입될열위치 ex.3 : 3번째), column(삽입될 열이름), value(삽입될 열값)
+> df1 = df.rename(columns = {"a" : 'a_1'})
 > ```
 > ## 행열 전환
 > ```python
@@ -430,6 +383,90 @@
 >> distinct=1인 경우, 모든컬럼이 동일하므로 피처에서 제외
 >> ## 편향값
 >> 순서(인덱스)는 의미의 유무에 따라 제외
+
+## [1-4.빅데이터 시각화]
+>
+> ## Matplotlib 시각화 (스캐터,바챠트)
+> 영역 지정 : plt.figure()  
+> 차트/값 지정 : plt.plot()  
+> 시각화 출력 : plt.show()  
+>> ### df데이터 / “00000”칼럼, 바차트 시각화 1 (이산)
+>> ```python
+>> df["00000"].value_counts( ).plot(kind="bar")
+>> plt.show( )
+>> ```
+>> ### df데이터 / “00000”칼럼, 바차트 시각화 2 (Pairplot)
+>> ```python
+>> df.corr( )["00000"][:-1].sort_values( ).plot(kind="bar")
+>> sns.pairplot(df)
+>> ```
+>> ### df데이터 / “A.B”칼럼, 히스토그램 시각화 (연속)
+>> ```python
+>> df["A.B"].plot(kind="hist")
+>> plt.show( )
+>> ```
+>> ```python
+>> df["00000"].plot(kind="hist")
+>> ```
+>> ### 바 플롯
+>> ```python
+>> vc = df['a'].value_counts()
+>> plt.bar(x, height=vc, width=0.1)
+>> ```
+>> ### 히스토그램
+>> ```python
+>> plt.hist(df['a'])
+>> ```
+>> ```python
+>> plt.figure(figsize=(10,4))
+>> df['a'].plot(kind='hist')
+>> ```
+>> ### 산점도
+>> ```python
+>> plt.scatter(x, y)
+>> ```
+>> ### 색깔별 산점도 시각화
+>> ```python
+>> groups = df.groupby('variety')
+>> groups
+>> for name,group in groups :
+>>  plt.scatter(x = 'A', y = 'B', data = group, label = name)
+>> plt.legend()  ## 범례 추가
+>> plt.show()
+>> ```
+>> ### 선 그래프
+>> ```python
+>> plt.plot(data)
+>> ```
+> ## Seaborn 시각화 (히트맵, 통계)
+>> ### 카운트 플롯
+>> ```python
+>> sns.countplot(x="A", data=df)
+>> ```
+>> ### 박스 플롯
+>> ```python
+>> sns.boxplot(x="A", y="B", data=df)
+>> ```
+>> ### 조인트 플롯
+>> ```python
+>> sns.jointplot(x="A", y="B", data=df, kind="hex")
+>> ```
+>> ### 스캐터 플롯
+>> ```python
+>> fig, (ax1,ax2,ax3) = plt.subplot(1,3)
+>> fig.set_size(14,4)
+>> sns.scatterplot(data=df, x='a', y='y', ax=ax1)
+>> sns.scatterplot(data=df, x='b', y='y', ax=ax2)
+>> sns.scatterplot(data=df, x='c', y='y', ax=ax3)
+>> ```
+>> ### 상관관계 히트맵
+>> ```python
+>> sns.heatmap(df.corr( ), annot=True)
+>> ```
+>> ```python
+>> corr = jiro_df.corr()  ## corr함수로 상관계수 구하기
+>> sns.heatmap(corr,annot=True)  ## annotation 포함
+>> ```
 
 ## [1-5.세트 구성]
 > 
