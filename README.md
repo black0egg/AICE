@@ -461,11 +461,9 @@
 >> ```
 >> ### 상관관계 히트맵
 >> ```python
->> sns.heatmap(df.corr( ), annot=True)
->> ```
->> ```python
->> corr = jiro_df.corr()  ## corr함수로 상관계수 구하기
->> sns.heatmap(corr,annot=True)  ## annotation 포함
+>> plt.rcParams['figure.figsize'](20,20)
+>> sns.heatmap(df.corr(),annot=True, cmap='RDYlBu_r', vmin=-1, vmax=1)  ## annotation 포함, corr함수로 상관계수 구하기
+>> plt.rcParams['figure.figsize']=(5,5)
 >> ```
 
 ## [1-5.세트 구성]
