@@ -188,7 +188,7 @@
 > ## 결측치
 >> ## df데이터 / 칼럼마다 결측치 여부 확인
 >> ```python
->> df.isnull().sum()
+>> df.isnull().sum(axis=0)
 >> ```
 >> ## 결측치 처리
 >> missing(결측값수)  
