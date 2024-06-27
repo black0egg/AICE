@@ -135,13 +135,17 @@
 > sns.set(rc={'figure.figsize':(20:16})
 > sns.heatmap(corr1, annot=True)
 > ```
+> ## df데이터 / Z-score기준 신뢰수준 99%인 데이터 확인하기
+> ```python
+> df[(abs((df['abc']-df['abc'].mean())/df['abc'].std()))>2.58]  # 95%(1.96), 98%(2.33). 99%(2.58)
+> ```
 
 ## [1-3.빅데이터 전처리]
 > 
 > 최고빈번값(Most frequent), 중앙값(Median), 평균값(Mean), 상수값(Constant)
 > ## 데이터프레임 복사
 > ```python
-> df1 = df.copy()  # df데이터프레임을 df1으로 복사
+> df_origin = df.copy()  # df데이터프레임을 df1으로 복사
 > ```
 > ## 데이터프레임 병합
 > ```python
@@ -260,6 +264,7 @@
 >> ```python
 >> df = df [(df["class"]! = "H")]
 >> ```
+>> 
 >> ## 아웃라이어 변경
 >> Class열의 H값을 F값으로 변경
 >> ```python
@@ -283,6 +288,14 @@
 >> IQR_df.boxplot()
 >> IQR_df.hist(bins=20, figsize=(10,5))
 >> ```
+>> 
+>> ## 신뢰도 99% 기준 이상치 추출후 제외하기
+>> ```python
+>> outlier = df[(abs((df['abc']-df['abc'].mean())/df['abc'].std()))>2.58].index
+>> df = df.drop(outlier)
+>> df.info()
+>> ```
+>> 
 > ## Feature Engineering
 >> ## 비닝(Binning)
 >> 연속형 변수를 범주형 변수로 만드는 방법
