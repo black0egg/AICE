@@ -50,24 +50,21 @@
 > ```
 > 
 > ## “000.csv” 데이터 로드
-> (cp949는 MS office에서 인코딩할때 쓰임)
 > ```python
 > df = pd.read_csv ('./000.csv', encoding = 'cp949')
+> # (cp949는 MS office에서 인코딩할때 쓰임)
 > ```
 > 
 > ## 커스텀 프레임워크에서 “000.csv” 데이터 로드
-> (custom_framework.config.data_dir 폴더에서 불러옴)
 > ```python
 > df = pd.read_csv (custom_framework.config.data_dir + './000.csv', encoding = 'cp949')
+> # (custom_framework.config.data_dir 폴더에서 불러오기)
 > ```
 >
-> ## “00000_final.csv” 데이터 저장 1
+> ## 파일형식에 맞게 데이터 저장
 > ```python
-> df.to_csv ("00000_final.csv", index = false)
-> ```
-> ## “00000\_final.xlsx” 엑셀로 저장 2
-> ```python
-> df.to_excel ("00000.xlsx")
+> df.to_csv ("000.csv", index = false)  # “000.csv” csv파일로 저장
+> df.to_excel ("000.xlsx")   # “000.xlsx” 엑셀파일로 저장
 > ```
 
 ## [1-2.빅데이터 분석]
@@ -99,14 +96,6 @@
 > df[:]  # x의 전체 데이터 뽑아오기
 > df['a']  # 'a'컬럼 데이터 확인하기
 > ```
-> ## 결측치 확인
-> ```python
-> df.isnull().sum()
-> ```
-> ## 'abc'컬럼에서 '_'값을 가지고 있는 값들 찾기
-> ```python 
-> df[df['abc'] == '_']
-> ```
 > ## df데이터 / 통계정보
 > ```python
 > df.describe()  # count(컬럼별개수),mean(평균값),std(표준편차),min(최소값),25%,50%,75%(4분위수),max(최대값)
@@ -121,20 +110,26 @@
 > ## df데이터 / 상관관계 분석
 > ```python
 > df.corr()
-> corr1 = df.corr()
 > ```
 > ```python
-> sns.set(rc={'figure.figsize':(20:16})
-> sns.heatmap(corr1, annot=True)
+> sns.set(rc={'figure.figsize':(20:20})
+> sns.heatmap(df.corr(), annot=True)
 > ```
 > ## df데이터 / Z-score기준 신뢰수준 99%인 데이터 확인하기
 > ```python
 > df[(abs((df['abc']-df['abc'].mean())/df['abc'].std()))>2.58]  # 95%(1.96), 98%(2.33). 99%(2.58)
 > ```
+> ## 결측치 확인
+> ```python
+> df.isnull().sum()
+> ```
+> ## 'abc'컬럼에서 '_'값을 가지고 있는 값들 찾기
+> ```python 
+> df[df['abc'] == '_']
+> ```
 
 ## [1-3.빅데이터 전처리]
-> 
-> 최고빈번값(Most frequent), 중앙값(Median), 평균값(Mean), 상수값(Constant)
+> 최고빈번값(Most frequent),중앙값(Median),평균값(Mean),상수값(Constant)
 > ## 데이터프레임 복사
 > ```python
 > df_origin = df.copy()  # df 데이터프레임을 df_origin으로 복사
@@ -163,14 +158,16 @@
 > df2 = df1['b']=='가'  # b컬럼의 데이터값이 '가'인경우 데이터만, df2로 저장
 > ```
 > ```python
-> for column in num_cols :
+> # 0의 비중이 95%넘는 컬럼찾기 (100은 인덱스수)
+> for column in num_cols : 
 >   if(((df[column]==0).sum()/100) >0.95:
->     print(column+':'+(str)((df[column]==0.sum()/100))))  # 0의 비중이 95%넘는 컬럼찾기 (100은 인덱스수)
+>     print(column+':'+(str)((df[column]==0.sum()/100))))
 > ```
 > ```python
+> # 1개범주 비중이 95%넘는 컬럼찾기 (100은 인덱스수)
 > for column in obj_cols :
 >   if((df[column].value_count().iloc[0]/100 > 0.95):
->     print(column+':'+(str)((df[column].value_count().iloc[0]/100))))  # 1개범주 비중이 95%넘는 컬럼찾기 (100은 인덱스수)
+>     print(column+':'+(str)((df[column].value_count().iloc[0]/100))))
 > ```
 > ## 컬럼 생성/변경
 > ```python
@@ -221,8 +218,8 @@
 >> df데이터 / “a”칼럼 결측치를 해당칼럼 최빈값으로 채우기
 >> ```python
 >> df['a'].valuecounts()
->> df['a'].mode().iloc[0]  # 데이터프레임 df의 열 a에서 최빈값 'L'을 찾아 결측치 채우기
->> 'L'
+>> df['a'].mode().iloc[0]  # 데이터프레임 df의 a열에서 최빈값'L'을 찾아 결측치 채우기
+>> 'L'  # 결과값
 >> df['a'].fillna('L', inplace=True)
 >> ```
 >> ```python
