@@ -524,7 +524,14 @@
 >
 > ## 텐서플로 불러오고, tf로 정의
 > ```python
+> !pip install tensorflow
 > import tensorflow as tf
+> ```
+> ## 각모델의 하이퍼파라미터 알아보기
+> ```python
+> model = RandomForestClassifier()
+> params = model.get_params()
+> print(params)
 > ```
 > ## 텐서플로 케라스모델 및 기능 불러오기
 > (시퀀셜:히든레이어개수/덴스:노드개수/액티베이션/과적합방지기능 불러오기)34
@@ -534,43 +541,13 @@
 > from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
 > from tensorflow.keras.utils import to_categorical
 > ```
-> ## [모델] sklearn에서, 선형회귀모델(LinearRegression) 불러오기
+>
+> ## LinearRegression 모델 (선형회귀)
+> sklearn에서, 선형회귀모델(LinearRegression) 불러오기
 > ```python
 > from sklearn.family import model
 > from sklearn.linear_model import LinearRegression
 > ```
-> ## [모델] sklearn에서, 분류회귀모델(Logistic Regression) 불러오기
-> (설명: 분류모델 주로 활용)
-> ```python
-> from sklearn.linear_model import LogisticRegression
-> from sklearn.model_selection import train_test_split
-> from sklearn.metrics import classification_report 
-> ```
-> ## [모델] sklearn에서, 랜덤포레스트 불러오기
-> (설명: 의사결정나무 2개에서, 여러개를 더해 예측율을 높임)
-> ```python
-> from sklearn.tree import DecisionTreeClassifier
-> ```
-> ## [모델] sklearn에서, 의사결정나무 불러오기
-> (설명: 분류/회귀가능한 다재다능, 다소복잡한 데이터셋도 학습가능)
-> ```python
-> from sklearn.tree import DecisionTreeClassifier
-> ```
-> ## [모델] AdaBoost
-> ## [모델] GBM (Gradient Boost)
-> ## [모델] XGBoost
-> (설명: GBM의 느림, 과적합 방지를 위해 Regulation만 추가, 리소스를 적게 먹으며 조기종료 제공)
-> ## [모델] SVM (Support Vector Machine)
-> ## [모델] Auto Encoder
-> ## [모델] CNN
-> ## [모델] RNN
-> ## [모델] LSTM
-> ## [모델] Transformer
-> ## [모델] SES (Simple Exponential Smoothing)
-> ## [모델] YOLO
-> ## [모델] VGG
->
-> ## LinearRegression 모델 (선형회귀)
 > ```python
 > LinearR_model = LinearRegression()  # 가. 모델 선정
 > LinearR_model.fit(X_train, y_train)  # 나. 테스트 핏
@@ -586,6 +563,13 @@
 > ```
 >
 > ## Logistic Regression 모델 (분류회귀)
+> sklearn에서, 분류회귀모델(Logistic Regression) 불러오기
+> (설명: 분류모델 주로 활용)
+> ```python
+> from sklearn.linear_model import LogisticRegression
+> from sklearn.model_selection import train_test_split
+> from sklearn.metrics import classification_report 
+> ```
 > 가. 라이브러리 불러오기
 > ```python
 > from sklearn.linear_model import LogisticRegression
@@ -613,7 +597,6 @@
 > confusion_matrix(y_test, LogisticR_pred) 
 > print(classification_report(y_test, LogisticR_pred)
 > ```
->
 > ## 의사결정나무(Decision Tree) (선형회귀)
 > 분류/회귀가능한 다재다능, 다소복잡한 데이터셋도 학습가능
 > 가. 의사결정나무 라이브러리 불러오기
@@ -631,7 +614,10 @@
 > 
 > ## Random Forest
 > 선형회귀모델 중 하나로, 의사결정나무(2개)에서 여러개를 더해 예측율을 높임
->
+> sklearn에서, 랜덤포레스트 불러오기
+> ```python
+> from sklearn.tree import DecisionTreeClassifier
+> ```
 > 가. 랜덤포레스트 불러오기
 > ```python
 > from sklearn.ensemble import RandomForestRegressor
@@ -665,14 +651,16 @@
 > ```python
 > np.mean((RF_pred - y_test) ** 2) ** 0.5  
 > ```
->
 > ## Ensemble 기법
 > 1) Bagging  
 > 2) Boosting : 이전학습 잘못예측한 데이터에 가중치부여해 오차보완  
 > 3) Stacking : 여러개 모델이 예측한 결과데이터 기반, final\_estimator모델로 종합 예측수행
 > 4) Weighted Blending : 각모델 예측값에 대해 weight 곱하여 최종 아웃풋계산
 >
-> ## XGBoost (잘못예측한 것들을 좀더 집중등, 예측/분류성능을 높인 앙상블기법)
+> ## [모델] GBM (Gradient Boost)
+> 
+> ## [모델] XGBoost (잘못예측한 것들을 좀더 집중등, 예측/분류성능을 높인 앙상블기법)
+> (설명: GBM의 느림, 과적합 방지를 위해 Regulation만 추가, 리소스를 적게 먹으며 조기종료 제공) 
 > ```python
 > !pip install xgboost  # (!는 리눅스 명령어)
 > 
@@ -685,7 +673,7 @@
 > xgb_model.score(X_test, y_test)
 > ```
 >
-> ## LightGBM (결정트리기반 앙상블기법, 메모리사용량 적고 학습시간 짦음)
+> ## [모델] LightGBM (결정트리기반 앙상블기법, 메모리사용량 적고 학습시간 짦음)
 >
 > ```python
 > !pip install lightGBM
@@ -697,7 +685,7 @@
 > accuracy_eval('lgbm',lgbm_pred,y_test)
 > ```
 >
-> ## KNN (K-Nearest Neighbor)
+> ## [모델] KNN (K-Nearest Neighbor)
 >
 > ```python
 > from sklearn.neighbors import KNeighborsClassifier
@@ -707,7 +695,7 @@
 > accuracy_eval('K-Nearest Neighbor',knn_pred,y_test)
 > ```
 > 
-> ## 딥러닝 모델
+> ## [모델] 딥러닝 모델
 >
 > 가. 케라스 초기화 및 모델과 기능 불러오기
 > ```python
@@ -1046,7 +1034,19 @@
 > plt.imshow(img)
 > i = i + 1
 > ```
-
+> 
+> ## 별도모델
+> [모델] AdaBoost
+> [모델] SVM (Support Vector Machine)
+> [모델] Auto Encoder
+> [모델] CNN
+> [모델] RNN
+> [모델] LSTM
+> [모델] Transformer
+> [모델] SES (Simple Exponential Smoothing)
+> [모델] YOLO
+> [모델] VGG
+>
 > ## Stacking
 > 개별모델이 예측한 데이터를 기반한 종합예측
 > ```python
@@ -1064,7 +1064,7 @@
 > 
 > accuracy_eval('Stacking Ensemble', stacking_pred, y_test)
 > ```
-
+>
 > ## Weighted Blending
 > 각 모델 예측값에 대하여 weight를 곱하여 최종계산
 > ```python
@@ -1088,7 +1088,7 @@
 > 
 > accuracy_eval('Weighted Blending', final_prediction, y_test)
 > ```
-
+> 
 > ## GridSearchCV
 > GridSearchCV는 모델과 하이퍼파라미터 값범위를 지정하면 교차검증을 사용하여 하이퍼파라미터값의 가능한 모든조합을 수행하여 최적값 도출
 > ```python
