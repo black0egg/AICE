@@ -1040,6 +1040,35 @@
 > i = i + 1
 > ```
 > 
+> ## [모델] 비지도학습
+> 가.주성분 분석
+> ```python
+> from sklearn.datasets import make_blobs  # 합성데이터 생성
+> import matplotlib.pylot as plt
+> x, y = make_blobs(n_features=10,  # (10차원)
+>   n_samples-1000,
+>   centers=5,  # (클러스트(모임) : 5개)
+>   random_state-2023,
+>   cluster_std=1)
+> plt.scatter(x[:0], x[:1], c=y)
+>
+> from sklearn.preprocessing import StandardScaler  # 데이터세트 표준화하기
+> scaler = StandardScaler()
+> scaler.fit(x)
+> std_data = scaler.transform(x)
+> print(std_data)
+>
+> import pandas as pd  # 주성분분석 수행하기
+> from sklearn.decompostion import PCA
+> pca = PCA(n_components=10)
+> reduced_data = pca.fit_transform(std_data)
+> pca_df = pd.DataFrame(reduced_data)
+> pca_df.head()
+> print(pca.explained_variance_)  # 설명된 분산값 확인
+> print(pca.explained_variance_ratio)  # 설명된 분산비율 확인
+> # 이어서...
+> ```
+> 
 > ## 별도모델
 > [모델] AdaBoost
 > [모델] SVM (Support Vector Machine)
