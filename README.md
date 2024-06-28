@@ -53,10 +53,9 @@
 > (cp949는 MS office에서 인코딩할때 쓰임)
 > ```python
 > df = pd.read_csv ('./000.csv', encoding = 'cp949')
-> df2 = pd.read_csv ('./000.csv', index_col='a', use_cols=['b','c','d'], encoding = 'cp949')  # 원하는 인덱스 컬럼만 가져오기
 > ```
 > 
-> ## 커스텀 프레임워크에서 “00000.csv” 데이터 로드
+> ## 커스텀 프레임워크에서 “000.csv” 데이터 로드
 > (custom_framework.config.data_dir 폴더에서 불러옴)
 > ```python
 > df = pd.read_csv (custom_framework.config.data_dir + './000.csv', encoding = 'cp949')
@@ -83,8 +82,8 @@
 > df.head()  # 앞에서 5줄 보여주기
 > df.head(10)  # 앞에서 10줄 
 > df.tail(10)  # 뒤에서 10줄
-> df.info()
-> # df데이터 자료구조파악,Rangeindex(행수),datacolumns(열수),null데이터확인,dtype(설명)
+> df.info()  # df데이터 자료구조파악
+> # Rangeindex(행수),datacolumns(열수),null데이터확인,dtype(설명)
 > # int64(정수형),float64(실수형),bool(부울형),datetime64(날짜표현),category(카테고리),object(문자열or복합형)
 > df.index  # df데이터 Rangindex 출력 (행,가로)
 > df.columns  # df데이터 컬럼내역 출력 (열,세로)
@@ -620,6 +619,7 @@
 > ```
 > 
 > ## [모델] Random Forest
+> 동일한 알고리즘으로 여러 분류기를 만든 후 예측 결과를 보팅으로 최종 결정하는 알고리즘
 > 선형회귀모델 중 하나로, 의사결정나무(2개)에서 여러개를 더해 예측율을 높임
 > sklearn에서, 랜덤포레스트 불러오기
 > ```python
@@ -659,7 +659,7 @@
 > np.mean((RF_pred - y_test) ** 2) ** 0.5  
 > ```
 > ## [모델] Ensemble 기법
-> 1) Bagging  
+> 1) Bagging : 동일한 알고리즘으로 여러 분류기를 만든 후 예측 결과를 보팅으로 최종 결정하는 알고리즘
 > 2) Boosting : 이전학습 잘못예측한 데이터에 가중치부여해 오차보완  
 > 3) Stacking : 여러개 모델이 예측한 결과데이터 기반, final\_estimator모델로 종합 예측수행
 > 4) Weighted Blending : 각모델 예측값에 대해 weight 곱하여 최종 아웃풋계산
