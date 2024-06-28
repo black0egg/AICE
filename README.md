@@ -379,6 +379,7 @@
 >> df2 = enc1.fit_transform(df2)
 >> df2 
 >> ```
+>> 
 > ## 기타 주요작업
 >> ## 토탈차지 공백을 0으로 변경후, 소수점 숫자형(float타입)으로 변경
 >> ```python
@@ -501,7 +502,11 @@
 > X = np.array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]).resharpe(-1,1)
 > y = np.array([13, 25, 34, 47, 59, 62, 79, 88, 90, 100])
 > ```
-> > ## 트레이닝/테스트 세트 나누기
+> ## 트레이닝/테스트 세트 나누기
+> Train : 모델을 학습하기 위한 데이터셋으로 이때 학습은 최적의 파라미터를 찾는 것, Train data는 오직 학습을 위한 데이터셋 
+> Validation : 학습이 이미 완료된 모델을 검증하기 위한 데이터, 학습이 된 여러가지 모델 중 가장좋은 하나의 모델을 고르기 위한 데이터셋, 학습과정에 어느정도 관여하나, Validation 데이터자체가 학습에 직접적으로 관여하는 것은 아님 
+> test : 모델의 '최종 성능'을 평가하기 위한 데이터셋, 학습과정에 관여를 하지 않음
+> Train으로 학습하고, Validation으로 검증, Test로 최종성능을 평가 
 > ```python
 > from sklearn.model_selection import train_test_split 
 > ```
@@ -1072,13 +1077,13 @@
 > print(pca.explained_variance_ratio)  # 설명된 분산비율 확인
 > # 이어서...
 > ```
+>
+> ## [모델] SVM (Support Vector Machine)
+> 
+> ## [모델] Auto Encoder
 > 
 > ## 별도모델
 > [모델] AdaBoost
-> [모델] SVM (Support Vector Machine)
-> [모델] Auto Encoder
-> [모델] CNN
-> [모델] RNN
 > [모델] LSTM
 > [모델] Transformer
 > [모델] SES (Simple Exponential Smoothing)
