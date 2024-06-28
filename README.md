@@ -38,15 +38,14 @@
 > ls  # (List : 리스트 보기)
 > ```
 > 
-> ## 파일위치 환경변수
-> data 경로 : custom_framework.config.data_dir  
-> workspace 경로 : custom_framework.config.workspace_dir  
-> model 경로 : custom_framework.config.model_dir  
-> log 경로 : custom_framework.config.workspace_logs
->
 > ## 디렉토리 확인
 > ```python
 > custom_framework.config.data_dir
+> # 파일위치 환경변수
+> # data 경로 : custom_framework.config.data_dir 
+> # workspace 경로 : custom_framework.config.workspace_dir  
+> # model 경로 : custom_framework.config.model_dir  
+> # log 경로 : custom_framework.config.workspace_logs
 > ```
 > 
 > ## “000.csv” 데이터 로드
