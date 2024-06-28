@@ -533,8 +533,13 @@
 > params = model.get_params()
 > print(params)
 > ```
+> ## 각모델의 학습클래스, 메소스사용법 출력
+> ```python
+> help(model.fit)  # model : 각모델 이름 또는 model로 정의
+> ```
+>
 > ## 텐서플로 케라스모델 및 기능 불러오기
-> (시퀀셜:히든레이어개수/덴스:노드개수/액티베이션/과적합방지기능 불러오기)34
+> (시퀀셜:히든레이어개수/덴스:노드개수/액티베이션/과적합방지기능 불러오기)
 > ```python
 > from tensorflow.keras.models import Sequential, load_model
 > from tensorflow.keras.layers import Dense, Activation, Dropout
@@ -542,7 +547,7 @@
 > from tensorflow.keras.utils import to_categorical
 > ```
 >
-> ## LinearRegression 모델 (선형회귀)
+> ## [모델] LinearRegression 모델 (선형회귀)
 > sklearn에서, 선형회귀모델(LinearRegression) 불러오기
 > ```python
 > from sklearn.family import model
@@ -562,7 +567,7 @@
 > np.mean((y_pred - y_test) ** 2) ** 0.5
 > ```
 >
-> ## Logistic Regression 모델 (분류회귀)
+> ## [모델] Logistic Regression 모델 (분류회귀)
 > sklearn에서, 분류회귀모델(Logistic Regression) 불러오기
 > (설명: 분류모델 주로 활용)
 > ```python
@@ -597,7 +602,7 @@
 > confusion_matrix(y_test, LogisticR_pred) 
 > print(classification_report(y_test, LogisticR_pred)
 > ```
-> ## 의사결정나무(Decision Tree) (선형회귀)
+> ## [모델] 의사결정나무(Decision Tree) (선형회귀)
 > 분류/회귀가능한 다재다능, 다소복잡한 데이터셋도 학습가능
 > 가. 의사결정나무 라이브러리 불러오기
 > ```python
@@ -612,7 +617,7 @@
 > score = DT_model.score(X_test, y_test)
 > ```
 > 
-> ## Random Forest
+> ## [모델] Random Forest
 > 선형회귀모델 중 하나로, 의사결정나무(2개)에서 여러개를 더해 예측율을 높임
 > sklearn에서, 랜덤포레스트 불러오기
 > ```python
@@ -651,7 +656,7 @@
 > ```python
 > np.mean((RF_pred - y_test) ** 2) ** 0.5  
 > ```
-> ## Ensemble 기법
+> ## [모델] Ensemble 기법
 > 1) Bagging  
 > 2) Boosting : 이전학습 잘못예측한 데이터에 가중치부여해 오차보완  
 > 3) Stacking : 여러개 모델이 예측한 결과데이터 기반, final\_estimator모델로 종합 예측수행
