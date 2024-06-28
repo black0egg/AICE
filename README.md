@@ -11,23 +11,12 @@
 > dd : 바깥에서 해당쉘 삭제
 
 ## [0-2.도구 불러오기]
->
-> ## pandas 불러오고, pd로 정의
 > ```python
-> import pandas as pd
-> ```
-> ## numpy 불러오고, np로 정의
-> ```python
-> import numpy as np
-> ```
-> ## seaborn 설치 및 불러오고, sns로 정의
-> ```python
+> import pandas as pd  ## pandas 불러오고, pd로 정의
+> import numpy as np  ## numpy 불러오고, np로 정의
 > !pip install seaborn  # (!: 리눅스 프롬프트 명령어)
-> import seaborn as sns
-> ```
-> ## matplot 불러오고, plt로 정의
-> ```python
-> import matplotlib.pylot as plt
+> import seaborn as sns   ## seaborn 설치 및 불러오고, sns로 정의
+> import matplotlib.pylot as plt   ## matplot 불러오고, plt로 정의
 > %matplotlib inline  # (%: 주피터랩 명령어)
 > ```
 
@@ -48,6 +37,13 @@
 > cd /root  # (Change Directory /root : 루트 디렉토리)
 > ls  # (List : 리스트 보기)
 > ```
+> 
+> ## 파일위치 환경변수
+> data 경로 : custom_framework.config.data_dir  
+> workspace 경로 : custom_framework.config.workspace_dir  
+> model 경로 : custom_framework.config.model_dir  
+> log 경로 : custom_framework.config.workspace_logs
+>
 > ## 디렉토리 확인
 > ```python
 > custom_framework.config.data_dir
@@ -57,19 +53,14 @@
 > (cp949는 MS office에서 인코딩할때 쓰임)
 > ```python
 > df = pd.read_csv ('./000.csv', encoding = 'cp949')
-> df2 = pd.read_csv ('./000.csv', index_col='a', use_cols=['b','c','d'], encoding = 'cp949')  # 원하는 인덱스,컬럼만 가져오기
+> df2 = pd.read_csv ('./000.csv', index_col='a', use_cols=['b','c','d'], encoding = 'cp949')  # 원하는 인덱스 컬럼만 가져오기
 > ```
-> ## 커스텀 프레임워크에서 “00000.csv” 데이터 로드 2
+> 
+> ## 커스텀 프레임워크에서 “00000.csv” 데이터 로드
 > (custom_framework.config.data_dir 폴더에서 불러옴)
 > ```python
 > df = pd.read_csv (custom_framework.config.data_dir + './000.csv', encoding = 'cp949')
 > ```
-> 
-> ## 파일위치 환경변수
-> data 경로 : custom_framework.config.data_dir  
-> workspace 경로 : custom_framework.config.workspace_dir  
-> model 경로 : custom_framework.config.model_dir  
-> log 경로 : custom_framework.config.workspace_logs
 >
 > ## “00000_final.csv” 데이터 저장 1
 > ```python
@@ -92,7 +83,8 @@
 > df.head()  # 앞에서 5줄 보여주기
 > df.head(10)  # 앞에서 10줄 
 > df.tail(10)  # 뒤에서 10줄
-> df.info()  # df데이터 자료구조파악,Rangeindex(행수),datacolumns(열수),null데이터확인, dtype(설명),int64(정수형),float64(실수형),bool(부울형),datetime64(날짜표현),category(카테고리),object(문자열or복합형)
+> df.info()
+> # df데이터 자료구조파악,Rangeindex(행수),datacolumns(열수),null데이터확인, dtype(설명),int64(정수형),float64(실수형),bool(부울형),datetime64(날짜표현),category(카테고리),object(문자열or복합형)
 > df.index  # df데이터 Rangindex 출력 (행,가로)
 > df.columns  # df데이터 컬럼내역 출력 (열,세로)
 > df.values  # df데이터 값 출력 (컬럼 별 값)
