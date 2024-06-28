@@ -1140,6 +1140,8 @@
 > pred = estimator.predict(X_test)
 > print('score: ', round(accuracy_score(y_test,pred), 4))
 > ```
+>
+> ## RandomSearchCV 
 > 
 ## [4.성능평가]
 >
@@ -1208,13 +1210,18 @@
 > 
 > 오차행렬 성능지표 확인
 > ```python
-> import seaborn as sns
+> import seaborn as sns  # 불러오기
 > from sklearn.metrics import confusion_matrix
+> from sklearn.metrics import ConfusionMatrixDisplay
 > from sklearn.metrics import precision_score, recall_score
 > 
 > y_pred = model.predict(X_test)
 > cm = confusion_matrix(y_true=y_test, y_pred=y_pred)
->
+> disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=[0,1])
+> disp.plot()
+> plt.show()
+> print(classification_report(y_test, y_pred))
+> 
 > sns.heatmap(cm, annot=True)
 > plt.show()
 > 
