@@ -84,7 +84,8 @@
 > df.head(10)  # 앞에서 10줄 
 > df.tail(10)  # 뒤에서 10줄
 > df.info()
-> # df데이터 자료구조파악,Rangeindex(행수),datacolumns(열수),null데이터확인, dtype(설명),int64(정수형),float64(실수형),bool(부울형),datetime64(날짜표현),category(카테고리),object(문자열or복합형)
+> # df데이터 자료구조파악,Rangeindex(행수),datacolumns(열수),null데이터확인,dtype(설명)
+> # int64(정수형),float64(실수형),bool(부울형),datetime64(날짜표현),category(카테고리),object(문자열or복합형)
 > df.index  # df데이터 Rangindex 출력 (행,가로)
 > df.columns  # df데이터 컬럼내역 출력 (열,세로)
 > df.values  # df데이터 값 출력 (컬럼 별 값)
